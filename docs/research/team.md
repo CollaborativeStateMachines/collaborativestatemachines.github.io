@@ -15,22 +15,28 @@ to be developed there.
 
 The following list presents the current team members actively working on Collaborative State Machines.
 
-- [+entypo-social:linkedin-with-circle+](https://www.linkedin.com/in/marlonetheredge/)
+- [+material-symbols:mail-rounded+](mailto:marlon.etheredge@uibk.ac.at)
+  [+entypo-social:linkedin-with-circle+](https://www.linkedin.com/in/marlonetheredge/)
   [+academicons:orcid+](https://orcid.org/0009-0007-3791-9378)
   [+octicon:mark-github-24+](https://github.com/Frnd-me)
-  Marlon Etheredge, MSc
-- [+entypo-social:linkedin-with-circle+]()
-  [+academicons:orcid+]()
-  [+octicon:mark-github-24+]()
+  Marlon Etheredge, MSc[^1]
+- +material-symbols:mail-off-rounded+
+  [+entypo-social:linkedin-with-circle+](https://www.linkedin.com/in/bmonikraj/)
+  [+academicons:orcid+](https://orcid.org/0000-0001-9385-2533)
+  [+octicon:mark-github-24+](https://github.com/bmonikraj)
   Monik Raj Behera, MSc
-- [+entypo-social:linkedin-with-circle+](https://www.linkedin.com/in/juanaznar/)
+- +material-symbols:mail-off-rounded+
+  [+entypo-social:linkedin-with-circle+](https://www.linkedin.com/in/juanaznar/)
   [+academicons:orcid+](https://orcid.org/0000-0002-0879-6651)
   [+octicon:mark-github-24+](https://github.com/juanaznarp94)
   Dr. Juan Aznar Poveda
-- [+entypo-social:linkedin-with-circle+](https://www.linkedin.com/in/thomas-fahringer-b50755a/)
+- [+material-symbols:mail-rounded+](mailto:thomas.fahringer@uibk.ac.at)
+  [+entypo-social:linkedin-with-circle+](https://www.linkedin.com/in/thomas-fahringer-b50755a/)
   [+academicons:orcid+](https://orcid.org/0000-0003-4293-1228)
-  +material-symbols:circle-outline+
-  Univ.-Prof. Dr. Thomas Fahringer
+  [+octicon:mark-github-24+](https://github.com/tfahringer)
+  Univ.-Prof. Dr. Thomas Fahringer[^1]
+
+[^1]: For all correspondence concerning Collaborative State Machines.
 
 ## Alumni
 
