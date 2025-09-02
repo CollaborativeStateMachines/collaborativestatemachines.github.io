@@ -9,8 +9,12 @@ sidebar_title: Publications
 show_datetime: true
 ---
 
-The following publications cover research on Collaborative State Machines.
+!!! info ""
+    **The primary publication to cite for CSM is:**<br/><br/>
 
-- **2025**
-    - @etheredgeCollaborativeStateMachines2025
-    - @povedaNyxFaultTolerantFully2025
+    @etheredgeCollaborativeStateMachines2025
+
+Additional research on Collaborative State Machines can be found in:
+
+- **2025** – @etheredgeCollaborativeStateMachines2025
+- **2025** – @povedaNyxFaultTolerantFully2025

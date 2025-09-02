@@ -18,8 +18,8 @@ Cirrina is the official runtime system of the CSM project. Together with the CSM
 being developed by the [Distributed and Parallel Systems Group](https://dps.uibk.ac.at/) at the University of 
 Innsbruck.  
 
-The runtime system is implemented in Java and Kotlin and is available as an open-source project on 
-[GitHub](https://github.com/CollaborativeStateMachines/Cirrina).  
+The runtime system is implemented in Java and Kotlin and is available as an open-source project on [Github
++octicon:mark-github-24+](https://github.com/CollaborativeStateMachines/Cirrina).  
 
 Cirrina acts as a high-performance reference implementation of a CSM runtime system. It is designed to operate
 across heterogeneous environments, including cloud, edge, and IoT devices, making it suitable for a wide range
