@@ -1,10 +1,10 @@
 site_name: Collaborative State Machines
-repo_url: https://github.com/UIBK-DPS-DC/CSM
-site_url: https://uibk-dps-dc.github.io/CSM/
+repo_url: https://github.com/CollaborativeStateMachines/Cirrina
+site_url: https://collaborativestatemachines.github.io/
 theme:
   name: shadcn
   show_title: true
-  show_stargazers: false
+  show_stargazers: true
   pygments_style: 
         light: shadcn-light
         dark: github-dark
