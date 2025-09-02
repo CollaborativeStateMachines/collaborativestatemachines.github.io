@@ -1,4 +1,5 @@
 site_name: Collaborative State Machines
+repo_url: https://github.com/UIBK-DPS-DC/csm.github.io
 theme:
   name: shadcn
   show_title: true

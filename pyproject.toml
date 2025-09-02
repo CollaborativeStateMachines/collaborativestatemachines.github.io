@@ -11,6 +11,7 @@ mkdocs-shadcn = "^0.9.2"
 mkdocs-bibtex = "^4.4.0"
 mkdocs-print-site-plugin = "^2.8"
 mkdocs-autorefs = "^1.4.3"
+mkdocs-material = "^9.6.18"
 
 [tool.poetry.dev-dependencies]
 
