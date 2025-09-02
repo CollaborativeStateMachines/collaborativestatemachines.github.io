@@ -95,17 +95,17 @@ We define the _Handle_ procedure as follows.
     1. Select the active _on_ transition $t$, given $x$ and $\mu$, or $\emptyset$ in case no active _on_
     transition exists.
     2. $\textbf{while } \delta \neq \emptyset \textbf{ do}$
-    1. If $\delta$ is an external transition.
-        1. Cancel any _while_ actions of the states exited due to $\delta$.
-        2. Execute the _exit_ actions of the states exited due to $\delta$.
-        3. Execute the actions of $\delta$.
-        4. Execute the _entry_ actions of the states entered due to $\delta$.
-        5. Execute the _while_ actions of the states entered due to $\delta$.
-        6. Update the activate configuration.
-        7. Set $\delta$ the active _always_ transition or $\emptyset$ in case no active _always_ transition 
-        exists.
-    2. Otherwise.
-        1. Execute the actions of $\delta$.
+        1. If $\delta$ is an external transition.
+            1. Cancel any _while_ actions of the states exited due to $\delta$.
+            2. Execute the _exit_ actions of the states exited due to $\delta$.
+            3. Execute the actions of $\delta$.
+            4. Execute the _entry_ actions of the states entered due to $\delta$.
+            5. Execute the _while_ actions of the states entered due to $\delta$.
+            6. Update the activate configuration.
+            7. Set $\delta$ the active _always_ transition or $\emptyset$ in case no active _always_ transition 
+            exists.
+        2. Otherwise.
+            1. Execute the actions of $\delta$.
 
 An _on_ transition is selected (active) iff its source state (the state from which the transition starts) is
 the active state, its guard conditions evaluates to true, and $x$ is the event that would trigger the
