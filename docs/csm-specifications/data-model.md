@@ -46,7 +46,7 @@ performing calculations or filtering, and invoking utility functions. The versat
 to their usage in diverse scenarios. For example, expressions can facilitate gathering input data for service
 invocations, express guard conditions, or be instrumental in manipulating data objects directly.
 
-<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
 <script type="text/x-mathjax-config">
     MathJax.Hub.Config({ tex2jax: {inlineMath: [['$', '$']]}, messageStyle: "none" });

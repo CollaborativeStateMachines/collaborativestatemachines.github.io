@@ -122,7 +122,7 @@ persistent data of the collaborative state machine.
 Depending on the memory mode of the collaborative state machine, either or both types of data will be
 accessible within the collaborative state machine, see [dynamic extent](data-model.md).
 
-<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
 <script type="text/x-mathjax-config">
     MathJax.Hub.Config({ tex2jax: {inlineMath: [['$', '$']]}, messageStyle: "none" });
