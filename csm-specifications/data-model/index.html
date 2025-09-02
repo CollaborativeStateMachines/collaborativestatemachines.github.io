@@ -36,11 +36,11 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Data Model - Collaborative State Machines</title>
+    <title>Data model - Collaborative State Machines</title>
     
 
 
-<title>Data Model</title>
+<title>Data model</title>
 
 
 
@@ -61,7 +61,7 @@
 
 <!-- Open Graph (Facebook, LinkedIn) -->
 
-<meta property="og:title" content="Data Model">
+<meta property="og:title" content="Data model">
 
 
 
@@ -78,7 +78,7 @@
 
 <!-- Twitter Card -->
 
-<meta name="twitter:title" content="Data Model">
+<meta name="twitter:title" content="Data model">
 
 
 
@@ -93,7 +93,7 @@
   {
     "@context": "https://schema.org",
     "@type": "Article",
-    "headline": "Data Model",
+    "headline": "Data model",
     "url": "https://collaborativestatemachines.github.io/csm-specifications/data-model/",
     "description": "Specifications of the Collaborative State Machines model",
     
@@ -717,7 +717,7 @@
             <div id="page-header" class="flex items-start justify-between">
 
                 <h1 class="scroll-m-20 text-4xl font-semibold tracking-tight sm:text-3xl xl:text-4xl">
-                    Data Model
+                    Data model
                 </h1>
 
                 <div class="flex items-center gap-2 pt-1.5">
@@ -768,7 +768,7 @@
 <script>
     const updatedAt = document.getElementById("updated_at");
     if (updatedAt) {
-        const date = new Date('2025-09-02T17:12:05+02:00');
+        const date = new Date('2025-09-02T17:16:10+02:00');
         updatedAt.textContent = date.toLocaleDateString();
     }
 </script>
@@ -779,6 +779,7 @@
     </div>
     <div class="typography w-full flex-1 *:data-[slot=alert]:first:mt-0">
         <p><img id="memory-img" src="../../assets/specifications/memory-light.jpg" /></p>
+<figure>
 <script>
 function updateMemoryImage() {
   const img = document.getElementById('memory-img');
@@ -788,19 +789,21 @@ function updateMemoryImage() {
     : '../../assets/specifications/memory-light.jpg';
 }
 updateMemoryImage();
-/// caption
-Figure 1 (repeated): An example of a CSM description. Components can have data represented by {...}.
-///
 
-The scoping of local data within a collaborative state machine is defined with respect to the _dynamic extent_
-of the components of $C$ with shared memory.
-
-We denote the dynamic extent of a component $c$ as $c^+$ to include the component itself and any ancestor of
+const observer = new MutationObserver(updateMemoryImage);
+observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+</script>
+<figcaption>
+<p>Figure 1 (repeated): An example of a CSM description. Components can have data represented by {...}.</p>
+</figcaption>
+</figure>
+<p>The scoping of local data within a collaborative state machine is defined with respect to the <em>dynamic extent</em>
+of the components of $C$ with shared memory.</p>
+<p>We denote the dynamic extent of a component $c$ as $c^+$ to include the component itself and any ancestor of
 $c$. When operating in shared memory mode, $C$ is guaranteed to execute on a single resource with shared
 memory such that any component $c \in C$ can access local data according to $c^+$ and $c_0^+$ where $c_0$, 
-the root level, denotes the collaborative state machine.
-
-The root of a collaborative state machine in distributed memory mode has no shared memory and thus cannot 
+the root level, denotes the collaborative state machine.</p>
+<p>The root of a collaborative state machine in distributed memory mode has no shared memory and thus cannot 
 declare or access local data. A state machine $s$ with its nested components $s_{c}$ always operates in shared
 memory even if $s$ is part of $C$ in distributed memory. $s$ has access to local data according to $s^+$.
 Similarly, each component $s_{c}$ has a dynamic extent denoted by $s_{c^+}$, allowing access to its local data
@@ -809,20 +812,17 @@ information hiding. For example, a state can access the data of its parent state
 cannot access the data of its states or nested state machines. In Figure 1 state $S_{e}$ has access to
 variables $h$ and $b$, state $S_a$ can access $a$, and state $S_b$ can access variables $c$, $d$, $e$, and 
 $a$. However, $SM_2$ can only access variable $b$. Siblings do not have access to each other's data. For
-instance, $S_{d}$ cannot access any data within $SM_{21}$ or $S_{c}$.
-
-When referencing an existing variable within a component $c$, the variable is located by searching within the
+instance, $S_{d}$ cannot access any data within $SM_{21}$ or $S_{c}$.</p>
+<p>When referencing an existing variable within a component $c$, the variable is located by searching within the
 dynamic extent $c^+$, which encompasses the local data of $c$ and extends to include any ancestor components
 of $c$. The search proceeds from the local data of $c$ to the local data of its ancestors, and finally to
-persistent data accessible to the component and its ancestors.
-
-Within CSM, data plays a multifaceted role. Data may be declared lexically or created dynamically, and data
+persistent data accessible to the component and its ancestors.</p>
+<p>Within CSM, data plays a multifaceted role. Data may be declared lexically or created dynamically, and data
 can be manipulated through actions. Data may be stored locally within a component or persisted globally.
 Expressions provide fundamental data transformation operations, such as selecting properties from objects,
 performing calculations or filtering, and invoking utility functions. The versatility of expressions extends
 to their usage in diverse scenarios. For example, expressions can facilitate gathering input data for service
-invocations, express guard conditions, or be instrumental in manipulating data objects directly.
-
+invocations, express guard conditions, or be instrumental in manipulating data objects directly.</p>
 <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
 <script type="text/x-mathjax-config">
@@ -843,7 +843,7 @@ invocations, express guard conditions, or be instrumental in manipulating data o
             <path d="M5 12l6 6"></path>
             <path d="M5 12l6 -6"></path>
         </svg>
-        Collaborative State Machine
+        Collaborative state machine
     </a>
     
     
