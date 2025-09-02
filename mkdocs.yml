@@ -1,6 +1,6 @@
 site_name: Collaborative State Machines
-repo_url: https://github.com/UIBK-DPS-DC/csm
-site_url: https://uibk-dps-dc.github.io/csm/
+repo_url: https://github.com/UIBK-DPS-DC/CSM
+site_url: https://uibk-dps-dc.github.io/CSM/
 theme:
   name: shadcn
   show_title: true
