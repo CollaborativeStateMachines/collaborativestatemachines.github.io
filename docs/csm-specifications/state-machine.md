@@ -1,5 +1,5 @@
 ---
-title: State Machine
+title: State machine
 summary: Specifications of the Collaborative State Machines model
 new: false
 description: Specifications of the Collaborative State Machines model

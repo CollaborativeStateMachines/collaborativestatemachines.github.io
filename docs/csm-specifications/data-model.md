@@ -1,5 +1,5 @@
 ---
-title: Data Model
+title: Data model
 summary: Specifications of the Collaborative State Machines model
 new: false
 description: Specifications of the Collaborative State Machines model
@@ -20,6 +20,10 @@ function updateMemoryImage() {
     : '../../assets/specifications/memory-light.jpg';
 }
 updateMemoryImage();
+
+const observer = new MutationObserver(updateMemoryImage);
+observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+</script>
 /// caption
 Figure 1 (repeated): An example of a CSM description. Components can have data represented by {...}.
 ///
