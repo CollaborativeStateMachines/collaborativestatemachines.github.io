@@ -1,6 +1,6 @@
 nav:
   - index.md
-  - Relative Path: research/team.md
+  - Team: research/team.md
   - Learn:
     - learn/getting-started.md
     - learn/tutorial.md
