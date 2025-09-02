@@ -10,7 +10,16 @@ show_datetime: true
 order: 400
 ---
 
-![image info](../assets/specifications/memory.jpg)
+<img id="memory-img" src="../../assets/specifications/memory-light.jpg" />
+<script>
+function updateMemoryImage() {
+  const img = document.getElementById('memory-img');
+  const isDark = document.documentElement.classList.contains('dark');
+  img.src = isDark 
+    ? '../../assets/specifications/memory-dark.jpg' 
+    : '../../assets/specifications/memory-light.jpg';
+}
+updateMemoryImage();
 /// caption
 Figure 1 (repeated): An example of a CSM description. Components can have data represented by {...}.
 ///
