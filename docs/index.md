@@ -44,11 +44,11 @@ CSM helps developers tackle complexity with:
   lifetime.
 
 !!! note ""
-    +streamline-emojis:rocket;height=2em+ Learn more about [getting started](getting-started.md).
+    +streamline-emojis:rocket;height=2em+ Learn more about [getting started](learn/getting-started.md).
 
 ## What can you build?
 
-CSM is ideal for any system that is **distributed, event-driven, and stateful**. Examples include:
+CSM is ideal for any system that is **distributed, event-driven, and stateful**. Example use cases include:
 
 - **IoT & Edge Solutions** &mdash; devices reacting to local events while syncing with cloud services.
 - **Surveillance & Monitoring** &mdash; distributed data streams processed in real time.
@@ -57,4 +57,4 @@ CSM is ideal for any system that is **distributed, event-driven, and stateful**.
   infrastructure.
 
 !!! note ""
-    +streamline-emojis:vertical-traffic-light;height=2em+ For more, see our [examples](csm/examples.md).
+    +streamline-emojis:vertical-traffic-light;height=2em+ For more, see our [examples](learn/examples.md).

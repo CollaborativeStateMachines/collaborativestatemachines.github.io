@@ -1,11 +1,11 @@
 ---
-title: Data model
+title: Data Model
 summary: Specifications of the Collaborative State Machines model
 new: false
 description: Specifications of the Collaborative State Machines model
 keywords: collaborative,state,machines,specifications
 author: metheredge
-sidebar_title: Data model
+sidebar_title: Data Model
 show_datetime: true
 order: 400
 ---

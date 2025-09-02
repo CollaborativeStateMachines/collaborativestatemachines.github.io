@@ -1,0 +1,12 @@
+nav:
+  - index.md
+  - Relative Path: research/team.md
+  - Learn:
+    - learn/*
+  - Cirrina:
+    - cirrina/*
+  - Specifications:
+    - csm-specifications/*
+  - Research:
+    - research/publications.md
+    - research/team.md

@@ -9,11 +9,11 @@ sidebar_title: Team
 show_datetime: true
 ---
 
-Collaborative State Machines originated within the 
+CSM originated within the 
 [Distributed and Parallel Systems Group](https://dps.uibk.ac.at/) at the University of Innsbruck and continue
 to be developed there.
 
-The following list presents the current team members actively working on Collaborative State Machines.
+The following list presents the current team members actively working on CSM.
 
 - [+material-symbols:mail-rounded+](mailto:marlon.etheredge@uibk.ac.at)
   [+entypo-social:linkedin-with-circle+](https://www.linkedin.com/in/marlonetheredge/)
@@ -36,7 +36,7 @@ The following list presents the current team members actively working on Collabo
   [+octicon:mark-github-24+](https://github.com/tfahringer)
   Univ.-Prof. Dr. Thomas Fahringer[^1]
 
-[^1]: For all correspondence concerning Collaborative State Machines.
+[^1]: For all correspondence concerning CSM.
 
 ## Alumni
 
@@ -45,5 +45,5 @@ The following list shows anonymized alumni and their research topics.
 - BSc, 2024 &mdash; Thesis on distributed event queues    
 - BSc, 2024 &mdash; Thesis on resource management
 - BSc, 2024 &mdash; Thesis on visual modeling for Cloud-Edge-IoT  
-- MSc, 2024 &mdash; Innovative extensions of the Collaborative State Machines model and formalization.
-- BSc, 2023 &mdash; Thesis on a Collaborative State Machines implementation.
+- MSc, 2024 &mdash; Innovative extensions of the CSM model and formalization.
+- BSc, 2023 &mdash; Thesis on a CSM implementation.

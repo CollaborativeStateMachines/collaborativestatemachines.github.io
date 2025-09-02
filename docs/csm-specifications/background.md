@@ -10,7 +10,7 @@ show_datetime: true
 order: 0
 ---
 
-Collaborative State Machines (CSM) is a distributed programming model for the computing continuum[^1]. It
+Collaborative State Machines is a distributed programming model for the computing continuum[^1]. It
 represents distributed applications as state machines that can be deployed across resources throughout the 
 continuum. The model is designed for reactive, stateful, and highly dynamic applications that must operate in
 heterogeneous environments.

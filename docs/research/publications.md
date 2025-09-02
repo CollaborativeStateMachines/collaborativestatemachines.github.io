@@ -14,7 +14,7 @@ show_datetime: true
 
     @etheredgeCollaborativeStateMachines2025
 
-Additional research on Collaborative State Machines can be found in:
+Additional research on CSM can be found in:
 
 - **2025** – @etheredgeCollaborativeStateMachines2025
 - **2025** – @povedaNyxFaultTolerantFully2025

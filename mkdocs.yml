@@ -1,4 +1,4 @@
-site_name: Collaborative State Machines
+site_name: Collaborative State Machines (CSM)
 repo_url: https://github.com/CollaborativeStateMachines/Cirrina
 site_url: https://collaborativestatemachines.github.io/
 theme:
@@ -11,10 +11,11 @@ theme:
         dark: github-dark
   icon: https://collaborativestatemachines.github.io/assets/cirrina/cirrina.svg
   favicon: https://collaborativestatemachines.github.io/assets/cirrina/cirrina.svg
-  topbar_sections: false
+  topbar_sections: true
   show_datetime: true 
 plugins:
   - autorefs
+  - awesome-nav
   - bibtex:
       bib_file: "refs.bib"
   - search

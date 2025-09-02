@@ -1,11 +1,11 @@
 ---
-title: Collaborative state machine
+title: Collaborative State Machine
 summary: Specifications of the Collaborative State Machines model
 new: false
 description: Specifications of the Collaborative State Machines model
 keywords: collaborative,state,machines,specifications
 author: metheredge
-sidebar_title: Collaborative state machine
+sidebar_title: Collaborative State Machine
 show_datetime: true
 order: 4
 ---

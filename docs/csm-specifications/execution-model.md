@@ -1,11 +1,11 @@
 ---
-title: Execution model
+title: Execution Model
 summary: Specifications of the Collaborative State Machines model
 new: false
 description: Specifications of the Collaborative State Machines model
 keywords: collaborative,state,machines,specifications
 author: metheredge
-sidebar_title: Execution model
+sidebar_title: Execution Model
 show_datetime: true
 order: 400
 ---
