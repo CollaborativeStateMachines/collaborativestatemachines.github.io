@@ -28,7 +28,20 @@ state machine and state. A construct consists of one or multiple _keywords_.
 
 ## CSM description
 
-![image info](../assets/specifications/memory.jpg)
+<img id="memory-img" src="../../assets/specifications/memory-light.jpg" />
+<script>
+function updateMemoryImage() {
+  const img = document.getElementById('memory-img');
+  const isDark = document.documentElement.classList.contains('dark');
+  img.src = isDark 
+    ? '../../assets/specifications/memory-dark.jpg' 
+    : '../../assets/specifications/memory-light.jpg';
+}
+updateMemoryImage();
+
+const observer = new MutationObserver(updateMemoryImage);
+observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+</script>
 /// caption
 Figure 1: An example of a CSM description. Components can have data represented by {...}.
 ///
