@@ -8,5 +8,4 @@ nav:
   - Specifications:
     - csm-specifications/*
   - Research:
-    - research/publications.md
-    - research/team.md
+    - research/*

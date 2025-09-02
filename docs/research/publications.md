@@ -7,6 +7,7 @@ keywords: collaborative,state,machines,publications
 author: metheredge
 sidebar_title: Publications
 show_datetime: true
+order: 0
 ---
 
 !!! info ""
