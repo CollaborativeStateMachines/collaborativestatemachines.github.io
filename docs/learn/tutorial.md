@@ -7,7 +7,7 @@ keywords: collaborative,state,machines,tutorial
 author: metheredge
 sidebar_title: Tutorial
 show_datetime: true
-order: 0
+order: 1
 ---
 
 Pending.

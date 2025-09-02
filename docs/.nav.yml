@@ -2,10 +2,26 @@ nav:
   - index.md
   - Relative Path: research/team.md
   - Learn:
-    - learn/*
+    - learn/getting-started.md
+    - learn/tutorial.md
+    - learn/examples.md
   - Cirrina:
-    - cirrina/*
+    - cirrina/runtime-system.md
+    - cirrina/contributing.md
   - Specifications:
-    - csm-specifications/*
+    - csm-specifications/specifications.md
+    - csm-specifications/background.md
+    - csm-specifications/data.md
+    - csm-specifications/expression.md
+    - csm-specifications/guard.md
+    - csm-specifications/collaborative-state-machine.md
+    - csm-specifications/state-machine.md
+    - csm-specifications/state.md
+    - csm-specifications/event.md
+    - csm-specifications/transition.md
+    - csm-specifications/action.md
+    - csm-specifications/data-model.md
+    - csm-specifications/execution-model.md
   - Research:
-    - research/*
+    - research/publications.md
+    - research/team.md

@@ -7,7 +7,7 @@ keywords: collaborative,state,machines,examples
 author: metheredge
 sidebar_title: Examples
 show_datetime: true
-order: 1
+order: 2
 ---
 
 Pending.
