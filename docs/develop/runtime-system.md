@@ -11,7 +11,7 @@ order: 0
 ---
 
 <center>
-    <img src="../../assets/cirrina/cirrina.svg" width="90%" />
+    <img src="../../assets/cirrina/logo.svg" width="90%" />
 </center>
 
 Cirrina is the official runtime system of the CSM project. Together with the CSM programming model, it is 
