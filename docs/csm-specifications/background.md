@@ -19,7 +19,7 @@ While CSM defines the abstract programming model, its applications are expressed
 CSML. Like the model itself, CSML is abstract and can be realized in different ways, for example through 
 serialization formats or domain-specific languages. In these specifications, we describe CSML and the CSM 
 concepts using the [Pkl](https://pkl-lang.org/)-based implementation of CSML employed by the official runtime
-system, [Cirrina](../cirrina/runtime-system.md).
+system, [Cirrina](../develop/runtime-system.md).
 
 [^1]: We refer to the computing continuum as the infrastructure spanning cloud, edge, and IoT layers.
 

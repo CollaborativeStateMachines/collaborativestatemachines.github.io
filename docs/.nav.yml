@@ -6,8 +6,8 @@ nav:
     - learn/tutorial.md
     - learn/examples.md
   - Cirrina:
-    - cirrina/runtime-system.md
-    - cirrina/contributing.md
+    - develop/runtime-system.md
+    - develop/contributing.md
   - Specifications:
     - csm-specifications/specifications.md
     - csm-specifications/background.md
