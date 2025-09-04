@@ -6,7 +6,7 @@ across the cloud, edge, and IoT**. CSM addresses this by letting you design appl
 state machines that collaborate with each other**. Each state machine can run in the cloud, at the edge, or
 directly on IoT devices, yet all machines continue to operate together as one cohesive system.
 
-## About us
+## About Us
 
 CSM is developed by the [Distributed and Parallel Systems Group](https://dps.uibk.ac.at/) at the University of
 Innsbruck.
@@ -15,7 +15,7 @@ Innsbruck.
     +streamline-emojis:woman-scientist-2;height=2em+ Learn more about our [research](research/publications.md)
     and meet the [team](research/team.md).
 
-## How it works
+## State Machines
 
 At the heart of CSM are **state machines**. Each one is small, autonomous, and easy to reason about. Together,
 they form powerful distributed applications. State machines can:
@@ -32,7 +32,7 @@ services, or execution environments.
     +streamline-emojis:green-book;height=2em+ Learn more about the fundamental programming model through the CSM
     [specifications](csm-specifications/specifications.md).
 
-## Why use CSM?
+## Features
 
 CSM helps developers tackle complexity with:
 
@@ -46,7 +46,7 @@ CSM helps developers tackle complexity with:
 !!! note ""
     +streamline-emojis:rocket;height=2em+ Learn more about [getting started](learn/getting-started.md).
 
-## What can you build?
+## Use Cases
 
 CSM is ideal for any system that is **distributed, event-driven, and stateful**. Example use cases include:
 
