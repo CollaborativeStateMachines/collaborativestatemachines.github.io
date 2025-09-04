@@ -65,7 +65,7 @@ that only one state can be active in the active configuration at any given time.
 configuration always contains exactly one active state, this principle prevents ambiguity in state transitions
 and guarantees predictable behavior within the state machine.
 
-## Step algorithm
+## Step Algorithm
 
 We define the step algorithm as follows.
 

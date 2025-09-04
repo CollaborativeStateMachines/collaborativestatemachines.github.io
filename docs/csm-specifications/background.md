@@ -26,7 +26,7 @@ system, [Cirrina](../develop/runtime-system.md).
 Within CSML a description consists of _constructs_, such as those describing a collaborative state machine, 
 state machine and state. A construct consists of one or multiple _keywords_.
 
-## CSM description
+## CSM Description
 
 <img id="memory-img" src="../../assets/specifications/memory-light.jpg" />
 <script>
