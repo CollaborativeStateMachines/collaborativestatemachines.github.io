@@ -22,11 +22,6 @@ The following list presents the current team members actively working on CSM.
   [+octicon:mark-github-24+](https://github.com/Frnd-me)
   Marlon Etheredge, MSc[^1]
 - +material-symbols:mail-off-rounded+
-  [+entypo-social:linkedin-with-circle+](https://www.linkedin.com/in/bmonikraj/)
-  [+academicons:orcid+](https://orcid.org/0000-0001-9385-2533)
-  [+octicon:mark-github-24+](https://github.com/bmonikraj)
-  Monik Raj Behera, MSc
-- +material-symbols:mail-off-rounded+
   [+entypo-social:linkedin-with-circle+](https://www.linkedin.com/in/juanaznar/)
   [+academicons:orcid+](https://orcid.org/0000-0002-0879-6651)
   [+octicon:mark-github-24+](https://github.com/juanaznarp94)
