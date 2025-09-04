@@ -446,7 +446,7 @@
 <script>
     const updatedAt = document.getElementById("updated_at");
     if (updatedAt) {
-        const date = new Date('2025-09-03T09:45:25+02:00');
+        const date = new Date('2025-09-04T11:13:27+02:00');
         updatedAt.textContent = date.toLocaleDateString();
     }
 </script>
@@ -456,53 +456,62 @@
 
     </div>
     <div class="typography w-full flex-1 *:data-[slot=alert]:first:mt-0">
-        <p>Contributions to the CSM project are highly welcome. There are several ways you can get involved, whether by 
-improving the runtime system, advancing research, or supporting related tools and documentation.</p>
-<h3 id="where-to-start-contributing">Where to start contributing</h3>
+        <p>Contributions to the CSM project are highly welcome.</p>
+<p>There are several ways you can get involved, whether by <strong>improving the runtime system</strong>, 
+<strong>advancing research</strong>, or <strong>supporting related tools and documentation</strong>.</p>
+<h2 id="where-to-start-contributing">Where to Start Contributing</h2>
 <ul>
 <li>
-<p><strong>Cirrina Runtime System</strong><br />
-  The official runtime system for CSM is available as an open-source project on <a href="https://github.com/CollaborativeStateMachines/Cirrina">GitHub 
-  <svg class="iconify" xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 24 24"><path fill="currentColor" d="M12 1C5.923 1 1 5.923 1 12c0 4.867 3.149 8.979 7.521 10.436c.55.096.756-.233.756-.522c0-.262-.013-1.128-.013-2.049c-2.764.509-3.479-.674-3.699-1.292c-.124-.317-.66-1.293-1.127-1.554c-.385-.207-.936-.715-.014-.729c.866-.014 1.485.797 1.691 1.128c.99 1.663 2.571 1.196 3.204.907c.096-.715.385-1.196.701-1.471c-2.448-.275-5.005-1.224-5.005-5.432c0-1.196.426-2.186 1.128-2.956c-.111-.275-.496-1.402.11-2.915c0 0 .921-.288 3.024 1.128a10.2 10.2 0 0 1 2.75-.371c.936 0 1.871.123 2.75.371c2.104-1.43 3.025-1.128 3.025-1.128c.605 1.513.221 2.64.111 2.915c.701.77 1.127 1.747 1.127 2.956c0 4.222-2.571 5.157-5.019 5.432c.399.344.743 1.004.743 2.035c0 1.471-.014 2.654-.014 3.025c0 .289.206.632.756.522C19.851 20.979 23 16.854 23 12c0-6.077-4.922-11-11-11"/></svg></a>. Contributions to Cirrina
-  can include bug fixes, feature implementations, performance improvements, or enhancing documentation.</p>
+<p><strong>Contributing to Cirrina</strong><br />
+  The official runtime system for CSM is available as an <strong>open-source project</strong> on <a href="https://github.com/CollaborativeStateMachines/Cirrina">GitHub <svg class="iconify" xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 24 24"><path fill="currentColor" d="M12 1C5.923 1 1 5.923 1 12c0 4.867 3.149 8.979 7.521 10.436c.55.096.756-.233.756-.522c0-.262-.013-1.128-.013-2.049c-2.764.509-3.479-.674-3.699-1.292c-.124-.317-.66-1.293-1.127-1.554c-.385-.207-.936-.715-.014-.729c.866-.014 1.485.797 1.691 1.128c.99 1.663 2.571 1.196 3.204.907c.096-.715.385-1.196.701-1.471c-2.448-.275-5.005-1.224-5.005-5.432c0-1.196.426-2.186 1.128-2.956c-.111-.275-.496-1.402.11-2.915c0 0 .921-.288 3.024 1.128a10.2 10.2 0 0 1 2.75-.371c.936 0 1.871.123 2.75.371c2.104-1.43 3.025-1.128 3.025-1.128c.605 1.513.221 2.64.111 2.915c.701.77 1.127 1.747 1.127 2.956c0 4.222-2.571 5.157-5.019 5.432c.399.344.743 1.004.743 2.035c0 1.471-.014 2.654-.014 3.025c0 .289.206.632.756.522C19.851 20.979 23 16.854 23 12c0-6.077-4.922-11-11-11"/></svg></a>.<br />
+  Contributions may include:</p>
+<ul>
+<li>Bug fixes</li>
+<li>Feature implementations</li>
+<li>Performance improvements</li>
+<li>Documentation enhancements</li>
+</ul>
 </li>
 <li>
 <p><strong>Research</strong><br />
-  If you use CSM in your research, or build upon publications related to the project, your insights and 
-  contributions are valuable. Relevant publications can be found <a href="../../research/publications/">here</a>.</p>
+  If you use CSM in your research or build on our publications, your contributions are valuable.<br />
+  Relevant publications can be found <a href="../../research/publications/">here</a>.</p>
 </li>
 <li>
 <p><strong>Documentation and Tutorials</strong><br />
-  Improving tutorials, examples, or reference documentation is another way to support the project and make 
-  CSM more accessible to new users.</p>
+  Improving tutorials, examples, and reference documentation helps make CSM more accessible to new users.</p>
 </li>
 </ul>
 <h3 id="contributing-to-cirrina">Contributing to Cirrina</h3>
-<p>Cirrina is implemented in Java and Kotlin, with Kotlin being the preferred language. Contributions can be
-submitted via pull requests from forks of the repository.</p>
-<p>To ensure smooth collaboration:  </p>
+<p>Cirrina is implemented in <strong>Java</strong> and <strong>Kotlin</strong>, with <strong>Kotlin as the preferred language</strong>.</p>
+<p>Contributions are submitted via <strong>pull requests</strong> from forks of the repository.</p>
+<p>To ensure smooth collaboration, we:</p>
 <ul>
-<li>Follow <a href="https://github.com/conventional-changelog/commitlint">commitlint</a> conventions to keep the changelog 
-  tidy.</li>
-<li>Maintain and improve test coverage through our <a href="https://github.com/CollaborativeStateMachines/Cirrina/tree/develop/src/test/java/at/ac/uibk/dps/cirrina">unit tests</a>.
-  These are automatically validated via our <a href="https://github.com/CollaborativeStateMachines/Cirrina/blob/develop/.github/workflows/build.yml">build pipeline</a>.</li>
-<li>Pull requests must pass all status checks and undergo code review before merging.  </li>
+<li>follow <a href="https://github.com/conventional-changelog/commitlint">commitlint</a> conventions to keep the
+    changelog tidy;</li>
+<li>use <a href="https://prettier.io/">Prettier</a> to format our code;</li>
+<li>maintain and improve test coverage via our <a href="https://github.com/CollaborativeStateMachines/Cirrina/tree/develop/src/test/java/at/ac/uibk/dps/cirrina">unit tests</a>
+    validated automatically by our <a href="https://github.com/CollaborativeStateMachines/Cirrina/blob/develop/.github/workflows/build.yml">build pipeline</a>; and</li>
+<li>let pull requests <strong>pass all status checks</strong> and undergo <strong>code review</strong> before merging.  </li>
 </ul>
-<p>We encourage contributors to discuss major changes or new features via 
-<a href="https://github.com/CollaborativeStateMachines/Cirrina/issues">GitHub issues</a> before implementation to align
-with the project roadmap.</p>
-<p>Additionally, for broader discussions related to the CSM project, we have a 
-<a href="https://github.com/orgs/CollaborativeStateMachines/discussions">discussion board</a>.</p>
-<h3 id="research-contributions">Research contributions</h3>
 <div class="admonition info">
-<p><strong>If CSM is part of your research, please cite our primary publication:</strong><br/><br/></p>
-<p>Marlon Etheredge, Thomas Fahringer, Felix Erlacher, Elias Kohler, Stefan Pedratscher, Juan Aznar-Poveda, Nishant Saurabh, and Adrien Lebre. Collaborative State Machines: A Better Programming Model for the Cloud-Edge-IoT Continuum. July 2025. <a href="https://arxiv.org/abs/2507.21685">arXiv:2507.21685</a>, <a href="https://doi.org/10.48550/arXiv.2507.21685">doi:10.48550/arXiv.2507.21685</a>.</p>
+<p>For major changes or new features, please open a <a href="https://github.com/CollaborativeStateMachines/Cirrina/issues">GitHub issue</a>
+to align with the project roadmap.</p>
 </div>
-<p>You are also encouraged to share new research findings, experiments, or insights that extend the CSM 
-framework, as these contributions help the project evolve and guide future development.</p>
-<h3 id="documentation">Documentation</h3>
-<p>The CSM project documentation is maintained on this website. Contributions, corrections, and enhancements are
-welcome via pull requests to its <a href="https://github.com/CollaborativeStateMachines/collaborativestatemachines.github.io">GitHub repository <svg class="iconify" xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 24 24"><path fill="currentColor" d="M12 1C5.923 1 1 5.923 1 12c0 4.867 3.149 8.979 7.521 10.436c.55.096.756-.233.756-.522c0-.262-.013-1.128-.013-2.049c-2.764.509-3.479-.674-3.699-1.292c-.124-.317-.66-1.293-1.127-1.554c-.385-.207-.936-.715-.014-.729c.866-.014 1.485.797 1.691 1.128c.99 1.663 2.571 1.196 3.204.907c.096-.715.385-1.196.701-1.471c-2.448-.275-5.005-1.224-5.005-5.432c0-1.196.426-2.186 1.128-2.956c-.111-.275-.496-1.402.11-2.915c0 0 .921-.288 3.024 1.128a10.2 10.2 0 0 1 2.75-.371c.936 0 1.871.123 2.75.371c2.104-1.43 3.025-1.128 3.025-1.128c.605 1.513.221 2.64.111 2.915c.701.77 1.127 1.747 1.127 2.956c0 4.222-2.571 5.157-5.019 5.432c.399.344.743 1.004.743 2.035c0 1.471-.014 2.654-.014 3.025c0 .289.206.632.756.522C19.851 20.979 23 16.854 23 12c0-6.077-4.922-11-11-11"/></svg></a>.</p>
+<div class="admonition info">
+<p>Broader discussions related to the CSM project take place on our <a href="https://github.com/orgs/CollaborativeStateMachines/discussions">discussion board</a>.</p>
+</div>
+<h3 id="research">Research</h3>
+<p>We encourage researchers to share <strong>new findings, experiments, or insights</strong> that extend CSM. These 
+contributions help the project evolve and guide future development.</p>
+<div class="admonition info">
+<p><strong>If CSM is part of your research, please cite our primary publication:</strong><br></p>
+<p><code>Marlon Etheredge, Thomas Fahringer, Felix Erlacher, Elias Kohler, Stefan Pedratscher, Juan Aznar\-Poveda, Nishant Saurabh, and Adrien Lebre. Collaborative State Machines: A Better Programming Model for the Cloud\-Edge\-IoT Continuum. July 2025. [arXiv:2507.21685](https://arxiv.org/abs/2507.21685), [doi:10.48550/arXiv.2507.21685](https://doi.org/10.48550/arXiv.2507.21685).</code></p>
+</div>
+<h3 id="documentation-and-tutorials">Documentation and Tutorials</h3>
+<p>The CSM project documentation is maintained on this website.</p>
+<p>Contributions, corrections, and enhancements are welcome via pull requests to its<br />
+<a href="https://github.com/CollaborativeStateMachines/collaborativestatemachines.github.io">GitHub repository <svg class="iconify" xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 24 24"><path fill="currentColor" d="M12 1C5.923 1 1 5.923 1 12c0 4.867 3.149 8.979 7.521 10.436c.55.096.756-.233.756-.522c0-.262-.013-1.128-.013-2.049c-2.764.509-3.479-.674-3.699-1.292c-.124-.317-.66-1.293-1.127-1.554c-.385-.207-.936-.715-.014-.729c.866-.014 1.485.797 1.691 1.128c.99 1.663 2.571 1.196 3.204.907c.096-.715.385-1.196.701-1.471c-2.448-.275-5.005-1.224-5.005-5.432c0-1.196.426-2.186 1.128-2.956c-.111-.275-.496-1.402.11-2.915c0 0 .921-.288 3.024 1.128a10.2 10.2 0 0 1 2.75-.371c.936 0 1.871.123 2.75.371c2.104-1.43 3.025-1.128 3.025-1.128c.605 1.513.221 2.64.111 2.915c.701.77 1.127 1.747 1.127 2.956c0 4.222-2.571 5.157-5.019 5.432c.399.344.743 1.004.743 2.035c0 1.471-.014 2.654-.014 3.025c0 .289.206.632.756.522C19.851 20.979 23 16.854 23 12c0-6.077-4.922-11-11-11"/></svg></a>.</p>
 
     </div>
 </article>
@@ -745,14 +754,6 @@ welcome via pull requests to its <a href="https://github.com/CollaborativeStateM
         
         
         
-        <a href="#where-to-start-contributing"
-            class="text-muted-foreground hover:text-foreground data-[active=true]:text-foreground text-[0.8rem] no-underline transition-colors data-[depth=3]:pl-4 data-[depth=4]:pl-6"
-            data-active="false" data-depth="2">
-            Where to start contributing
-        </a>
-        
-
-        
         <a href="#contributing-to-cirrina"
             class="text-muted-foreground hover:text-foreground data-[active=true]:text-foreground text-[0.8rem] no-underline transition-colors data-[depth=3]:pl-4 data-[depth=4]:pl-6"
             data-active="false" data-depth="2">
@@ -761,18 +762,18 @@ welcome via pull requests to its <a href="https://github.com/CollaborativeStateM
         
 
         
-        <a href="#research-contributions"
+        <a href="#research"
             class="text-muted-foreground hover:text-foreground data-[active=true]:text-foreground text-[0.8rem] no-underline transition-colors data-[depth=3]:pl-4 data-[depth=4]:pl-6"
             data-active="false" data-depth="2">
-            Research contributions
+            Research
         </a>
         
 
         
-        <a href="#documentation"
+        <a href="#documentation-and-tutorials"
             class="text-muted-foreground hover:text-foreground data-[active=true]:text-foreground text-[0.8rem] no-underline transition-colors data-[depth=3]:pl-4 data-[depth=4]:pl-6"
             data-active="false" data-depth="2">
-            Documentation
+            Documentation and Tutorials
         </a>
         
 
