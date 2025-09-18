@@ -10,8 +10,6 @@ show_datetime: true
 order: 2
 ---
 
-Expression-related constructs are described below.
-
 ## Expression
 
 An expression represents an evaluable one-line expression that serves to produce an output value.
@@ -25,15 +23,7 @@ An expression is a string that is evaluated to acquire a certain value.
 ```pkl
 "5+5+v"
 ```
-/// caption
-Listing 4: An Expression construct.
-///
+_Listing 4: An Expression construct._
 
-!!! info ""
+!!! info
     The evaluation of an expression, e.g., the supported syntax, is implementation-specific.
-
-<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({ tex2jax: {inlineMath: [['$', '$']]}, messageStyle: "none" });
-</script>

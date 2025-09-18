@@ -10,8 +10,6 @@ show_datetime: true
 order: 9
 ---
 
-Action-related constructs are described below.
-
 ## InvokeAction
 
 An invoke action allows a state machine to call a defined _service type_. The term 'type' in 'service type'
@@ -34,18 +32,16 @@ a different resource.
 
 ```pkl
 new InvokeAction {
-    serviceType = "serviceTypeName"
-    local = false
-    input = new Data {...}
-    output = new Data {...}
-    done {
-        new Event {...}...
-    }
+  serviceType = "serviceTypeName"
+  local = false
+  input = new Data {...}
+  output = new Data {...}
+  done {
+    new Event {...}...
+  }
 }
 ```
-/// caption
-Listing 11: An InvokeAction construct.
-///
+_Listing 11: An InvokeAction construct._
 
 The following keywords can/must be provided:
 
@@ -54,8 +50,8 @@ The following keywords can/must be provided:
 | type        | Type of action.        | string                                            | No                    |
 | serviceType | Service type name.     | string                                            | No                    |
 | local       | Local execution flag.  | boolean                                           | Yes                   |
-| input       | Input data.            | list of [Variable](data.md)                     | Yes                   |
-| output      | Output data reference. | list of [VariableReference](data.md) | Yes                   |
+| input       | Input data.            | list of [ContextVariable](data.md)                     | Yes                   |
+| output      | Output data reference. | list of [ContextVariableReference](data.md) | Yes                   |
 | done        | Done events.           | list of [Event](event.md)                           | Yes                   |
 
 ### serviceType
@@ -64,7 +60,7 @@ The _serviceType_ keyword specifies the invoked service type.
 
 The service type is provided as a string value.
 
-!!! info ""
+!!! info
     The validity of the service type is implementation-specific.
 
 ### local
@@ -101,51 +97,49 @@ current scope.
 
 ```pkl
 new CreateAction {
-    variable = new Variable {...}
-    persistent = true
+  variable = new ContextVariable {...}
+  persistent = true
 }
 
 new AssignAction {
-    variable = new VariableReference {...}
-    value = new Expression {...}
+  variable = new ContextVariableReference {...}
+  value = new Expression {...}
 }
 
 new DeleteAction {
-    variable = new VariableReference {...}
+  variable = new ContextVariableReference {...}
 }
 ```
-/// caption
-Listing 12: A CreateAction, AssignAction, and DeleteAction construct.
-///
+_Listing 12: A CreateAction, AssignAction, and DeleteAction construct._
 
 The following keywords can/must be provided (create action construct):
 
 | **Keyword** | **Description**                      | **Type**              | **Optional**          |
 | ----------- | ------------------------------------ |-----------------------| --------------------- |
-| variable    | Variable to create.                  | [Variable](data.md) | No                    |
+| variable    | Variable to create.                  | [ContextVariable](data.md) | No                    |
 | persistent  | Whether to create data persistently. | boolean               | Yes                   |
 
 The following keywords can/must be provided (assign action construct):
 
 | **Keyword** | **Description**                  | **Type**                                  | **Optional**          |
 | ----------- | -------------------------------- | ----------------------------------------- | --------------------- |
-| variable    | Variable reference to assign to. | [VariableReference](data.md) | No                    |
+| variable    | Variable reference to assign to. | [ContextVariableReference](data.md) | No                    |
 | value       | Value expression.                | [Expression](expression.md)                 | No                    |
 
 The following keywords can/must be provided (delete action construct):
 
 | **Keyword** | **Description**               | **Type**                                  | **Optional**          |
 | ----------- | ----------------------------- | ----------------------------------------- | --------------------- |
-| variable    | Variable reference to delete. | [VariableReference](data.md) | No                    |
+| variable    | Variable reference to delete. | [ContextVariableReference](data.md) | No                    |
 
 ### variable
 
 The _variable_ keyword specifies the variable to create or the variable reference to manipulate.
 
-!!! warning ""
+!!! warning "Rule"
     When creating a variable, the variable must not exist.
    
-!!! warning "" 
+!!! warning "Rule" 
     When manipulating an existing variable, the variable must exist.
 
 ### persistent
@@ -163,12 +157,10 @@ acquire the data value assigned to the variable.
 
 ```pkl
 new RaiseAction {
-    event = new Event { ... }
+  event = new Event { ... }
 }
 ```
-/// caption
-Listing 13: A raise event action construct.
-///
+_Listing 13: A raise event action construct._
 
 The raise event action enables a state machine to raise an event that is subsequently handled by another state
 machine or the state machine itself.
@@ -183,22 +175,24 @@ The following keywords can/must be provided (raise action construct):
 
 The _event_ specifies the event to raise within the collaborative state machine.
 
+## MatchAction
+
+Coming soon.
+
 ## TimeoutAction / TimeoutResetAction
 
 ```pkl
 new TimeoutAction {
-    name = "timeout"
-    delay = new Expression {...}
-    action = new RaiseAction {...}
+  name = "timeout"
+  delay = new Expression {...}
+  action = new RaiseAction {...}
 }
 
 new TimeoutResetAction {
-    action = "timeout"
+  action = "timeout"
 }
 ```
-/// caption
-Listing 14: A timeout and timeout reset action construct.
-///
+_Listing 14: A timeout and timeout reset action construct._
 
 A special type of action, the timeout action, is used together with the _after_ keyword. The timeout action
 specifies a delay, after which the specified action is executed. The provided action must be a raise event 
@@ -225,7 +219,7 @@ The following keywords can/must be provided (timeout reset action construct):
 The _name_ keyword specifies the name of the timeout action used to reference the timeout action for 
 resetting.
 
-!!! info ""
+!!! info
     The validity of an action name is implementation-specific.
 
 ### delay
@@ -233,7 +227,7 @@ resetting.
 The _delay_ keyword specifies the delay expression evaluated to provide the delay value. The delay value is
 specified in milliseconds.
 
-!!! warning ""
+!!! warning "Rule"
     The delay expression must be evaluated to a numeric value.
 
 ### action
@@ -241,11 +235,11 @@ specified in milliseconds.
 For a timeout action, the _action_ keyword specifies the action to execute upon the timeout. The action 
 provided must be a raised event action.
 
-!!! warning ""
+!!! warning "Rule"
     The actions provided as timeout actions must be raise event actions.
 
 For a timeout reset action, the _action_ keyword specifies the timeout action to reset. The action referenced
 must be a previously executed timeout action.
 
-!!! warning ""
+!!! warning "Rule"
     The action reference provided must be a previously executed timeout action.

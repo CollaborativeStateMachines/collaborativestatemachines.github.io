@@ -10,8 +10,6 @@ show_datetime: true
 order: 4
 ---
 
-Collaborative state machine-related constructs are described below.
-
 ## CollaborativeStateMachine
 
 Within CSM, state machines are inspired by David Harel's statecharts. Their primary role is to exhibit 
@@ -44,19 +42,17 @@ For more details, see the [data model](data-model.md) description.
 
 ```pkl
 new CollaborativeStateMachine {
-    name = "CSM"
-    version = "2.0"
-    memoryMode = "distributed"
-    stateMachines {
-        new StateMachine {...}...
-    }
-    localData = new Data {...}
-    persistentData = new Data {...}
+  name = "CSM"
+  version = "3.0.0"
+  memoryMode = "distributed"
+  stateMachines {
+    new StateMachine {...}...
+  }
+  localData = new Context {...}
+  persistentData = new Context {...}
 }
 ```
-/// caption
-Listing 6: A CollaborativeStateMachine construct.
-///
+_Listing 6: A CollaborativeStateMachine construct._
 
 The following keywords can/must be provided:
 
@@ -66,8 +62,8 @@ The following keywords can/must be provided:
 | version        | CSML version.                                   | [version](#version)         | No           |
 | memoryMode        | Memory mode.                                   | [memoryMode](#memorymode)         | No           |
 | stateMachines  | Collection of state machines.                   | list of [StateMachine](state-machine.md)                 | No           |
-| localData      | Local data.                                     | [data](data.md)                                           | Yes          |
-| persistentData | Persistent data.                                | [data](data.md)                                           | Yes          |
+| localData      | Local data.                                     | [Context](data.md)                                           | Yes          |
+| persistentData | Persistent data.                                | [Context](data.md)                                           | Yes          |
 
 ### name
 
@@ -76,7 +72,7 @@ The _name_ keyword specifies the name of the collaborative state machine.
 The name of the collaborative state machine is not referenced within the collaborative state machine and only
 serves to identify the collaborative state machine among other collaborative state machines.
 
-!!! info ""
+!!! info
     The validity of a collaborative state machine name is implementation-specific.
 
 ### version
@@ -88,11 +84,9 @@ The CSML version is bound to a version of these specifications.
 
 The version is a string enumeration and must be one of the following:
 
-- 1.0
-- 2.0
-- 3.0
+- 3.0.0
 
-!!! info ""
+!!! info
     A runtime system implementation's support for different CSML versions is implementation-specific.
 
 ### memoryMode
@@ -111,7 +105,7 @@ The memory mode is a string enumeration and must be one of the following:
 The _stateMachines_ keyword is used to specify the collection of state machines included in the collaborative
 state machine.
 
-!!! warning ""
+!!! warning "Rule"
     At least one state machine must be declared.
 
 ### localData / persistentData
@@ -121,9 +115,3 @@ persistent data of the collaborative state machine.
 
 Depending on the memory mode of the collaborative state machine, either or both types of data will be
 accessible within the collaborative state machine, see [dynamic extent](data-model.md).
-
-<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({ tex2jax: {inlineMath: [['$', '$']]}, messageStyle: "none" });
-</script>

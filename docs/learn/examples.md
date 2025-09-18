@@ -10,4 +10,4 @@ show_datetime: true
 order: 2
 ---
 
-Pending.
+Coming soon.

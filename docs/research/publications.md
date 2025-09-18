@@ -10,11 +10,15 @@ show_datetime: true
 order: 0
 ---
 
-The following is a list of publications related to CSM.
+CSM is a **research project**.
 
-!!! info ""
-    **The primary publication to cite for CSM is:**<br/><br/>
+We are actively working on the **CSM programming model** itself as well as on **methods, tools, and runtime
+support** that form its broader ecosystem.
 
+The following is a list of publications related to the CSM project.
+
+!!! info
+    **The primary publication to cite for CSM is:**  
     @etheredgeCollaborativeStateMachines2025
 
 Additional research on CSM can be found in:

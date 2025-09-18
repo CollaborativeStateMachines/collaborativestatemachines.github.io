@@ -2,17 +2,39 @@ site_name: Collaborative State Machines (CSM)
 repo_url: https://github.com/CollaborativeStateMachines/Cirrina
 site_url: https://collaborativestatemachines.github.io/
 theme:
-  name: shadcn
-  custom_dir: overrides
-  show_title: true
-  show_stargazers: true
-  pygments_style: 
-        light: shadcn-light
-        dark: github-dark
-  icon: https://collaborativestatemachines.github.io/assets/cirrina/icon.png
+  name: material
+  font:
+    text: Lato
+    code: Google Sans Code
+  palette:
+    scheme: default
+    primary: white
+  language: en
+  logo: https://collaborativestatemachines.github.io/assets/cirrina/icon.png
   favicon: https://collaborativestatemachines.github.io/assets/cirrina/icon.png
-  topbar_sections: true
-  show_datetime: true 
+  icon:
+    admonition:
+      success: fontawesome/solid/flask
+      question: fontawesome/solid/graduation-cap
+  features:
+    - navigation.instant
+    - navigation.instant.prefetch
+    - navigation.instant.progress
+    - navigation.tracking
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.sections
+    - navigation.expand
+    - navigation.path
+    - navigation.indexes
+    - navigation.top
+    - toc.follow
+    - search.suggest
+    - search.highlight
+    - social
+    - content.code.copy
+    - content.code.select
+    - content.code.annotate
 plugins:
   - autorefs
   - awesome-nav
@@ -20,16 +42,24 @@ plugins:
       bib_file: "refs.bib"
   - search
 markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
   - pymdownx.highlight:
       anchor_linenums: true
       line_spans: __span
       pygments_lang_class: true
   - pymdownx.inlinehilite
   - pymdownx.snippets
-  - pymdownx.superfences
-  - admonition
-  - attr_list
-  - fenced_code
-  - footnotes
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.arithmatex:
+      generic: true
   - pymdownx.blocks.caption
+  - footnotes
   - shadcn.extensions.iconify
+  - attr_list
+  - md_in_html
+extra_javascript:
+  - javascripts/mathjax.js
+  - https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js

@@ -1,6 +1,5 @@
 nav:
   - index.md
-  - Team: research/team.md
   - Learn:
     - learn/getting-started.md
     - learn/tutorial.md
@@ -9,7 +8,7 @@ nav:
     - develop/runtime-system.md
     - develop/contributing.md
   - Specifications:
-    - csm-specifications/specifications.md
+    - csm-specifications/version.md
     - csm-specifications/background.md
     - csm-specifications/data.md
     - csm-specifications/expression.md

@@ -10,8 +10,6 @@ show_datetime: true
 order: 7
 ---
 
-Event-related constructs are described below.
-
 ## Event
 
 Events are raised and handled by state machines in the collaborative state machine and are matched based on
@@ -36,14 +34,12 @@ This overrides existing variables or creates new variables if they don't exist w
 
 ```pkl
 new Event {
-    name = "e1"
-    channel = "global"
-    data = new Data{...}
+  name = "e1"
+  channel = "global"
+  data = new Listing[ContextVariable] {...}
 }
 ```
-/// caption
-Listing 9: An Event construct.
-///
+_Listing 9: An Event construct._
 
 The following keywords can/must be provided:
 
@@ -58,7 +54,7 @@ The following keywords can/must be provided:
 The _name_ keyword specifies the event name. Events are matched according to their name. Event names may be
 re-used.
 
-!!! info ""
+!!! info
     The validity of the event name is implementation-specific.
 
 ### channel

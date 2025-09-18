@@ -10,8 +10,6 @@ show_datetime: true
 order: 6
 ---
 
-State-related constructs are described below.
-
 ## State
 
 A state represents a potentially active state, which can be activated by entering through a state transition
@@ -35,35 +33,33 @@ retain their values between exiting and re-entering the state.
 
 ```pkl
 new State {
-    name = "Sa"
-    initial = true
-    terminal = false
-    entry {
-        new Action {...}...
-    }
-    exit {
-        new Action {...}...
-    }
-    while {
-        new Action {...}...
-    }
-    after {
-        new Action {...}...
-    }
-    on {
-        new OnTransition {...}...
-    }
-    always {
-        new Transition{ ... }...
-    }
-    localData = new Data {...}
-    persistentData = new Data {...}
-    staticData = new Data {...}
+  name = "Sa"
+  initial = true
+  terminal = false
+  entry {
+    new Action {...}...
+  }
+  exit {
+    new Action {...}...
+  }
+  while {
+    new Action {...}...
+  }
+  after {
+    new Action {...}...
+  }
+  on {
+    new OnTransition {...}...
+  }
+  always {
+    new Transition{ ... }...
+  }
+  localData = new Context {...}
+  persistentData = new Context {...}
+  staticData = new Context {...}
 }
 ```
-/// caption
-Listing 8: A State construct.
-///
+_Listing 8: A State construct._
 
 The following keywords can/must be provided:
 
@@ -78,9 +74,9 @@ The following keywords can/must be provided:
 | after          | After actions.              | list of [TimeoutAction](action.md)   | Yes          |
 | on             | On event transitions.       | list of [OnTransition](transition.md)           | Yes          |
 | always         | Always transitions.         | list of [Transition](transition.md)                 | Yes          |
-| localData      | Local data.                 | [Data](data.md)                                     | Yes          |
-| persistentData | Persistent data.            | [Data](data.md)                                     | Yes          |
-| staticData     | Static data.                | [Data](data.md)                                     | Yes          |
+| localData      | Local data.                 | [Context](data.md)                                     | Yes          |
+| persistentData | Persistent data.            | [Context](data.md)                                     | Yes          |
+| staticData     | Static data.                | [Context](data.md)                                     | Yes          |
 
 ### name
 
@@ -88,17 +84,17 @@ The _name_ keyword specifies the name of the state and may be used for diagnosti
 
 A state's name is referenced throughout the state machine to indicate the transition target.
 
-!!! info ""
+!!! info
     The validity of a name is implementation-specific.
 
 ### initial
 
 The _initial_ keyword specifies whether a state is the initial state of the containing state machine.
 
-!!! warning ""
+!!! warning "Rule"
     Exactly one [initial state](#initial) must be declared.
 
-!!! warning ""
+!!! warning "Rule"
     Initial states must not have inward transitions.
 
 ### terminal
@@ -106,7 +102,7 @@ The _initial_ keyword specifies whether a state is the initial state of the cont
 The _terminal_ keyword specifies whether a state is a terminal state of the containing state machine. Multiple
 states may be declared terminal.
 
-!!! warning ""
+!!! warning "Rule"
     Terminal states must not have outward transitions.
 
 ### entry / exit / while / after
@@ -121,14 +117,14 @@ The _after_ keyword specifies the actions executed upon a timeout.
 
 Actions executed within a state have state scope, see [dynamic extent](data-model.md).
 
-!!! warning ""
+!!! warning "Rule"
     An action reference must be a valid action name.
 
 ### on
 
 The _on_ keyword specifies the transitions that can occur based on events.
 
-!!! warning ""
+!!! warning "Rule"
     The referenced event in an on-transition must be raised within the collaborative state machine.
 
 ### always

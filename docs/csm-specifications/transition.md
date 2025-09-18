@@ -10,8 +10,6 @@ show_datetime: true
 order: 8
 ---
 
-Transition-related constructs are described below.
-
 ## Transition
 
 A state transition enables the transitioning between the states of a state machine. The result of a state 
@@ -34,24 +32,21 @@ _actions_ keyword is used to specify the actions executed when the transition is
 
 ```pkl
 new Transition {
-    target = "Sa"
-    guards {
-        new Guard {...}...
-    }
-    actions {
-        new Action {...}...
-    }
-    else = "Sb"
+  target = "Sa"
+  guards {
+    new Guard {...}...
+  }
+  actions {
+    new Action {...}...
+  }
+  else = "Sb"
 }
 ```
-/// caption
-Listing 10: A Transition construct.
-///
+_Listing 10: A Transition construct._
 
-!!! warning ""
+!!! warning "Rule"
     Transition guards must be mutually exclusive to ensure determinism, so that at most one transition can be 
     triggered from any given state at a time.
-
 
 The following keywords can/must be provided:
 
@@ -67,22 +62,20 @@ The following keywords can/must be provided:
 The on-transition construct is a specialization of the transition construct, adding the _event_ keyword that
 specifies the event that triggers the transition.
 
-```
+```pkl
 new OnTransition {
-    event = "e1"
-    target = "Sa"
-    guards {
-        new Guard {...}...
-    }
-    actions {
-        new Action {...}...
-    }
-    else = "Sb"
+  event = "e1"
+  target = "Sa"
+  guards {
+    new Guard {...}...
+  }
+  actions {
+    new Action {...}...
+  }
+  else = "Sb"
 }
 ```
-/// caption
-Listing 11: An OnTransition construct.
-/// 
+_Listing 11: An OnTransition construct._
 
 The following keywords can/must be provided:
 
@@ -94,7 +87,7 @@ The following keywords can/must be provided:
 
 The _target_ keyword specifies the [State.name](state.md) to transition into.
 
-!!! warning ""
+!!! warning "Rule"
     The target state name must be valid.
 
 ## guards
@@ -102,7 +95,7 @@ The _target_ keyword specifies the [State.name](state.md) to transition into.
 The _guards_ keyword specifies the guard conditions of the transition. All guard expressions must evaluate to
 boolean true for the transition to be taken.
 
-!!! warning ""
+!!! warning "Rule"
     The guard expression must evaluate to boolean true or false.
 
 ## actions
@@ -111,7 +104,7 @@ The _actions_ keyword specifies the actions executed as part of the transition. 
 in-line, in which case an action name is not required. Actions may also be referenced by name. Actions
 executed within a state have state-scope, see [dynamic extent](data-model.md).
 
-!!! warning ""
+!!! warning "Rule"
     An action reference must be a valid action name.
 
 ## else
@@ -119,18 +112,12 @@ executed within a state have state-scope, see [dynamic extent](data-model.md).
 The _else_ keyword specifies the state to transition into, should the guard condition not evaluate to boolean
 true.
 
-!!! warning ""
+!!! warning "Rule"
     The else state name must be valid.
 
 ## event
 
 The _event_ keyword specifies the name of an event that triggers the on-transition.
 
-!!! warning ""
+!!! warning "Rule"
     The name of the event must be an event raised within the collaborative state machine.
-
-<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({ tex2jax: {inlineMath: [['$', '$']]}, messageStyle: "none" });
-</script>

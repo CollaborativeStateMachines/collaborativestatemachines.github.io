@@ -1,5 +1,5 @@
 ---
-title: Specifications
+title: Version
 summary: Specifications of the Collaborative State Machines model
 new: false
 description: Specifications of the Collaborative State Machines model
@@ -10,7 +10,7 @@ show_datetime: true
 order: -1
 ---
 
-Version 3.0
+Version 3.0.0
 
 These are the Collaborative State Machine (CSM) language specifications.
 
@@ -19,9 +19,3 @@ how state machines are constructed, how they interact in a collaborative environ
 state transitions, events, and inter-state machine communication. Additionally, these specifications provide
 guidance for implementing CSML-compliant interpreters, compilers, and runtime environments, ensuring 
 consistent behavior across different platforms and use cases.
-
-<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({ tex2jax: {inlineMath: [['$', '$']]}, messageStyle: "none" });
-</script>

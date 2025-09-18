@@ -10,8 +10,6 @@ show_datetime: true
 order: 5
 ---
 
-State machine-related constructs are described below.
-
 ## StateMachine
 
 The purpose of a state machine is to model event-driven execution behavior across the computing continuum by 
@@ -28,20 +26,18 @@ As with collaborative state machines, local and persistent data can be declared 
 
 ```pkl
 new StateMachine {
-    name = "SM2"
-    states {
-        new State {...}...
-    }
-    stateMachines {
-        new StateMachine {...}...
-    }
-    localData = new Data {...}
-    persistentData = new Data {...}
+  name = "SM2"
+  states {
+    new State {...}...
+  }
+  stateMachines {
+    new StateMachine {...}...
+  }
+  localData = new Context {...}
+  persistentData = new Context {...}
 }
 ```
-/// caption
-Listing 7: A StateMachine construct.
-///
+_Listing 7: A StateMachine construct._
 
 The following keywords can/must be provided:
 
@@ -50,8 +46,8 @@ The following keywords can/must be provided:
 | name           | Name of the state machine.              | string                                  | No           |
 | states         | Collection of states.                   | list of [State](state.md)                 | No           |
 | stateMachines  | Collection of state machines.           | list of [StateMachine](state-machine.md) | No           |
-| localData      | Local data.                             | [Data](data.md)                           | Yes          |
-| persistentData | Persistent data.                        | [Data](data.md)                           | Yes          |
+| localData      | Local data.                             | [Context](data.md)                           | Yes          |
+| persistentData | Persistent data.                        | [Context](data.md)                           | Yes          |
 
 ### name
 
@@ -60,7 +56,7 @@ referencing.
 
 The name of a state machine is not referenced inside a description.
 
-!!! info ""
+!!! info
     The validity of a name is implementation-specific.
 
 ### states
@@ -69,22 +65,22 @@ The _states_ keyword is used to specify the collection of atomic states included
 
 Atomic states are described using the [State](state.md) construct.
 
-!!! warning ""
+!!! warning "Rule"
     At least one state must be declared.
 
-!!! warning ""
+!!! warning "Rule"
     [State.name](state.md)s must be unique.
 
-!!! warning ""
+!!! warning "Rule"
     Exactly one [initial state](state.md) must be declared.
 
-!!! warning ""
+!!! warning "Rule"
     Initial states must not have inward transitions.
 
-!!! warning ""
+!!! warning "Rule"
     Terminal states must not have outward transitions.
 
-!!! warning ""
+!!! warning "Rule"
     Every state must be reachable (it must have a transition leading into it, or it must be the initial 
     state).
 
