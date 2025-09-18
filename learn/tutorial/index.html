@@ -1,764 +1,2579 @@
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
-    <script>
-        // for search plugin notably
-        const base_url = "https://collaborativestatemachines.github.io/";
-    </script>
-    <script>
-    const darkTheme = window.matchMedia("(prefers-color-scheme: dark)");
-    darkTheme.onchange = (e) => {
-        if (e.matches) {
-            document.documentElement.classList.add("dark")
-            localStorage.theme = 'dark';
-        } else {
-            document.documentElement.classList.remove("dark")
-            localStorage.removeItem("theme")
-        }
-    };
-
-    // On page load. Priotiry to lcaolStorage
-    if (localStorage.theme === "dark") {
-        document.documentElement.classList.add("dark")
-    } else if (localStorage.theme === "light") {
-        document.documentElement.classList.remove("dark")
-    } else if (darkTheme.matches) {
-        document.documentElement.classList.add("dark")
-    } else {
-        document.documentElement.classList.remove("dark")
-    }
-
-    // set the layout based on localStorage
-    document.documentElement.classList.add(localStorage.getItem("html-layout") || "layout-fixed");
-</script>
-
-
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Tutorial - Collaborative State Machines (CSM)</title>
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
     
-
-
-<title>Tutorial</title>
-
-
-
-<meta name="description" content="Collaborative State Machines tutorial">
-
-
-
-<meta name="keywords" content="collaborative,state,machines,tutorial">
-
-
-
-<meta name="author" content="metheredge">
-
-
-
-<link rel="canonical" href="https://collaborativestatemachines.github.io/learn/tutorial/">
-
-
-<!-- Open Graph (Facebook, LinkedIn) -->
-
-<meta property="og:title" content="Tutorial">
-
-
-
-<meta property="og:description" content="Collaborative State Machines tutorial">
-
-
-
-<meta property="og:url" content="https://collaborativestatemachines.github.io/learn/tutorial/">
-
-
-
-
-
-
-<!-- Twitter Card -->
-
-<meta name="twitter:title" content="Tutorial">
-
-
-
-<meta name="twitter:description" content="Collaborative State Machines tutorial">
-
-
-
-
-<!-- JSON-LD Structured Data -->
-
-<script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Article",
-    "headline": "Tutorial",
-    "url": "https://collaborativestatemachines.github.io/learn/tutorial/",
-    "description": "Collaborative State Machines tutorial",
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="How to implement a Collaborative State Machines-based application?">
+      
+      
+        <meta name="author" content="metheredge">
+      
+      
+        <link rel="canonical" href="https://collaborativestatemachines.github.io/learn/tutorial/">
+      
+      
+        <link rel="prev" href="../getting-started/">
+      
+      
+        <link rel="next" href="../examples/">
+      
+      
+      <link rel="icon" href="https://collaborativestatemachines.github.io/assets/cirrina/icon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.18">
     
-    "author": {
-      "@type": "Person",
-      "name": "metheredge"
-    },
+    
+      
+        <title>Tutorial - Collaborative State Machines (CSM)</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.7e37652d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+  
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+  
+  <style>:root{--md-admonition-icon--success:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20448%20512%22%3E%3C%21--%21%20Font%20Awesome%20Free%207.0.0%20by%20%40fontawesome%20-%20https%3A//fontawesome.com%20License%20-%20https%3A//fontawesome.com/license/free%20%28Icons%3A%20CC%20BY%204.0%2C%20Fonts%3A%20SIL%20OFL%201.1%2C%20Code%3A%20MIT%20License%29%20Copyright%202025%20Fonticons%2C%20Inc.--%3E%3Cpath%20fill%3D%22currentColor%22%20d%3D%22M288%200H128c-17.7%200-32%2014.3-32%2032s14.3%2032%2032%2032v151.5L7.5%20426.3C2.6%20435%200%20444.7%200%20454.7%200%20486.4%2025.6%20512%2057.3%20512h333.4c31.6%200%2057.3-25.6%2057.3-57.3%200-10-2.6-19.8-7.5-28.4L320%20215.5V64c17.7%200%2032-14.3%2032-32S337.7%200%20320%200zm-96%20215.5V64h64v151.5c0%2011.1%202.9%2022.1%208.4%2031.8L306%20320H142l41.6-72.7c5.5-9.7%208.4-20.6%208.4-31.8%22/%3E%3C/svg%3E');--md-admonition-icon--question:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20576%20512%22%3E%3C%21--%21%20Font%20Awesome%20Free%207.0.0%20by%20%40fontawesome%20-%20https%3A//fontawesome.com%20License%20-%20https%3A//fontawesome.com/license/free%20%28Icons%3A%20CC%20BY%204.0%2C%20Fonts%3A%20SIL%20OFL%201.1%2C%20Code%3A%20MIT%20License%29%20Copyright%202025%20Fonticons%2C%20Inc.--%3E%3Cpath%20fill%3D%22currentColor%22%20d%3D%22m48%20195.8%20209.2%2086.1c9.8%204%2020.2%206.1%2030.8%206.1s21-2.1%2030.8-6.1l242.4-99.8c9-3.7%2014.8-12.4%2014.8-22.1s-5.8-18.4-14.8-22.1L318.8%2038.1c-9.8-4-20.2-6.1-30.8-6.1s-21%202.1-30.8%206.1L14.8%20137.9C5.8%20141.6%200%20150.3%200%20160v296c0%2013.3%2010.7%2024%2024%2024s24-10.7%2024-24zm48%2071.7V384c0%2053%2086%2096%20192%2096s192-43%20192-96V267.4l-142.9%2058.9c-15.6%206.4-32.2%209.7-49.1%209.7s-33.5-3.3-49.1-9.7L96%20267.4z%22/%3E%3C/svg%3E');}</style>
+
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,300i,400,400i,700,700i%7CGoogle+Sans+Code:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Lato";--md-code-font:"Google Sans Code"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
     
     
     
     
-    "mainEntityOfPage": {
-      "@type": "WebPage",
-      "@id": "https://collaborativestatemachines.github.io/learn/tutorial/"
-    },
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#system-overview" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
     
     
-  }
-  </script>
+      
 
+  
 
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Collaborative State Machines (CSM)" class="md-header__button md-logo" aria-label="Collaborative State Machines (CSM)" data-md-component="logo">
+      
+  <img src="https://collaborativestatemachines.github.io/assets/cirrina/icon.png" alt="logo">
 
-    <link rel="icon" href="https://collaborativestatemachines.github.io/assets/cirrina/icon.png">
-
-    <link href="../../css/base.css" rel="stylesheet">
-    <link href="../../css/geist.css" rel="stylesheet">
-
-    
-
-    
-
-    <script src="../../js/callbacks.js"></script>
-
-    
-
-    
-
-    
-
-</head>
-
-<body
-    class="text-foreground group/body overscroll-none font-sans antialiased [--footer-height:calc(var(--spacing)*14)] [--header-height:calc(var(--spacing)*14)] xl:[--footer-height:calc(var(--spacing)*24)] theme-default">
-    <div id="inner-body" class="bg-background relative z-10 flex min-h-svh flex-col">
-        <header class="bg-background sticky top-0 z-50 w-full" view-transition-name="header">
-    <div class="container-wrapper 3xl:fixed:px-0 px-6">
-        <div class="3xl:fixed:container flex h-(--header-height) items-center gap-2 **:data-[slot=separator]:!h-4">
-            <button id="menu-button" data-slot="popover-trigger" onclick="onMobileMenuButtonClick(event)"
-                class="group whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:text-accent-foreground px-4 py-2 has-[&gt;svg]:px-3 extend-touch-target h-8 touch-manipulation items-center justify-start gap-2.5 !p-0 hover:bg-transparent focus-visible:bg-transparent focus-visible:ring-0 active:bg-transparent dark:hover:bg-transparent flex lg:hidden"
-                type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="radix-«Rmplb»"
-                data-state="closed">
-                <div class="relative flex h-8 w-4 items-center justify-center">
-                    <div class="relative size-4">
-                        <!-- 16px x 16px -->
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none" stroke="currentColor"
-                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <line x1="0" x2="16" y1="5" y2="5"
-                                class="group-data-[state=open]:translate-y-[2.25px] group-data-[state=open]:-translate-x-[2.25px] group-data-[state=open]:rotate-45 transition-all duration-300 origin-center" />
-                            <line x1="0" x2="16" y1="11" y2="11"
-                                class="group-data-[state=open]:-translate-y-[2.25px] group-data-[state=open]:-translate-x-[2.25px] group-data-[state=open]:-rotate-45 transition-all duration-300 origin-center" />
-                        </svg>
-                    </div>
-
-                    <span class="sr-only">Toggle Menu</span>
-                </div>
-                <span class="flex h-8 items-center text-lg leading-none font-medium">Menu</span>
-            </button>
-            <a data-slot="button"
-                class="items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-5 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 hidden h-8 lg:flex"
-                href="https://collaborativestatemachines.github.io/">
-                <span class="size-8 flex flex-row justify-center items-center">
-                    
-
-<img style="width: calc(var(--spacing) * 10);" src="https://collaborativestatemachines.github.io/assets/cirrina/icon.png">
-
-
-                </span>
-
-                
-                <h1 class="pr-2">Collaborative State Machines (CSM)</h1>
-                
-            </a>
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Collaborative State Machines (CSM)
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
             
-            <nav class="items-center gap-0.5 hidden lg:flex">
+              Tutorial
+            
+          </span>
+        </div>
+      </div>
+    </div>
     
-    
-    
-    <a class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 h-8 rounded-md gap-1.5 px-3 has-[&gt;svg]:px-2.5"
-        data-slot="button" href="../getting-started/">
-        Learn
-    </a>
-    
-    
-    
-    
-    <a class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 h-8 rounded-md gap-1.5 px-3 has-[&gt;svg]:px-2.5"
-        data-slot="button" href="../../develop/runtime-system/">
-        Develop
-    </a>
+      
     
     
     
     
-    <a class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 h-8 rounded-md gap-1.5 px-3 has-[&gt;svg]:px-2.5"
-        data-slot="button" href="../../csm-specifications/specifications/">
-        Specifications
-    </a>
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
     
     
+      <div class="md-header__source">
+        <a href="https://github.com/CollaborativeStateMachines/Cirrina" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Collaborative State Machines
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
     
     
-    <a class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 h-8 rounded-md gap-1.5 px-3 has-[&gt;svg]:px-2.5"
-        data-slot="button" href="../../research/publications/">
-        Research
-    </a>
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../getting-started/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Learn
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
     
     
+      <li class="md-tabs__item">
+        <a href="../../develop/runtime-system/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Develop
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../csm-specifications/version/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Specifications
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../research/publications/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Research
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
 </nav>
-            
-            <div class="ml-auto flex items-center gap-2 md:flex-1 md:justify-end">
-                <div class="hidden w-full flex-1 md:flex md:w-auto md:flex-none">
-                    <button data-slot="dialog-trigger" onclick="onSearchBarClick(event)"
-    class="inline-flex items-center gap-2 whitespace-nowrap rounded-md text-sm transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-secondary/80 px-4 py-2 has-[&gt;svg]:px-3 bg-surface text-surface-foreground/60 dark:bg-card relative h-8 w-full justify-start pl-2.5 font-normal shadow-none sm:pr-12 md:w-40 lg:w-56 xl:w-64"
-    type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="radix-«R66plb»" data-state="closed">
-    <span class="text-muted-foreground hidden lg:inline-flex">Search documentation...</span>
-    <span class="text-muted-foreground inline-flex lg:hidden">Search...</span>
-    <div class="absolute top-1.5 right-1.5 hidden gap-1 sm:flex">
-        <kbd
-            class="bg-background text-muted-foreground pointer-events-none flex h-5 items-center justify-center gap-1 rounded border px-1 font-sans text-[0.7rem] font-medium select-none [&amp;_svg:not([class*='size-'])]:size-3">Ctrl</kbd><kbd
-            class="bg-background text-muted-foreground pointer-events-none flex h-5 items-center justify-center gap-1 rounded border px-1 font-sans text-[0.7rem] font-medium select-none [&amp;_svg:not([class*='size-'])]:size-3 aspect-square">K</kbd>
-    </div>
-</button>
-<dialog id="search-dialog" onclick="onSearchDialogClick(event)"
-    class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-background rounded-lg shadow-lg border overflow-hidden p-0">
-    <div class="w-lg gap-4">
-        <div class="flex h-full w-full flex-col overflow-hidden rounded-md bg-popover text-popover-foreground">
-            <div data-slot="command-input-wrapper" class="flex h-9 items-center gap-2 border-b px-3"><svg
-                    xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                    class="lucide lucide-search size-4 shrink-0 opacity-50">
-                    <circle cx="11" cy="11" r="8"></circle>
-                    <path d="m21 21-4.3-4.3"></path>
-                </svg>
-                <input data-slot="command-input"
-                    class="placeholder:text-muted-foreground flex h-10 w-full rounded-md bg-transparent py-3 text-sm outline-hidden disabled:cursor-not-allowed disabled:opacity-50"
-                    placeholder="Search documentation..." cmdk-input="" autocomplete="off" autocorrect="off"
-                    spellcheck="false" aria-autocomplete="list" role="combobox" aria-expanded="true"
-                    aria-controls="radix-«r1t6»" aria-labelledby="radix-«r1t7»" id="radix-«r1t8»" type="text" value=""
-                    aria-activedescendant="radix-«r1th»" oninput="onInputHandler(event)">
-            </div>
-        </div>
-        <div id="mkdocs-search-results" class="max-h-[300px] overflow-y-auto overflow-x-hidden">
-            <!-- search results go there -->
-        </div>
-    </div>
-</dialog>
-<script>
-    document.removeEventListener("keydown", searchShortcutHandler);
-    document.addEventListener("keydown", searchShortcutHandler);
-</script>
-                </div>
-                <div data-orientation="vertical" role="none" data-slot="separator"
-                    class="bg-border shrink-0 data-[orientation=horizontal]:h-px data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=vertical]:w-px ml-2 hidden lg:block">
-                </div>
-                <a target="_blank" rel="noreferrer" data-slot="button"
-                    class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 rounded-md gap-1.5 px-3 has-[&gt;svg]:px-2.5 h-8 shadow-none"
-                    href="https://github.com/CollaborativeStateMachines/Cirrina">
-                    <svg viewBox="0 0 438.549 438.549">
-                        <path fill="currentColor"
-                            d="M409.132 114.573c-19.608-33.596-46.205-60.194-79.798-79.8-33.598-19.607-70.277-29.408-110.063-29.408-39.781 0-76.472 9.804-110.063 29.408-33.596 19.605-60.192 46.204-79.8 79.8C9.803 148.168 0 184.854 0 224.63c0 47.78 13.94 90.745 41.827 128.906 27.884 38.164 63.906 64.572 108.063 79.227 5.14.954 8.945.283 11.419-1.996 2.475-2.282 3.711-5.14 3.711-8.562 0-.571-.049-5.708-.144-15.417a2549.81 2549.81 0 01-.144-25.406l-6.567 1.136c-4.187.767-9.469 1.092-15.846 1-6.374-.089-12.991-.757-19.842-1.999-6.854-1.231-13.229-4.086-19.13-8.559-5.898-4.473-10.085-10.328-12.56-17.556l-2.855-6.57c-1.903-4.374-4.899-9.233-8.992-14.559-4.093-5.331-8.232-8.945-12.419-10.848l-1.999-1.431c-1.332-.951-2.568-2.098-3.711-3.429-1.142-1.331-1.997-2.663-2.568-3.997-.572-1.335-.098-2.43 1.427-3.289 1.525-.859 4.281-1.276 8.28-1.276l5.708.853c3.807.763 8.516 3.042 14.133 6.851 5.614 3.806 10.229 8.754 13.846 14.842 4.38 7.806 9.657 13.754 15.846 17.847 6.184 4.093 12.419 6.136 18.699 6.136 6.28 0 11.704-.476 16.274-1.423 4.565-.952 8.848-2.383 12.847-4.285 1.713-12.758 6.377-22.559 13.988-29.41-10.848-1.14-20.601-2.857-29.264-5.14-8.658-2.286-17.605-5.996-26.835-11.14-9.235-5.137-16.896-11.516-22.985-19.126-6.09-7.614-11.088-17.61-14.987-29.979-3.901-12.374-5.852-26.648-5.852-42.826 0-23.035 7.52-42.637 22.557-58.817-7.044-17.318-6.379-36.732 1.997-58.24 5.52-1.715 13.706-.428 24.554 3.853 10.85 4.283 18.794 7.952 23.84 10.994 5.046 3.041 9.089 5.618 12.135 7.708 17.705-4.947 35.976-7.421 54.818-7.421s37.117 2.474 54.823 7.421l10.849-6.849c7.419-4.57 16.18-8.758 26.262-12.565 10.088-3.805 17.802-4.853 23.134-3.138 8.562 21.509 9.325 40.922 2.279 58.24 15.036 16.18 22.559 35.787 22.559 58.817 0 16.178-1.958 30.497-5.853 42.966-3.9 12.471-8.941 22.457-15.125 29.979-6.191 7.521-13.901 13.85-23.131 18.986-9.232 5.14-18.182 8.85-26.84 11.136-8.662 2.286-18.415 4.004-29.263 5.146 9.894 8.562 14.842 22.077 14.842 40.539v60.237c0 3.422 1.19 6.279 3.572 8.562 2.379 2.279 6.136 2.95 11.276 1.995 44.163-14.653 80.185-41.062 108.068-79.226 27.88-38.161 41.825-81.126 41.825-128.906-.01-39.771-9.818-76.454-29.414-110.049z">
-                        </path>
-                    </svg>
-                    
-                    <span id="stargazers" class="text-muted-foreground w-8 text-xs tabular-nums" onload="test()">
-                    </span>
-                    
-                </a>
-                <div data-orientation="vertical" role="none" data-slot="separator"
-                    class="bg-border shrink-0 data-[orientation=horizontal]:h-px data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=vertical]:w-px 3xl:flex hidden">
-                </div>
-                <button data-slot="button"
-                    class="items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 size-8 3xl:flex hidden"
-                    title="Toggle layout" onclick="toggleLayout(event)">
-                    <span class="sr-only">Toggle layout</span>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                        class="lucide lucide-gallery-horizontal">
-                        <path d="M2 3v18"></path>
-                        <rect width="12" height="18" x="6" y="3" rx="2"></rect>
-                        <path d="M22 3v18"></path>
-                    </svg>
-                </button>
-                <div data-orientation="vertical" role="none" data-slot="separator"
-                    class="bg-border shrink-0 data-[orientation=horizontal]:h-px data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=vertical]:w-px">
-                </div>
-                <button data-slot="button"
-                    class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 group/toggle extend-touch-target size-8"
-                    title="Toggle theme" onclick="onThemeSwitch(event)">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                        class="size-4.5">
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                        <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"></path>
-                        <path d="M12 3l0 18"></path>
-                        <path d="M12 9l4.65 -4.65"></path>
-                        <path d="M12 14.3l7.37 -7.37"></path>
-                        <path d="M12 19.6l8.85 -8.85"></path>
-                    </svg>
-                    <span class="sr-only">Toggle theme</span>
-                </button>
-            </div>
-        </div>
-    </div>
+    
+  
 </header>
-        <main class="flex flex-1 flex-col">
-            <div class="container-wrapper flex flex-1 flex-col px-2">
-                <div data-slot="sidebar-wrapper" style="--sidebar-width: 16rem; --sidebar-width-icon: 3rem;"
-                    class="group/sidebar-wrapper has-data-[variant=inset]:bg-sidebar flex w-full 3xl:fixed:container 3xl:fixed:px-3 min-h-min flex-1 items-start px-0 [--sidebar-width:220px] [--top-spacing:0] lg:grid lg:grid-cols-[var(--sidebar-width)_minmax(0,1fr)] lg:[--sidebar-width:240px] lg:[--top-spacing:calc(var(--spacing)*4)]">
-                    <div data-slot="sidebar"
-                        class="text-sidebar-foreground w-(--sidebar-width) flex-col sticky top-[calc(var(--header-height)+1px)] z-30 hidden h-[calc(100svh-var(--header-height)-var(--footer-height))] bg-transparent lg:flex">
-                        <div data-slot="sidebar-content" data-sidebar="content"
-                            class="flex min-h-0 flex-1 flex-col gap-2 overflow-auto group-data-[collapsible=icon]:overflow-hidden no-scrollbar px-2 pb-12">
-                            <div class="h-(--top-spacing) shrink-0"></div>
-                            <div view-transition-name="sidebar" data-slot="sidebar-group" data-sidebar="group"
-    class="relative flex w-full min-w-0 flex-col p-2 no-scrollbar">
     
-
-    
-    
-    
-
-    
-
-    
-    
-
-    
-    <div data-slot="sidebar-group" data-sidebar="group" class="relative flex w-full min-w-0 flex-col p-2">
-        <div data-slot="sidebar-group-content" data-sidebar="group-content" class="w-full text-sm">
-            <ul data-slot="sidebar-menu" data-sidebar="menu" class="flex w-full min-w-0 flex-col gap-0.5">
-                
-                
-                <li data-slot="sidebar-menu-item" data-sidebar="menu-item" class="group/menu-item relative">
-    <a data-slot="sidebar-menu-button" data-active="false" data-sidebar="menu-button"
-        data-size="default" href="/learn/getting-started/"
-        class="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground peer/menu-button flex items-center gap-2 rounded-md p-2 text-left outline-hidden ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 data-[active=true]:bg-accent data-[active=true]:border-accent 3xl:fixed:w-full 3xl:fixed:max-w-48 relative h-[30px] w-fit overflow-visible border border-transparent text-[0.8rem] font-medium after:absolute after:inset-x-0 after:-inset-y-1 after:z-0 after:rounded-md">
-
+    <div class="md-container" data-md-component="container">
+      
+      
         
-        Getting Started
-        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
 
-        
 
-        
+  
 
-        
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Collaborative State Machines (CSM)" class="md-nav__button md-logo" aria-label="Collaborative State Machines (CSM)" data-md-component="logo">
+      
+  <img src="https://collaborativestatemachines.github.io/assets/cirrina/icon.png" alt="logo">
+
     </a>
+    Collaborative State Machines (CSM)
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/CollaborativeStateMachines/Cirrina" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Collaborative State Machines
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Learn
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Learn
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../getting-started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Getting Started
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Tutorial
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Tutorial
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#system-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      System overview
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="System overview">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sensors-and-train-positions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Sensors and train positions
+    </span>
+  </a>
+  
 </li>
-                
-                
-                
-                <li data-slot="sidebar-menu-item" data-sidebar="menu-item" class="group/menu-item relative">
-    <a data-slot="sidebar-menu-button" data-active="true" data-sidebar="menu-button"
-        data-size="default" href="/learn/tutorial/"
-        class="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground peer/menu-button flex items-center gap-2 rounded-md p-2 text-left outline-hidden ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 data-[active=true]:bg-accent data-[active=true]:border-accent 3xl:fixed:w-full 3xl:fixed:max-w-48 relative h-[30px] w-fit overflow-visible border border-transparent text-[0.8rem] font-medium after:absolute after:inset-x-0 after:-inset-y-1 after:z-0 after:rounded-md">
-
         
-        Tutorial
-        
-
-        
-
-        
-
-        
-    </a>
+      </ul>
+    </nav>
+  
 </li>
-                
-                
-                
-                <li data-slot="sidebar-menu-item" data-sidebar="menu-item" class="group/menu-item relative">
-    <a data-slot="sidebar-menu-button" data-active="false" data-sidebar="menu-button"
-        data-size="default" href="/learn/examples/"
-        class="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground peer/menu-button flex items-center gap-2 rounded-md p-2 text-left outline-hidden ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 data-[active=true]:bg-accent data-[active=true]:border-accent 3xl:fixed:w-full 3xl:fixed:max-w-48 relative h-[30px] w-fit overflow-visible border border-transparent text-[0.8rem] font-medium after:absolute after:inset-x-0 after:-inset-y-1 after:z-0 after:rounded-md">
-
-        
-        Examples
-        
-
-        
-
-        
-
-        
-    </a>
+      
+        <li class="md-nav__item">
+  <a href="#why-this-model-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      Why this model works
+    </span>
+  </a>
+  
 </li>
-                
-                
-            </ul>
-        </div>
-    </div>
-    
-
-    
-
-
-    
-</div>
-                        </div>
-                    </div>
-                    <div class="h-full w-full">
-                        <div data-slot="docs" class="flex items-stretch text-[1.05rem] sm:text-[15px] xl:w-full">
-                            <div class="flex min-w-0 flex-1 flex-col">
-                                <div class="h-(--top-spacing) shrink-0"></div>
-                                <article class=" w-full" view-transition-name="page">
-    <div class="flex flex-col gap-2">
-        <div class="flex flex-col gap-2">
-            <div id="page-header" class="flex items-start justify-between">
-
-                <h1 class="scroll-m-20 text-4xl font-semibold tracking-tight sm:text-3xl xl:text-4xl">
-                    Tutorial
-                </h1>
-
-                <div class="flex items-center gap-2 pt-1.5">
-                    
-                    <a data-slot="button" id="previous-button"
-                        class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-secondary text-secondary-foreground hover:bg-secondary/80 extend-touch-target size-8 shadow-none md:size-7"
-                        href="/learn/getting-started/">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                            class="tabler-icon tabler-icon-arrow-left ">
-                            <path d="M5 12l14 0"></path>
-                            <path d="M5 12l6 6"></path>
-                            <path d="M5 12l6 -6"></path>
-                        </svg>
-                        <span class="sr-only">Previous</span>
-                    </a>
-                    
-                    
-                    <a data-slot="button" id="next-button"
-                        class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-secondary text-secondary-foreground hover:bg-secondary/80 extend-touch-target size-8 shadow-none md:size-7"
-                        href="/learn/examples/">
-                        <span class="sr-only">Next</span>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                            class="tabler-icon tabler-icon-arrow-right ">
-                            <path d="M5 12l14 0"></path>
-                            <path d="M13 18l6 -6"></path>
-                            <path d="M13 6l6 6"></path>
-                        </svg>
-                    </a>
-                    
-                </div>
-            </div>
-            
-            <p id="summary" class="text-muted-foreground text-[1.05rem] text-balance sm:text-base">
-                Collaborative State Machines tutorial
-            </p>
-            
-        </div>
-        <div class="flex justify-end items-center">
-            
-            
-            <div class="grow text-muted-foreground pt-4 flex flex-row justify-end items-center">
-    <span id="updated_at" class="text-sm opacity-50 hover:opacity-100 transition-opacity duration-200"
-        title="last update (local time)"></span>
-</div>
-
-<script>
-    const updatedAt = document.getElementById("updated_at");
-    if (updatedAt) {
-        const date = new Date('2025-09-02T21:50:10+02:00');
-        updatedAt.textContent = date.toLocaleDateString();
-    }
-</script>
-
-            
-        </div>
-
-    </div>
-    <div class="typography w-full flex-1 *:data-[slot=alert]:first:mt-0">
-        <p>Pending.</p>
-
-    </div>
-</article>
-                                <div class="mx-auto flex flex-wrap h-16 w-full max-w-2xl items-center gap-2 px-4 md:px-0">
-    
-    <a data-slot="button"
-        class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-secondary text-secondary-foreground hover:bg-secondary/80 h-8 rounded-md gap-1.5 px-3 has-[&gt;svg]:px-2.5 shadow-none"
-        href="/learn/getting-started/">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-            class="tabler-icon tabler-icon-arrow-left ">
-            <path d="M5 12l14 0"></path>
-            <path d="M5 12l6 6"></path>
-            <path d="M5 12l6 -6"></path>
-        </svg>
-        Getting Started
-    </a>
-    
-    
-    <a data-slot="button"
-        class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-secondary text-secondary-foreground hover:bg-secondary/80 h-8 rounded-md gap-1.5 px-3 has-[&gt;svg]:px-2.5 ml-auto shadow-none"
-        href="/learn/examples/">
-        Examples
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-            class="tabler-icon tabler-icon-arrow-right ">
-            <path d="M5 12l14 0"></path>
-            <path d="M13 18l6 -6"></path>
-            <path d="M13 6l6 6"></path>
-        </svg>
-    </a>
-    
-</div>
-                                <dialog id="bottom-sidebar" onclick="onBottomSidebarDialogClick(event)" class="bg-transparent"
-    style="position: fixed; left: 0px; top: 0px; transform: translate(0px, 58px); min-width: max-content; --radix-popper-transform-origin: 0% 0px; will-change: transform; z-index: 50; --radix-popper-available-width: 504px; --radix-popper-available-height: 857px; --radix-popper-anchor-width: 72.94999694824219px; --radix-popper-anchor-height: 32px;">
-    <div data-side="bottom" data-align="start" data-state="open" role="dialog" data-slot="popover-content"
-        class="text-popover-foreground data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-50 origin-(--radix-popover-content-transform-origin) border outline-hidden bg-background/90 no-scrollbar h-(--radix-popper-available-height) w-(--radix-popper-available-width) overflow-y-auto rounded-none border-none p-0 shadow-none backdrop-blur duration-100"
-        style="--radix-popover-content-transform-origin: var(--radix-popper-transform-origin); --radix-popover-content-available-width: var(--radix-popper-available-width); --radix-popover-content-available-height: var(--radix-popper-available-height); --radix-popover-trigger-width: var(--radix-popper-anchor-width); --radix-popover-trigger-height: var(--radix-popper-anchor-height);"
-        tabindex="-1">
-        <div class="flex flex-col gap-12 overflow-auto px-6 py-6">
-            
-            
-            
-
-            
-            <div class="flex flex-col gap-4">
-                <div class="text-muted-foreground text-sm font-medium">Menu</div>
-                <div class="flex flex-col gap-3">
-                    
-                    <a class="text-2xl font-medium" href="../..">
-                        
-                        Home
-                        
-                    </a>
-                    
-                    <a class="text-2xl font-medium" href="../../research/team/">
-                        
-                        Team
-                        
-                    </a>
-                    
-                </div>
-            </div>
-            
-
-            
-            <div class="flex flex-col gap-8">
-                
-                <div class="flex flex-col gap-4">
-                    <div class="text-muted-foreground text-sm font-medium">Learn</div>
-                    
-                    <div class="flex flex-col gap-3">
-                        
-                        <a class="text-2xl font-medium" href="../getting-started/">
-                            
-                            Getting Started
-                            
-                        </a>
-                        
-                        <a class="text-2xl font-medium" href="./">
-                            
-                            Tutorial
-                            
-                        </a>
-                        
-                        <a class="text-2xl font-medium" href="../examples/">
-                            
-                            Examples
-                            
-                        </a>
-                        
-                    </div>
-                    
-                </div>
-                
-                <div class="flex flex-col gap-4">
-                    <div class="text-muted-foreground text-sm font-medium">Develop</div>
-                    
-                    <div class="flex flex-col gap-3">
-                        
-                        <a class="text-2xl font-medium" href="../../develop/runtime-system/">
-                            
-                            Runtime System
-                            
-                        </a>
-                        
-                        <a class="text-2xl font-medium" href="../../develop/contributing/">
-                            
-                            Contributing
-                            
-                        </a>
-                        
-                    </div>
-                    
-                </div>
-                
-                <div class="flex flex-col gap-4">
-                    <div class="text-muted-foreground text-sm font-medium">Specifications</div>
-                    
-                    <div class="flex flex-col gap-3">
-                        
-                        <a class="text-2xl font-medium" href="../../csm-specifications/specifications/">
-                            
-                            Specifications
-                            
-                        </a>
-                        
-                        <a class="text-2xl font-medium" href="../../csm-specifications/background/">
-                            
-                            Background
-                            
-                        </a>
-                        
-                        <a class="text-2xl font-medium" href="../../csm-specifications/data/">
-                            
-                            Data
-                            
-                        </a>
-                        
-                        <a class="text-2xl font-medium" href="../../csm-specifications/expression/">
-                            
-                            Expression
-                            
-                        </a>
-                        
-                        <a class="text-2xl font-medium" href="../../csm-specifications/guard/">
-                            
-                            Guard
-                            
-                        </a>
-                        
-                        <a class="text-2xl font-medium" href="../../csm-specifications/collaborative-state-machine/">
-                            
-                            Collaborative State Machine
-                            
-                        </a>
-                        
-                        <a class="text-2xl font-medium" href="../../csm-specifications/state-machine/">
-                            
-                            State machine
-                            
-                        </a>
-                        
-                        <a class="text-2xl font-medium" href="../../csm-specifications/state/">
-                            
-                            State
-                            
-                        </a>
-                        
-                        <a class="text-2xl font-medium" href="../../csm-specifications/event/">
-                            
-                            Event
-                            
-                        </a>
-                        
-                        <a class="text-2xl font-medium" href="../../csm-specifications/transition/">
-                            
-                            Transition
-                            
-                        </a>
-                        
-                        <a class="text-2xl font-medium" href="../../csm-specifications/action/">
-                            
-                            Action
-                            
-                        </a>
-                        
-                        <a class="text-2xl font-medium" href="../../csm-specifications/data-model/">
-                            
-                            Data Model
-                            
-                        </a>
-                        
-                        <a class="text-2xl font-medium" href="../../csm-specifications/execution-model/">
-                            
-                            Execution Model
-                            
-                        </a>
-                        
-                    </div>
-                    
-                </div>
-                
-                <div class="flex flex-col gap-4">
-                    <div class="text-muted-foreground text-sm font-medium">Research</div>
-                    
-                    <div class="flex flex-col gap-3">
-                        
-                        <a class="text-2xl font-medium" href="../../research/publications/">
-                            
-                            Publications
-                            
-                        </a>
-                        
-                        <a class="text-2xl font-medium" href="../../research/team/">
-                            
-                            Team
-                            
-                        </a>
-                        
-                    </div>
-                    
-                </div>
-                
-            </div>
-            
-            
-
-        </div>
-    </div>
-</dialog>
-                            </div>
-                            <div
-                                class="sticky top-[calc(var(--header-height)+1px)] z-30 ml-auto hidden h-[calc(100svh-var(--header-height)-var(--footer-height))] w-72 flex-col gap-4 overflow-hidden overscroll-none pb-8 xl:flex">
-                                <div class="h-(--top-spacing) shrink-0"></div>
-                                <div view-transition-name="toc" class="no-scrollbar overflow-y-auto px-8">
-    <div class="flex flex-col gap-2 p-4 pt-0 text-sm">
-        <p class="text-muted-foreground bg-background sticky top-0 h-6 text-xs">On This Page</p>
+      
+        <li class="md-nav__item">
+  <a href="#benefits-of-csm" class="md-nav__link">
+    <span class="md-ellipsis">
+      Benefits of CSM
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#defining-the-state-machines" class="md-nav__link">
+    <span class="md-ellipsis">
+      Defining the state machines
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#declaring-the-collaborative-state-machine" class="md-nav__link">
+    <span class="md-ellipsis">
+      Declaring the collaborative state machine
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#declaring-the-bell-state-machine" class="md-nav__link">
+    <span class="md-ellipsis">
+      Declaring the Bell state machine
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Declaring the Bell state machine">
+      <ul class="md-nav__list">
         
+          <li class="md-nav__item">
+  <a href="#declaring-service-invocation-actions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Declaring service invocation actions
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#declaring-the-state-machine" class="md-nav__link">
+    <span class="md-ellipsis">
+      Declaring the state machine
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#declaring-a-state" class="md-nav__link">
+    <span class="md-ellipsis">
+      Declaring a state
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#declaring-an-event" class="md-nav__link">
+    <span class="md-ellipsis">
+      Declaring an event
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#declaring-the-gate-state-machine" class="md-nav__link">
+    <span class="md-ellipsis">
+      Declaring the Gate state machine
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Declaring the Gate state machine">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#declaring-actions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Declaring actions
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#declaring-the-state-machine_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Declaring the state machine
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#declaring-the-controller-state-machine" class="md-nav__link">
+    <span class="md-ellipsis">
+      Declaring the Controller state machine
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Declaring the Controller state machine">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#declaring-the-actions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Declaring the actions
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#declaring-the-guards" class="md-nav__link">
+    <span class="md-ellipsis">
+      Declaring the guards
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#declaring-the-state-machine_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Declaring the state machine
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#conclusion" class="md-nav__link">
+    <span class="md-ellipsis">
+      Conclusion
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
 
-    </div>
-    <div class="h-12"></div>
-</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </main>
-        <footer view-transition-name="footer"
-    class="group-has-[.section-soft]/body:bg-surface/40 3xl:fixed:bg-transparent dark:bg-transparent">
-    <div class="container-wrapper px-4 xl:px-6">
-        <div class="flex h-(--footer-height) items-center justify-between">
-            <div class="text-muted-foreground w-full text-center text-xs leading-loose sm:text-sm">
+              
+            
+              
                 
-                <a href="https://github.com/asiffer/mkdocs-shadcn">shadcn theme</a> provided by
-                <a href="https://github.com/asiffer">@asiffer</a>
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../examples/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Examples
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Develop
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Develop
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../develop/runtime-system/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Runtime System
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../develop/contributing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Contributing
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Specifications
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Specifications
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../csm-specifications/version/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Version
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../csm-specifications/background/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Background
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../csm-specifications/data/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Data
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../csm-specifications/expression/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Expression
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../csm-specifications/guard/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Guard
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../csm-specifications/collaborative-state-machine/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Collaborative State Machine
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../csm-specifications/state-machine/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    State machine
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../csm-specifications/state/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    State
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../csm-specifications/event/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Event
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../csm-specifications/transition/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Transition
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../csm-specifications/action/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Action
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../csm-specifications/data-model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Data Model
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../csm-specifications/execution-model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Execution Model
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Research
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Research
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../research/publications/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Publications
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../research/team/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Team
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#system-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      System overview
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="System overview">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sensors-and-train-positions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Sensors and train positions
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#why-this-model-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      Why this model works
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#benefits-of-csm" class="md-nav__link">
+    <span class="md-ellipsis">
+      Benefits of CSM
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#defining-the-state-machines" class="md-nav__link">
+    <span class="md-ellipsis">
+      Defining the state machines
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#declaring-the-collaborative-state-machine" class="md-nav__link">
+    <span class="md-ellipsis">
+      Declaring the collaborative state machine
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#declaring-the-bell-state-machine" class="md-nav__link">
+    <span class="md-ellipsis">
+      Declaring the Bell state machine
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Declaring the Bell state machine">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#declaring-service-invocation-actions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Declaring service invocation actions
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#declaring-the-state-machine" class="md-nav__link">
+    <span class="md-ellipsis">
+      Declaring the state machine
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#declaring-a-state" class="md-nav__link">
+    <span class="md-ellipsis">
+      Declaring a state
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#declaring-an-event" class="md-nav__link">
+    <span class="md-ellipsis">
+      Declaring an event
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#declaring-the-gate-state-machine" class="md-nav__link">
+    <span class="md-ellipsis">
+      Declaring the Gate state machine
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Declaring the Gate state machine">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#declaring-actions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Declaring actions
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#declaring-the-state-machine_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Declaring the state machine
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#declaring-the-controller-state-machine" class="md-nav__link">
+    <span class="md-ellipsis">
+      Declaring the Controller state machine
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Declaring the Controller state machine">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#declaring-the-actions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Declaring the actions
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#declaring-the-guards" class="md-nav__link">
+    <span class="md-ellipsis">
+      Declaring the guards
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#declaring-the-state-machine_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Declaring the state machine
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#conclusion" class="md-nav__link">
+    <span class="md-ellipsis">
+      Conclusion
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+  <h1>Tutorial</h1>
+
+<p><img alt="" src="../../assets/learn/crossing.svg" /></p>
+<p>This tutorial introduces CSM through a complete yet compact example: a railway crossing controlled by four
+collaborating state machines. The goal is to provide a gentle but concrete introduction to the CSM programming
+model.</p>
+<p>For the full technical details, see the <a href="">Specifications</a>, which formally define every aspect of CSM.</p>
+<p>Traditional service-based approaches emphasize wiring individual services together. CSM takes a different 
+path. It provides a cohesive way to describe an entire distributed system that can span cloud, edge, and IoT, 
+this means:</p>
+<ul>
+<li>
+<p>Less time is spent on manually integrating components.</p>
+</li>
+<li>
+<p>Focusing on modeling how the system works as a cohesive whole.</p>
+</li>
+<li>
+<p>Performance optimization becomes an inherent property of the model, rather than an afterthought.</p>
+</li>
+</ul>
+<p>At its core, CSM is about describing highly reactive, state machine-driven applications. Services remain
+vital, they perform computation and connect to external systems, but they are framed within a model that
+captures their collaboration, distribution, and semantics. This gives you both the precision of formal
+modeling and the practicality of building real-world distributed applications.</p>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>This tutorial uses Cirrina's CSML implementation, which is built on top of <a href="">Apple's Pkl language</a>.
+For details specific to Pkl itself, please refer to the official Pkl documentation.<br><br>
+The complete source code for this tutorial can be found in the <a href="">Examples</a>.<br><br>
+If you're new to the Cirrina runtime, check out <a href="">Getting Started</a> before diving into this tutorial.</p>
+</div>
+<hr />
+<h2 id="system-overview">System overview</h2>
+<p>In this tutorial, we model a railway crossing as a distributed safety system composed of a collaborating state
+machine. This example illustrates how CSM can capture reactive, distributed behavior in a way that is both
+precise and intuitive.</p>
+<p>A single crossing consists of four main components, each with a clear role in ensuring safety:</p>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Responsibility</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Bell</td>
+<td>Provides auditory warnings to approaching traffic</td>
+</tr>
+<tr>
+<td>Light</td>
+<td>Provides visual warnings through flashing signals</td>
+</tr>
+<tr>
+<td>Gate</td>
+<td>Controls the physical barrier across the road</td>
+</tr>
+<tr>
+<td>Controller</td>
+<td>Coordinates the other components based on sensor input</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>The <strong>Controller</strong> is the manager of the crossing. It does not perform physical actions itself, but it
+decides <em>when</em> each component should act.</p>
+</div>
+<h3 id="sensors-and-train-positions">Sensors and train positions</h3>
+<p>The system uses three sensors placed along the track to detect train movement:</p>
+<table>
+<thead>
+<tr>
+<th>Sensor</th>
+<th>Location</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A</td>
+<td>Before the crossing</td>
+</tr>
+<tr>
+<td>B</td>
+<td>At the crossing</td>
+</tr>
+<tr>
+<td>C</td>
+<td>After the crossing</td>
+</tr>
+</tbody>
+</table>
+<p>Each sensor emits events when a train enters or leaves its detection zone. By combining these signals, the
+system can determine six key train positions:</p>
+<table>
+<thead>
+<tr>
+<th>Train Position</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Away</td>
+<td>No train in range</td>
+</tr>
+<tr>
+<td>Approach</td>
+<td>Train detected by sensor A</td>
+</tr>
+<tr>
+<td>Close</td>
+<td>Train between sensor A and B</td>
+</tr>
+<tr>
+<td>Present</td>
+<td>Train detected at the crossing (sensor B)</td>
+</tr>
+<tr>
+<td>Leaving</td>
+<td>Train between sensor B and C</td>
+</tr>
+<tr>
+<td>Left</td>
+<td>Train past sensor C</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Think of these positions as a "snapshot" of the train relative to the crossing. The sequence of snapshots
+guides the <strong>Controller</strong> in activating the warning systems.</p>
+</div>
+<p>For simplicity, we unify sensor readings into a single event:</p>
+<table>
+<thead>
+<tr>
+<th>Event</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>s</code></td>
+<td>Train detected</td>
+</tr>
+<tr>
+<td><code>¬s</code></td>
+<td>Train not detected</td>
+</tr>
+</tbody>
+</table>
+<p>By tracking these events across the three sensors, the <strong>Controller</strong> reconstructs the train's journey and
+ensures that bells, lights, and gates activate and deactivate at the correct moments.</p>
+<hr />
+<h2 id="why-this-model-works">Why this model works</h2>
+<p>CSM allows us to focus on <strong>how components collaborate</strong> rather than on low-level wiring or implementation
+details. Each component is represented as a state machine with clearly defined behavior, and the system's
+overall safety emerges from their interactions.</p>
+<p>This design is inspired by the classic work of:<br />
+N.G. Leveson and J.L. Stolzy. Safety Analysis Using Petri Nets. <em>IEEE Transactions on Software Engineering</em>, SE-13(3):386–397, March 1987. <a href="https://doi.org/10.1109/TSE.1987.233170">doi:10.1109/TSE.1987.233170</a>.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>In practice, this means you can model complex distributed systems, including cloud, edge, and IoT
+deployments, without losing sight of the system's reactive logic or operational requirements.</p>
+</div>
+<h2 id="benefits-of-csm">Benefits of CSM</h2>
+<p>CSM models applications as distributable state machines that collaborate to form a single cohesive system.
+Each state machine can be deployed where it makes the most sense: on IoT devices near the tracks for immediate
+reactions, on edge nodes to coordinate behavior across multiple sites, or in the cloud for monitoring,
+analytics, or compute-intensive tasks that permit non-real-time responses.</p>
+<p>Using CSM provides several key advantages:</p>
+<ul>
+<li><strong>Local responsiveness:</strong> Safety-critical actions, such as lowering a gate or activating a bell, happen
+  immediately without relying on round-trips to the cloud.</li>
+<li><strong>System-wide semantics:</strong> Deployment and scheduling decisions are guided by the CSM model itself, rather
+  than ad hoc wiring of components.</li>
+<li><strong>Scalability:</strong> Adding new crossings or redistributing workloads requires deploying additional state
+  machines, not redesigning the entire system.</li>
+<li><strong>Maintainability:</strong> Changes in one component do not require rewriting or manually reconnecting other
+  components; the model explicitly captures collaboration.</li>
+<li><strong>Understandability:</strong> The runtime clearly knows the system's state and how components interact. This makes
+  it easier to optimize behavior, monitor the system, debug issues, and even perform formal verification.</li>
+</ul>
+<p>Because a collaborative state machine provides a cohesive description of the entire system, a runtime like
+Cirrina can leverage this information to automatically optimize scheduling, invocation, and placement.</p>
+<p>Distribution, responsiveness, and performance thus become <strong>emergent properties</strong> of the model, rather than
+features that must be manually engineered.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Think of CSM as a blueprint for your system. The runtime uses this blueprint to decide <em>where</em> and <em>when</em>
+each state machine should act, letting you focus on <em>what</em> the system should do rather than on low-level
+logistics.</p>
+</div>
+<hr />
+<h2 id="defining-the-state-machines">Defining the state machines</h2>
+<p>The <strong>Controller</strong> state machine coordinates the other components, following the train's journey through the
+crossing. Its lifecycle is:</p>
+<p><code>init → away → approach → close → present → leaving → left</code></p>
+<table>
+<thead>
+<tr>
+<th>State</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>init</td>
+<td>Sets initial conditions: lights and bell off, gate raised</td>
+</tr>
+<tr>
+<td>away</td>
+<td>Idle, waiting for a train to approach</td>
+</tr>
+<tr>
+<td>approach</td>
+<td>Activates lights and bell to warn traffic</td>
+</tr>
+<tr>
+<td>close</td>
+<td>Lowers the gate to block the road</td>
+</tr>
+<tr>
+<td>present</td>
+<td>Train is at the crossing; safety measures remain active</td>
+</tr>
+<tr>
+<td>leaving</td>
+<td>Raises the gate as the train departs</td>
+</tr>
+<tr>
+<td>left</td>
+<td>Deactivates lights and bell, returning to idle</td>
+</tr>
+</tbody>
+</table>
+<p>In CSM, each component is a state machine where <em>events</em> trigger transitions. Events can be raised by other
+state machines or by the environment (e.g., sensors detecting the train).</p>
+<p>The diagram below illustrates the collaborative system with the <strong>Controller</strong> and the <strong>Bell</strong>, <strong>Light</strong>,
+and <strong>Gate</strong> machines:</p>
+<p><img alt="" src="../../assets/learn/diagram.png" /></p>
+<p>The <strong>Bell</strong>, <strong>Light</strong>, and <strong>Gate</strong> state machines represent the basic actuators of the railway crossing,
+implementing simple on/off or up/down functionality. Each state corresponds to invoking a service that
+performs the actual operation; turning on or off the lights, activating or silencing the bell, and raising or
+lowering the gate.</p>
+<p>The <strong>Gate</strong> state machine controls the <strong>Bell</strong>; when the gate is completely up the bell must be activated,
+and when the gate is completely down the bell must be deactivated.</p>
+<p>By modeling these components as independent state machines, CSM makes their behavior explicit and separates
+<strong>control logic</strong> from <strong>implementation details</strong>, allowing the runtime to manage coordination, event
+delivery, and deployment automatically.</p>
+<p>This design also highlights one of the core benefits of CSM: flexibility. Services can be implemented in any
+programming language or platform. In this tutorial, Python and FastAPI are used to provide web-based APIs for
+each component. However, the same state machine model could be connected to alternative implementations, such
+as simulated devices for testing, microcontroller-based hardware, or other service protocols, without
+modifying the model itself.  </p>
+<p>Furthermore, by embedding each service within a state machine, CSM ensures that interactions are
+<strong>predictable and traceable</strong>. Every transition is triggered by an event, whether raised by the 
+<strong>Controller</strong>, another state machine, or the environment, making the system's behavior transparent and easy
+to analyze.</p>
+<p>The <strong>Controller</strong> manages the system by raising events that trigger actions in the other machines:</p>
+<table>
+<thead>
+<tr>
+<th>Triggered Event</th>
+<th>Target Machine</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><em>lightOn</em></td>
+<td>Light</td>
+<td>Turn lights on</td>
+</tr>
+<tr>
+<td><em>lightOff</em></td>
+<td>Light</td>
+<td>Turn lights off</td>
+</tr>
+<tr>
+<td><em>bellOn</em></td>
+<td>Bell</td>
+<td>Activate bell</td>
+</tr>
+<tr>
+<td><em>bellOff</em></td>
+<td>Bell</td>
+<td>Deactivate bell</td>
+</tr>
+<tr>
+<td><em>gateDown</em></td>
+<td>Gate</td>
+<td>Lower gate</td>
+</tr>
+<tr>
+<td><em>gateUp</em></td>
+<td>Gate</td>
+<td>Raise gate</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>The <strong>Controller</strong> defines <em>what</em> should happen and <em>when</em>. The runtime handles execution, ensuring
+events reach the target state machines reliably.</p>
+</div>
+<hr />
+<h2 id="declaring-the-collaborative-state-machine">Declaring the collaborative state machine</h2>
+<p>In CSM, every application begins with a collaborative state machine, which acts as the top-level entity
+containing one or more individual state machines. This top-level structure defines how the system is composed,
+coordinates the included state machines, and provides a single entry point for the runtime.</p>
+<p>A collaborative state machine for our railway crossing example is declared as follows:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>amends &quot;csm:Csml&quot;
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>import &quot;csm:Csml&quot;
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>import &quot;crossing.pkl&quot;
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>import &quot;bell.pkl&quot;
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>import &quot;gate.pkl&quot;
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>import &quot;light.pkl&quot;
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>name    = &quot;crossing&quot;
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>version = &quot;3.0.0&quot;
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>stateMachines {
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>  new crossing.CrossingStateMachine {}
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>  new bell.BellStateMachine {}
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>  new gate.GateStateMachine {}
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>  new light.LightStateMachine {}
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>}
+</span></code></pre></div>
+<p>This declaration relies on Cirrina's <code>Csml</code> module (imported as <code>csm:Csml</code>). Every CSML application must
+define a collaborative state machine, and the module is <em>amended</em> here to provide the <code>name</code>, <code>version</code>, and
+<code>stateMachines</code> fields that describe the application.</p>
+<h3>Explanation of the fields</h3>
+
+<ul>
+<li>
+<p><strong><code>name</code></strong>
+  A unique identifier for the collaborative state machine. The runtime uses this name to reference the
+  collaborative state machine, which is especially important in environments where multiple collaborative
+  state machines may be deployed simultaneously.</p>
+</li>
+<li>
+<p><strong><code>version</code></strong>
+  Specifies the version of the CSML language used. This ensures compatibility between the application model
+  and the runtime system.</p>
+</li>
+<li>
+<p><strong><code>stateMachines</code></strong>
+  Lists the individual state machines that form the collaborative state machine. Each entry is an instance of
+  a state machine class, defined in a separate <code>.pkl</code> file and brought in via the <code>import</code> statements. For
+  example, <code>crossing.CrossingStateMachine</code> represents the <strong>Controller</strong> state machine, while
+  <code>bell.BellStateMachine</code>, <code>gate.GateStateMachine</code>, and <code>light.LightStateMachine</code> correspond to the respective
+  actuator components.</p>
+</li>
+</ul>
+<p>By declaring a collaborative state machine in this way, the runtime gains a <strong>complete, structured view</strong> of
+the system: it knows all participating state machines, their class definitions, and can manage event delivery,
+scheduling, and deployment accordingly.</p>
+<p>This explicit declaration is fundamental to the CSM approach, making the application <strong>composable,
+distributable, and observable</strong> from the very start.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>The collaborative state machine serves as the container for the entire distributed application. It
+provides a complete description of all components and their interactions, capturing the event-driven
+behavior of the system.<br><br>
+Using this description, the runtime can enable observability, optimize scheduling,
+and manage execution without the model losing its reactive semantics.</p>
+</div>
+<hr />
+<h2 id="declaring-the-bell-state-machine">Declaring the Bell state machine</h2>
+<p>The <strong>Bell</strong> state machine models the actuation behavior of the railway crossing bell. It responds to the
+events <code>bellOn</code> and <code>bellOff</code>, transitioning between two states to reflect whether the bell is active or
+silent.</p>
+<p>The <strong>Bell</strong> does not perform the actual work itself. Instead, it delegates the physical operation to external
+services. Each service has a <strong>clear, isolated concern</strong>, meaning it can be developed independently as long as
+it adheres to the expected <em>service type</em>. This separation keeps the state machine focused on managing states
+and transitions, while computation or integration with external systems is handled by services. The approach
+simplifies modeling, enhances clarity, and allows flexible, interchangeable service implementations.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Since the <strong>Bell</strong> and <strong>Light</strong> state machines are all simple actuators, they share the same basic state
+machine structure. For clarity, the code for the other actuator state machines is presented alongside the
+<strong>Bell</strong> implementation.</p>
+</div>
+<h3 id="declaring-service-invocation-actions">Declaring service invocation actions</h3>
+<p>Service calls are described using <code>Csml.InvokeAction</code>. For the <strong>Bell</strong> state machine, we define
+two actions:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Bell</label><label for="__tabbed_1_2">Light</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>// Action that invokes a service that turns the bell on.
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>const onAction = new Csml.InvokeAction {
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>  serviceType = &quot;bellOn&quot;
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>}
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>// Action that invokes a service that turns the bell off.
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>const offAction = new Csml.InvokeAction {
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>  serviceType = &quot;bellOff&quot;
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>}
+</span></code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>// Action that invokes a service that turns the light on.
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>const lightOnAction = new Csml.InvokeAction {
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>  serviceType = &quot;lightOn&quot;
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>}
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>// Action that invokes a service that turns the light off.
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>const lightOffAction = new Csml.InvokeAction {
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>  serviceType = &quot;lightOff&quot;
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>}
+</span></code></pre></div>
+</div>
+</div>
+</div>
+<p>Each action specifies a <em>service type</em> (<code>serviceType</code>), such as <code>bellOn</code>. Service types define <em>what</em> should
+be done, while the runtime decides <em>how</em> it is executed.</p>
+<p>For example, the runtime might select an optimized implementation for high-performance hardware, a lightweight
+version for constrained devices, or a cost-effective alternative depending on the deployment environment.</p>
+<h3 id="declaring-the-state-machine">Declaring the state machine</h3>
+<p>A state machine is defined by extending <code>Csml.StateMachine</code>.</p>
+<p>The <strong>Bell</strong> state machine is declared as follows:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">Bell</label><label for="__tabbed_2_2">Light</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>// Bell state machine, manages a bell.
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>class BellStateMachine extends Csml.StateMachine {
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>  name = &quot;bell&quot;
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>  states {
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>    // The bell is initially off.
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>    new {
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>      name    = &quot;off&quot;
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>      initial = true
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>      entry { offAction }
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>      on {
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>        new {
+</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>          event  = events.bellOn
+</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>          target = &quot;on&quot;
+</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>        }
+</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a>      }
+</span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a>    }
+</span><span id="__span-3-17"><a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a>    new {
+</span><span id="__span-3-18"><a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a>      name = &quot;on&quot;
+</span><span id="__span-3-19"><a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a>      entry { onAction }
+</span><span id="__span-3-20"><a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a>      on {
+</span><span id="__span-3-21"><a id="__codelineno-3-21" name="__codelineno-3-21" href="#__codelineno-3-21"></a>        new {
+</span><span id="__span-3-22"><a id="__codelineno-3-22" name="__codelineno-3-22" href="#__codelineno-3-22"></a>          event   = events.bellOn
+</span><span id="__span-3-23"><a id="__codelineno-3-23" name="__codelineno-3-23" href="#__codelineno-3-23"></a>          actions { onAction }
+</span><span id="__span-3-24"><a id="__codelineno-3-24" name="__codelineno-3-24" href="#__codelineno-3-24"></a>        }
+</span><span id="__span-3-25"><a id="__codelineno-3-25" name="__codelineno-3-25" href="#__codelineno-3-25"></a>      }
+</span><span id="__span-3-26"><a id="__codelineno-3-26" name="__codelineno-3-26" href="#__codelineno-3-26"></a>    }
+</span><span id="__span-3-27"><a id="__codelineno-3-27" name="__codelineno-3-27" href="#__codelineno-3-27"></a>  }
+</span><span id="__span-3-28"><a id="__codelineno-3-28" name="__codelineno-3-28" href="#__codelineno-3-28"></a>}
+</span></code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>// Light state machine, manages a light.
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>class LightStateMachine extends Csml.StateMachine {
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>  name = &quot;light&quot;
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>  states {
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>    // The light is initially off.
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>    new {
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>      name    = &quot;off&quot;
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>      initial = true
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>      entry { lightOffAction }
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>      on {
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>        new {
+</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>          event  = events.lightOn
+</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>          target = &quot;on&quot;
+</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>        }
+</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a>      }
+</span><span id="__span-4-16"><a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a>    }
+</span><span id="__span-4-17"><a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a>    new {
+</span><span id="__span-4-18"><a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a>      name = &quot;on&quot;
+</span><span id="__span-4-19"><a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a>      entry { lightOnAction }
+</span><span id="__span-4-20"><a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a>      on {
+</span><span id="__span-4-21"><a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a>        new {
+</span><span id="__span-4-22"><a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a>          event   = events.lightOn
+</span><span id="__span-4-23"><a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a>          actions { lightOnAction }
+</span><span id="__span-4-24"><a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a>        }
+</span><span id="__span-4-25"><a id="__codelineno-4-25" name="__codelineno-4-25" href="#__codelineno-4-25"></a>      }
+</span><span id="__span-4-26"><a id="__codelineno-4-26" name="__codelineno-4-26" href="#__codelineno-4-26"></a>    }
+</span><span id="__span-4-27"><a id="__codelineno-4-27" name="__codelineno-4-27" href="#__codelineno-4-27"></a>  }
+</span><span id="__span-4-28"><a id="__codelineno-4-28" name="__codelineno-4-28" href="#__codelineno-4-28"></a>}
+</span></code></pre></div>
+</div>
+</div>
+</div>
+<p>This declaration relies on the <code>Csml.StateMachine</code> class, which provides the structure for defining
+a state machine in CSM. By extending this class, the <strong>Bell</strong> state machine specifies its name, the states it
+can occupy, the initial state, entry actions, and how each state responds to incoming events. Each state
+corresponds to the machine being in a particular configuration, and its behavior is driven entirely by events
+raised either by the environment or other state machines.</p>
+<h4>Explanation of the fields</h4>
+
+<ul>
+<li>
+<p><strong><code>name</code></strong>
+  A unique identifier for the state machine. The runtime uses this name to reference the <strong>Bell</strong> state
+  machine, which is important when multiple state machines are deployed within the system.</p>
+</li>
+<li>
+<p><strong><code>states</code></strong>
+  Defines all the states that the <strong>Bell</strong> state machine can occupy. Each state includes the actions to
+  execute when entering the state and the transitions that should occur in response to specific events. This
+  explicit definition allows the runtime to manage state, trigger actions, and coordinate with other state
+  machines in a predictable, event-driven manner.</p>
+</li>
+</ul>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Think of the <strong>Bell</strong> state machine as a <strong>reactive component</strong> within the collaborative system. It does
+not perform hardware operations itself; instead, it specifies <em>what</em> should happen when certain events
+occur. The runtime uses this model to coordinate actions, trigger services, and ensure predictable
+event-driven behavior.</p>
+</div>
+<h3 id="declaring-a-state">Declaring a state</h3>
+<p>Looking at a single state more closely:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="3:2"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><input id="__tabbed_3_2" name="__tabbed_3" type="radio" /><div class="tabbed-labels"><label for="__tabbed_3_1">Bell</label><label for="__tabbed_3_2">Light</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>new {
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>  name    = &quot;off&quot;
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>  initial = true
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>  entry { offAction }
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>  on {
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>    new {
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>      event  = events.bellOn
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>      target = &quot;on&quot;
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>    }
+</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>  }
+</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>}
+</span></code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>new {
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>  name    = &quot;off&quot;
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>  initial = true
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>  entry { lightOffAction }
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>  on {
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>    new {
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>        event  = events.lightOn
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>        target = &quot;on&quot;
+</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>    }
+</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>  }
+</span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a>}
+</span></code></pre></div>
+</div>
+</div>
+</div>
+<p>This declaration relies on the <code>Csml.State</code> class (omitted here since the class type is implied by
+the <code>states</code> field of the state machine), which provides the structure for defining a state in CSM.</p>
+<p>Each state machine has one <em>initial state</em>, which it enters when first instantiated, and can have any number
+of <em>final states</em>, where the machine terminates. All other states are considered <em>intermediate</em> and the
+machine can transition through them as events occur.</p>
+<p>A state may define several types of <em>action blocks</em>, such as the <em>entry</em> (<code>entry</code>) actions executed upon
+entering the state, the <em>exit</em> (<code>exit</code>) actions executed upon leaving the state, the <em>while</em> (<code>while</code>) actions
+executed continuously while the machine remains in the state, and timeout actions executed at pre-defined
+intervals, if specified.</p>
+<p>This structure allows each state to encapsulate its behavior fully, making the state machine predictable,
+reactive, and easy to reason about.</p>
+<h4>Explanation of the fields</h4>
+
+<p>Each state has several key properties:</p>
+<ul>
+<li>
+<p><strong><code>name</code></strong>
+  The unique identifier of the state.</p>
+</li>
+<li>
+<p><strong><code>initial</code></strong>
+  Marks this state as the starting point when the state machine is first instantiated.</p>
+</li>
+<li>
+<p><strong><code>entry</code></strong>
+  Actions to execute upon entering the state. In this case, it ensures the bell is off.</p>
+</li>
+<li>
+<p><strong><code>on</code></strong>
+  Event handlers specifying transitions or additional actions triggered by incoming events. Here, receiving
+  <code>bellOn</code> transitions the machine to the <code>on</code> state.</p>
+</li>
+</ul>
+<p>The <code>on</code> field is paired with a list of <code>Csml.OnTransition</code> objects, which define <em>on-event 
+transitions</em>. Each transition is triggered by a received event and can either move the state machine to a
+new state or remain in the current state (a <em>self-transition</em>).  </p>
+<p>Transitions can include an action block (<code>actions</code>) that executes one or more actions when the transition
+occurs. They can also be <em>guarded</em>, meaning the transition only occurs if a specified condition evaluates to
+<code>true</code>. This allows precise control over when and how state changes happen in response to events.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Each state is a <strong>self-contained reactive unit</strong>. It encapsulates the actions, transitions, and behavior
+for a specific configuration of the state machine. By clearly defining states and their event-driven
+responses, you can develop, test, and reason about each part of your system in isolation while ensuring
+predictable behavior when combined with other states and machines.</p>
+</div>
+<h3 id="declaring-an-event">Declaring an event</h3>
+<p>In CSM, event names are represented as strings. For convenience and consistency, events are typically stored
+in variables, making them easy to reference throughout the application. A declaration looks like this:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>// Raised based on a sensor reading.
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>sensor   = &quot;sensor&quot;
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>// Raised when the gate should be up.
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>gateUp   = &quot;gateUp&quot;
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>// Raised when the gate should be down.
+</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>gateDown = &quot;gateDown&quot;
+</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>
+</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>// Raised when the light should be on.
+</span><span id="__span-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a>lightOn  = &quot;lightOn&quot;
+</span><span id="__span-7-12"><a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a>
+</span><span id="__span-7-13"><a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a>// Raised when the light should be off.
+</span><span id="__span-7-14"><a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a>lightOff = &quot;lightOff&quot;
+</span><span id="__span-7-15"><a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a>
+</span><span id="__span-7-16"><a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a>// Raised when the bell should be on.
+</span><span id="__span-7-17"><a id="__codelineno-7-17" name="__codelineno-7-17" href="#__codelineno-7-17"></a>bellOn  = &quot;bellOn&quot;
+</span><span id="__span-7-18"><a id="__codelineno-7-18" name="__codelineno-7-18" href="#__codelineno-7-18"></a>
+</span><span id="__span-7-19"><a id="__codelineno-7-19" name="__codelineno-7-19" href="#__codelineno-7-19"></a>// Raised when the bell should be off.
+</span><span id="__span-7-20"><a id="__codelineno-7-20" name="__codelineno-7-20" href="#__codelineno-7-20"></a>bellOff = &quot;bellOff&quot;
+</span></code></pre></div>
+<hr />
+<h2 id="declaring-the-gate-state-machine">Declaring the Gate state machine</h2>
+<p>The <strong>Gate</strong> state machine models the raising and lowering of the railway crossing gate, coordinating closely
+with the bell to ensure safe operation. Gate movement is initiated via service invocations. Each service
+invocation can define a <em>done</em> action block, which is executed after the service completes. For example, the
+<em>done</em> block of the gate-raising action is used to deactivate the bell once the gate is fully raised.</p>
+<p>Before lowering the gate, the bell should be activated. By leveraging the deterministic order of actions
+within an action block, the bell can be turned on <em>first</em>, followed immediately by the gate-lowering service.</p>
+<p>As with other actuators, the <strong>Gate</strong> delegates the physical work to external services.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>The <strong>Gate</strong>, like the <strong>Bell</strong> and <strong>Light</strong>, follows a consistent state machine structure. Using the 
+<code>done</code> block of <code>Csml.InvokeAction</code> allows synchronization between gate operations and related
+events, such as deactivating the bell.</p>
+</div>
+<h3 id="declaring-actions">Declaring actions</h3>
+<p><strong>Gate</strong> actions are either <code>Csml.InvokeAction</code> or <code>Csml.RaiseAction</code>.</p>
+<p>We define the following actions:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>// Action that invokes a service to raise the gate.
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>const gateUpAction = new Csml.InvokeAction {
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>  serviceType = &quot;gateUp&quot;
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>  done {
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>    new {
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>      name    = events.bellOff
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>      channel = &quot;external&quot;
+</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>    }
+</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>  }
+</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a>}
+</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a>
+</span><span id="__span-8-12"><a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a>// Action that raises the bell on event before the gate starts lowering.
+</span><span id="__span-8-13"><a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a>const raiseBellOnAction = new Csml.RaiseAction {
+</span><span id="__span-8-14"><a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a>  event {
+</span><span id="__span-8-15"><a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a>    name    = events.bellOn
+</span><span id="__span-8-16"><a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a>    channel = &quot;external&quot;
+</span><span id="__span-8-17"><a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a>  }
+</span><span id="__span-8-18"><a id="__codelineno-8-18" name="__codelineno-8-18" href="#__codelineno-8-18"></a>}
+</span><span id="__span-8-19"><a id="__codelineno-8-19" name="__codelineno-8-19" href="#__codelineno-8-19"></a>
+</span><span id="__span-8-20"><a id="__codelineno-8-20" name="__codelineno-8-20" href="#__codelineno-8-20"></a>// Action that invokes a service to lower the gate.
+</span><span id="__span-8-21"><a id="__codelineno-8-21" name="__codelineno-8-21" href="#__codelineno-8-21"></a>const gateDownAction = new Csml.InvokeAction {
+</span><span id="__span-8-22"><a id="__codelineno-8-22" name="__codelineno-8-22" href="#__codelineno-8-22"></a>  serviceType = &quot;gateDown&quot;
+</span><span id="__span-8-23"><a id="__codelineno-8-23" name="__codelineno-8-23" href="#__codelineno-8-23"></a>}
+</span></code></pre></div>
+<p>The <em>raise event action</em> is defined using the <code>Csml.RaiseAction</code> class.</p>
+<ul>
+<li><strong><code>name</code></strong> Specifies the name of the event to raise.  </li>
+<li><strong><code>channel</code></strong> Determines where the event is visible. CSM supports several channel types:  <ul>
+<li><code>internal</code> Handled only within the current state machine.</li>
+<li><code>external</code> Raised globally but requires explicit subscription by other state machines.</li>
+<li><code>global</code> Raised globally and automatically received by all state machines.</li>
+<li><code>peripheral</code> Raised by the environment, typically representing sensors or external inputs . </li>
+</ul>
+</li>
+</ul>
+<p>Using external channels allows one state machine to notify others within the collaborative state machine. To
+receive these events, another state machine must explicitly subscribe to the relevant channel, ensuring
+controlled and predictable inter-machine communication.</p>
+<h3 id="declaring-the-state-machine_1">Declaring the state machine</h3>
+<p>The <strong>Gate</strong> state machine is declared as follows:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>class GateStateMachine extends Csml.StateMachine {
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>  name = &quot;gate&quot;
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>  states {
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>    // The gate is initially up.
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>    new {
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>      name    = &quot;up&quot;
+</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>      initial = true
+</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>      entry { gateUpAction }
+</span><span id="__span-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a>      on {
+</span><span id="__span-9-10"><a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a>        new {
+</span><span id="__span-9-11"><a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a>          event  = events.gateDown
+</span><span id="__span-9-12"><a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a>          target = &quot;down&quot;
+</span><span id="__span-9-13"><a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a>        }
+</span><span id="__span-9-14"><a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a>      }
+</span><span id="__span-9-15"><a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a>    }
+</span><span id="__span-9-16"><a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a>    new {
+</span><span id="__span-9-17"><a id="__codelineno-9-17" name="__codelineno-9-17" href="#__codelineno-9-17"></a>      name = &quot;down&quot;
+</span><span id="__span-9-18"><a id="__codelineno-9-18" name="__codelineno-9-18" href="#__codelineno-9-18"></a>      entry { 
+</span><span id="__span-9-19"><a id="__codelineno-9-19" name="__codelineno-9-19" href="#__codelineno-9-19"></a>        raiseBellOnAction
+</span><span id="__span-9-20"><a id="__codelineno-9-20" name="__codelineno-9-20" href="#__codelineno-9-20"></a>        gateDownAction
+</span><span id="__span-9-21"><a id="__codelineno-9-21" name="__codelineno-9-21" href="#__codelineno-9-21"></a>      }
+</span><span id="__span-9-22"><a id="__codelineno-9-22" name="__codelineno-9-22" href="#__codelineno-9-22"></a>      on {
+</span><span id="__span-9-23"><a id="__codelineno-9-23" name="__codelineno-9-23" href="#__codelineno-9-23"></a>        new {
+</span><span id="__span-9-24"><a id="__codelineno-9-24" name="__codelineno-9-24" href="#__codelineno-9-24"></a>          event  = events.gateUp
+</span><span id="__span-9-25"><a id="__codelineno-9-25" name="__codelineno-9-25" href="#__codelineno-9-25"></a>          target = &quot;up&quot;
+</span><span id="__span-9-26"><a id="__codelineno-9-26" name="__codelineno-9-26" href="#__codelineno-9-26"></a>        }
+</span><span id="__span-9-27"><a id="__codelineno-9-27" name="__codelineno-9-27" href="#__codelineno-9-27"></a>      }
+</span><span id="__span-9-28"><a id="__codelineno-9-28" name="__codelineno-9-28" href="#__codelineno-9-28"></a>    }
+</span><span id="__span-9-29"><a id="__codelineno-9-29" name="__codelineno-9-29" href="#__codelineno-9-29"></a>  }
+</span><span id="__span-9-30"><a id="__codelineno-9-30" name="__codelineno-9-30" href="#__codelineno-9-30"></a>}
+</span></code></pre></div>
+<p>The <code>up</code> state behaves similarly to the <strong>Bell</strong> and <strong>Light</strong> state machines introduced earlier.  </p>
+<p>The <code>down</code> state, however, includes an entry action block that contains two actions: <code>raiseBellOnAction</code> and 
+<code>gateDownAction</code>. The <code>raiseBellOnAction</code> ensures the bell is activated before the gate begins lowering, while
+<code>gateDownAction</code> executes the service invocation to lower the gate.  </p>
+<p>When the gate is raised, the bell is deactivated through the <code>done</code> action block of the <code>gateUpAction</code>. This
+sequence ensures that the bell is active for the full duration of the gate movement and that all actions occur
+in a predictable, event-driven order.</p>
+<hr />
+<h2 id="declaring-the-controller-state-machine">Declaring the Controller state machine</h2>
+<p>Finally, the <strong>Controller</strong> state machine oversees the <strong>Light</strong> and <strong>Gate</strong> state machines by processing
+events from the nearby sensors (A, B, and C) and transitioning through the sequence:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>away → approach → close → present → leaving → left
+</span></code></pre></div>
+<p>At startup, the <strong>Controller</strong> enters a state that resets the crossing to a default configuration: the light
+is off and the gate is raised. Subsequently the <strong>Controller</strong> reacts to sensor events to manage the arrival,
+presence, and departure of trains, ensuring the coordinated activation of lights, gates, and bells.</p>
+<p>The <strong>Controller</strong> also maintains a local counter that tracks how many trains have passed through the
+crossing.</p>
+<h3 id="declaring-the-actions">Declaring the actions</h3>
+<p><strong>Controller</strong> actions are either <code>Csml.RaiseAction</code> or <code>Csml.AssignAction</code>.</p>
+<p>We define the following actions:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>// Action that raises the gate up event.
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>const raiseGateUpAction = new Csml.RaiseAction {
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>  event {
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>    name    = events.gateUp
+</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>    channel = &quot;external&quot;
+</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>  }
+</span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a>}
+</span><span id="__span-11-8"><a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>
+</span><span id="__span-11-9"><a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a>// Action that raises the gate down event.
+</span><span id="__span-11-10"><a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a>const raiseGateDownAction = new Csml.RaiseAction {
+</span><span id="__span-11-11"><a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a>  event {
+</span><span id="__span-11-12"><a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a>    name    = events.gateDown
+</span><span id="__span-11-13"><a id="__codelineno-11-13" name="__codelineno-11-13" href="#__codelineno-11-13"></a>    channel = &quot;external&quot;
+</span><span id="__span-11-14"><a id="__codelineno-11-14" name="__codelineno-11-14" href="#__codelineno-11-14"></a>  }
+</span><span id="__span-11-15"><a id="__codelineno-11-15" name="__codelineno-11-15" href="#__codelineno-11-15"></a>}
+</span><span id="__span-11-16"><a id="__codelineno-11-16" name="__codelineno-11-16" href="#__codelineno-11-16"></a>
+</span><span id="__span-11-17"><a id="__codelineno-11-17" name="__codelineno-11-17" href="#__codelineno-11-17"></a>// Action that raises the light on event.
+</span><span id="__span-11-18"><a id="__codelineno-11-18" name="__codelineno-11-18" href="#__codelineno-11-18"></a>const raiseLightOnAction = new Csml.RaiseAction {
+</span><span id="__span-11-19"><a id="__codelineno-11-19" name="__codelineno-11-19" href="#__codelineno-11-19"></a>  event {
+</span><span id="__span-11-20"><a id="__codelineno-11-20" name="__codelineno-11-20" href="#__codelineno-11-20"></a>    name    = events.lightOn
+</span><span id="__span-11-21"><a id="__codelineno-11-21" name="__codelineno-11-21" href="#__codelineno-11-21"></a>    channel = &quot;external&quot;
+</span><span id="__span-11-22"><a id="__codelineno-11-22" name="__codelineno-11-22" href="#__codelineno-11-22"></a>  }
+</span><span id="__span-11-23"><a id="__codelineno-11-23" name="__codelineno-11-23" href="#__codelineno-11-23"></a>}
+</span><span id="__span-11-24"><a id="__codelineno-11-24" name="__codelineno-11-24" href="#__codelineno-11-24"></a>
+</span><span id="__span-11-25"><a id="__codelineno-11-25" name="__codelineno-11-25" href="#__codelineno-11-25"></a>// Action that raises the light off event.
+</span><span id="__span-11-26"><a id="__codelineno-11-26" name="__codelineno-11-26" href="#__codelineno-11-26"></a>const raiseLightOffAction = new Csml.RaiseAction {
+</span><span id="__span-11-27"><a id="__codelineno-11-27" name="__codelineno-11-27" href="#__codelineno-11-27"></a>  event {
+</span><span id="__span-11-28"><a id="__codelineno-11-28" name="__codelineno-11-28" href="#__codelineno-11-28"></a>    name    = events.lightOff
+</span><span id="__span-11-29"><a id="__codelineno-11-29" name="__codelineno-11-29" href="#__codelineno-11-29"></a>    channel = &quot;external&quot;
+</span><span id="__span-11-30"><a id="__codelineno-11-30" name="__codelineno-11-30" href="#__codelineno-11-30"></a>  }
+</span><span id="__span-11-31"><a id="__codelineno-11-31" name="__codelineno-11-31" href="#__codelineno-11-31"></a>}
+</span><span id="__span-11-32"><a id="__codelineno-11-32" name="__codelineno-11-32" href="#__codelineno-11-32"></a>
+</span><span id="__span-11-33"><a id="__codelineno-11-33" name="__codelineno-11-33" href="#__codelineno-11-33"></a>// Action that increments the number of trains passed.
+</span><span id="__span-11-34"><a id="__codelineno-11-34" name="__codelineno-11-34" href="#__codelineno-11-34"></a>const incrementNumTrainsPassed = new Csml.AssignAction {
+</span><span id="__span-11-35"><a id="__codelineno-11-35" name="__codelineno-11-35" href="#__codelineno-11-35"></a>  variable = new {
+</span><span id="__span-11-36"><a id="__codelineno-11-36" name="__codelineno-11-36" href="#__codelineno-11-36"></a>    name = &quot;numTrainsPassed&quot;
+</span><span id="__span-11-37"><a id="__codelineno-11-37" name="__codelineno-11-37" href="#__codelineno-11-37"></a>    value = &quot;numTrainsPassed + 1&quot;
+</span><span id="__span-11-38"><a id="__codelineno-11-38" name="__codelineno-11-38" href="#__codelineno-11-38"></a>  }
+</span><span id="__span-11-39"><a id="__codelineno-11-39" name="__codelineno-11-39" href="#__codelineno-11-39"></a>}
+</span></code></pre></div>
+<p>An <em>assign action</em> is created using the <code>Csml.RaiseAction</code> class and is used to update the value of
+a variable through a defined <em>expression</em>.</p>
+<p>In this example, the variable <code>numTrainsPassed</code> is incremented by assigning it the output of the expression:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>numTrainsPassed + 1
+</span></code></pre></div>
+<p>During execution, <code>numTrainsPassed</code> is substituted with its current value, and the result of the expression
+is stored back into the variable.</p>
+<h3 id="declaring-the-guards">Declaring the guards</h3>
+<p>To ensure that the <strong>Crossing</strong> only transitions when the train's position actually changes, the transitions
+of the state machine are <strong>guarded</strong>. Earlier in this tutorial, we introduced the unified sensor events <code>s</code>
+and <code>¬s</code>, which indicate whether a train is detected or not. These events are used inside guard conditions to
+make sure transitions occur only when a change in sensor state is observed.</p>
+<p>The guards are declared as follows:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>// Guard that passes when the event data ($value) is true.
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>const isEventDataTrueGuard = new Csml.Guard {
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>  expression = &quot;$value == true&quot;
+</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>}
+</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>
+</span><span id="__span-13-6"><a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>// Guard that passes when the event data ($value) is false.
+</span><span id="__span-13-7"><a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a>const isEventDataFalseGuard = new Csml.Guard {
+</span><span id="__span-13-8"><a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a>  expression = &quot;$value == false&quot;
+</span><span id="__span-13-9"><a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a>}
+</span></code></pre></div>
+<p>In this case, a <strong>special variable</strong> <code>$value</code> is used.</p>
+<p>During event handling, <code>$value</code> is automatically populated with the event's data payload. Events in CSM may
+carry arbitrary data, which can then be leveraged in guards.  </p>
+<ul>
+<li><code>isEventDataTrueGuard</code> → passes when a train is present at a sensor (<code>s</code>).  </li>
+<li><code>isEventDataFalseGuard</code> → passes when a train is absent at a sensor (<code>¬s</code>).  </li>
+</ul>
+<h3 id="declaring-the-state-machine_2">Declaring the state machine</h3>
+<p>Finally, we can declare the <strong>Controller</strong> state machine that connects all other components of the
+collaborative state machines as follows:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>class ControllerStateMachine extends Csml.StateMachine {
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>  name = &quot;controller&quot;
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>  localContext {
+</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>    variables {
+</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>      new {
+</span><span id="__span-14-6"><a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a>        name  = &quot;numTrainsPassed&quot;
+</span><span id="__span-14-7"><a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a>        value = &quot;0&quot;
+</span><span id="__span-14-8"><a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a>      }
+</span><span id="__span-14-9"><a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a>    }
+</span><span id="__span-14-10"><a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a>  }
+</span><span id="__span-14-11"><a id="__codelineno-14-11" name="__codelineno-14-11" href="#__codelineno-14-11"></a>  states {
+</span><span id="__span-14-12"><a id="__codelineno-14-12" name="__codelineno-14-12" href="#__codelineno-14-12"></a>    new {
+</span><span id="__span-14-13"><a id="__codelineno-14-13" name="__codelineno-14-13" href="#__codelineno-14-13"></a>      name    = &quot;init&quot;
+</span><span id="__span-14-14"><a id="__codelineno-14-14" name="__codelineno-14-14" href="#__codelineno-14-14"></a>      initial = true
+</span><span id="__span-14-15"><a id="__codelineno-14-15" name="__codelineno-14-15" href="#__codelineno-14-15"></a>      entry {
+</span><span id="__span-14-16"><a id="__codelineno-14-16" name="__codelineno-14-16" href="#__codelineno-14-16"></a>        raiseLightOffAction
+</span><span id="__span-14-17"><a id="__codelineno-14-17" name="__codelineno-14-17" href="#__codelineno-14-17"></a>        raiseGateUpAction
+</span><span id="__span-14-18"><a id="__codelineno-14-18" name="__codelineno-14-18" href="#__codelineno-14-18"></a>      }
+</span><span id="__span-14-19"><a id="__codelineno-14-19" name="__codelineno-14-19" href="#__codelineno-14-19"></a>      always {
+</span><span id="__span-14-20"><a id="__codelineno-14-20" name="__codelineno-14-20" href="#__codelineno-14-20"></a>        new {
+</span><span id="__span-14-21"><a id="__codelineno-14-21" name="__codelineno-14-21" href="#__codelineno-14-21"></a>          target = &quot;away&quot;
+</span><span id="__span-14-22"><a id="__codelineno-14-22" name="__codelineno-14-22" href="#__codelineno-14-22"></a>        }
+</span><span id="__span-14-23"><a id="__codelineno-14-23" name="__codelineno-14-23" href="#__codelineno-14-23"></a>      }
+</span><span id="__span-14-24"><a id="__codelineno-14-24" name="__codelineno-14-24" href="#__codelineno-14-24"></a>    }
+</span><span id="__span-14-25"><a id="__codelineno-14-25" name="__codelineno-14-25" href="#__codelineno-14-25"></a>    new {
+</span><span id="__span-14-26"><a id="__codelineno-14-26" name="__codelineno-14-26" href="#__codelineno-14-26"></a>      name = &quot;away&quot;
+</span><span id="__span-14-27"><a id="__codelineno-14-27" name="__codelineno-14-27" href="#__codelineno-14-27"></a>      on {
+</span><span id="__span-14-28"><a id="__codelineno-14-28" name="__codelineno-14-28" href="#__codelineno-14-28"></a>        new {
+</span><span id="__span-14-29"><a id="__codelineno-14-29" name="__codelineno-14-29" href="#__codelineno-14-29"></a>          event  = events.sensor
+</span><span id="__span-14-30"><a id="__codelineno-14-30" name="__codelineno-14-30" href="#__codelineno-14-30"></a>          target = &quot;approach&quot;
+</span><span id="__span-14-31"><a id="__codelineno-14-31" name="__codelineno-14-31" href="#__codelineno-14-31"></a>          guards { isEventDataTrueGuard }
+</span><span id="__span-14-32"><a id="__codelineno-14-32" name="__codelineno-14-32" href="#__codelineno-14-32"></a>        }
+</span><span id="__span-14-33"><a id="__codelineno-14-33" name="__codelineno-14-33" href="#__codelineno-14-33"></a>      }
+</span><span id="__span-14-34"><a id="__codelineno-14-34" name="__codelineno-14-34" href="#__codelineno-14-34"></a>    }
+</span><span id="__span-14-35"><a id="__codelineno-14-35" name="__codelineno-14-35" href="#__codelineno-14-35"></a>    new {
+</span><span id="__span-14-36"><a id="__codelineno-14-36" name="__codelineno-14-36" href="#__codelineno-14-36"></a>      name = &quot;approach&quot;
+</span><span id="__span-14-37"><a id="__codelineno-14-37" name="__codelineno-14-37" href="#__codelineno-14-37"></a>      entry { raiseLightOnAction }
+</span><span id="__span-14-38"><a id="__codelineno-14-38" name="__codelineno-14-38" href="#__codelineno-14-38"></a>      on {
+</span><span id="__span-14-39"><a id="__codelineno-14-39" name="__codelineno-14-39" href="#__codelineno-14-39"></a>        new {
+</span><span id="__span-14-40"><a id="__codelineno-14-40" name="__codelineno-14-40" href="#__codelineno-14-40"></a>          event  = events.sensor
+</span><span id="__span-14-41"><a id="__codelineno-14-41" name="__codelineno-14-41" href="#__codelineno-14-41"></a>          target = &quot;close&quot;
+</span><span id="__span-14-42"><a id="__codelineno-14-42" name="__codelineno-14-42" href="#__codelineno-14-42"></a>          guards { isEventDataFalseGuard }
+</span><span id="__span-14-43"><a id="__codelineno-14-43" name="__codelineno-14-43" href="#__codelineno-14-43"></a>        }
+</span><span id="__span-14-44"><a id="__codelineno-14-44" name="__codelineno-14-44" href="#__codelineno-14-44"></a>      }
+</span><span id="__span-14-45"><a id="__codelineno-14-45" name="__codelineno-14-45" href="#__codelineno-14-45"></a>    }
+</span><span id="__span-14-46"><a id="__codelineno-14-46" name="__codelineno-14-46" href="#__codelineno-14-46"></a>    new {
+</span><span id="__span-14-47"><a id="__codelineno-14-47" name="__codelineno-14-47" href="#__codelineno-14-47"></a>      name = &quot;close&quot;
+</span><span id="__span-14-48"><a id="__codelineno-14-48" name="__codelineno-14-48" href="#__codelineno-14-48"></a>      entry { raiseGateDownAction }
+</span><span id="__span-14-49"><a id="__codelineno-14-49" name="__codelineno-14-49" href="#__codelineno-14-49"></a>      on {
+</span><span id="__span-14-50"><a id="__codelineno-14-50" name="__codelineno-14-50" href="#__codelineno-14-50"></a>        new {
+</span><span id="__span-14-51"><a id="__codelineno-14-51" name="__codelineno-14-51" href="#__codelineno-14-51"></a>          event  = events.sensor
+</span><span id="__span-14-52"><a id="__codelineno-14-52" name="__codelineno-14-52" href="#__codelineno-14-52"></a>          target = &quot;present&quot;
+</span><span id="__span-14-53"><a id="__codelineno-14-53" name="__codelineno-14-53" href="#__codelineno-14-53"></a>          guards { isEventDataTrueGuard }
+</span><span id="__span-14-54"><a id="__codelineno-14-54" name="__codelineno-14-54" href="#__codelineno-14-54"></a>        }
+</span><span id="__span-14-55"><a id="__codelineno-14-55" name="__codelineno-14-55" href="#__codelineno-14-55"></a>      }
+</span><span id="__span-14-56"><a id="__codelineno-14-56" name="__codelineno-14-56" href="#__codelineno-14-56"></a>    }
+</span><span id="__span-14-57"><a id="__codelineno-14-57" name="__codelineno-14-57" href="#__codelineno-14-57"></a>    new {
+</span><span id="__span-14-58"><a id="__codelineno-14-58" name="__codelineno-14-58" href="#__codelineno-14-58"></a>      name = &quot;present&quot;
+</span><span id="__span-14-59"><a id="__codelineno-14-59" name="__codelineno-14-59" href="#__codelineno-14-59"></a>      entry { incrementNumTrainsPassed }
+</span><span id="__span-14-60"><a id="__codelineno-14-60" name="__codelineno-14-60" href="#__codelineno-14-60"></a>      on {
+</span><span id="__span-14-61"><a id="__codelineno-14-61" name="__codelineno-14-61" href="#__codelineno-14-61"></a>        new {
+</span><span id="__span-14-62"><a id="__codelineno-14-62" name="__codelineno-14-62" href="#__codelineno-14-62"></a>          event  = events.sensor
+</span><span id="__span-14-63"><a id="__codelineno-14-63" name="__codelineno-14-63" href="#__codelineno-14-63"></a>          target = &quot;leaving&quot;
+</span><span id="__span-14-64"><a id="__codelineno-14-64" name="__codelineno-14-64" href="#__codelineno-14-64"></a>          guards { isEventDataFalseGuard }
+</span><span id="__span-14-65"><a id="__codelineno-14-65" name="__codelineno-14-65" href="#__codelineno-14-65"></a>        }
+</span><span id="__span-14-66"><a id="__codelineno-14-66" name="__codelineno-14-66" href="#__codelineno-14-66"></a>      }
+</span><span id="__span-14-67"><a id="__codelineno-14-67" name="__codelineno-14-67" href="#__codelineno-14-67"></a>    }
+</span><span id="__span-14-68"><a id="__codelineno-14-68" name="__codelineno-14-68" href="#__codelineno-14-68"></a>    new {
+</span><span id="__span-14-69"><a id="__codelineno-14-69" name="__codelineno-14-69" href="#__codelineno-14-69"></a>      name = &quot;leaving&quot;
+</span><span id="__span-14-70"><a id="__codelineno-14-70" name="__codelineno-14-70" href="#__codelineno-14-70"></a>      entry { raiseGateUpAction }
+</span><span id="__span-14-71"><a id="__codelineno-14-71" name="__codelineno-14-71" href="#__codelineno-14-71"></a>      on {
+</span><span id="__span-14-72"><a id="__codelineno-14-72" name="__codelineno-14-72" href="#__codelineno-14-72"></a>        new {
+</span><span id="__span-14-73"><a id="__codelineno-14-73" name="__codelineno-14-73" href="#__codelineno-14-73"></a>          event  = events.sensor
+</span><span id="__span-14-74"><a id="__codelineno-14-74" name="__codelineno-14-74" href="#__codelineno-14-74"></a>          target = &quot;left&quot;
+</span><span id="__span-14-75"><a id="__codelineno-14-75" name="__codelineno-14-75" href="#__codelineno-14-75"></a>          guards { isEventDataTrueGuard }
+</span><span id="__span-14-76"><a id="__codelineno-14-76" name="__codelineno-14-76" href="#__codelineno-14-76"></a>        }
+</span><span id="__span-14-77"><a id="__codelineno-14-77" name="__codelineno-14-77" href="#__codelineno-14-77"></a>      }
+</span><span id="__span-14-78"><a id="__codelineno-14-78" name="__codelineno-14-78" href="#__codelineno-14-78"></a>    }
+</span><span id="__span-14-79"><a id="__codelineno-14-79" name="__codelineno-14-79" href="#__codelineno-14-79"></a>    new {
+</span><span id="__span-14-80"><a id="__codelineno-14-80" name="__codelineno-14-80" href="#__codelineno-14-80"></a>      name = &quot;left&quot;
+</span><span id="__span-14-81"><a id="__codelineno-14-81" name="__codelineno-14-81" href="#__codelineno-14-81"></a>      entry { raiseLightOffAction }
+</span><span id="__span-14-82"><a id="__codelineno-14-82" name="__codelineno-14-82" href="#__codelineno-14-82"></a>      on {
+</span><span id="__span-14-83"><a id="__codelineno-14-83" name="__codelineno-14-83" href="#__codelineno-14-83"></a>        new {
+</span><span id="__span-14-84"><a id="__codelineno-14-84" name="__codelineno-14-84" href="#__codelineno-14-84"></a>          event  = events.sensor
+</span><span id="__span-14-85"><a id="__codelineno-14-85" name="__codelineno-14-85" href="#__codelineno-14-85"></a>          target = &quot;away&quot;
+</span><span id="__span-14-86"><a id="__codelineno-14-86" name="__codelineno-14-86" href="#__codelineno-14-86"></a>          guards { isEventDataFalseGuard }
+</span><span id="__span-14-87"><a id="__codelineno-14-87" name="__codelineno-14-87" href="#__codelineno-14-87"></a>        }
+</span><span id="__span-14-88"><a id="__codelineno-14-88" name="__codelineno-14-88" href="#__codelineno-14-88"></a>      }
+</span><span id="__span-14-89"><a id="__codelineno-14-89" name="__codelineno-14-89" href="#__codelineno-14-89"></a>    }
+</span><span id="__span-14-90"><a id="__codelineno-14-90" name="__codelineno-14-90" href="#__codelineno-14-90"></a>  }
+</span><span id="__span-14-91"><a id="__codelineno-14-91" name="__codelineno-14-91" href="#__codelineno-14-91"></a>}
+</span></code></pre></div>
+<p>The <code>localContext</code> keyword defines the <em>local data</em> of a state machine, accessible only within that machine.
+Besides local data, CSM also supports <em>persistent data</em> (globally accessible across machines) and
+state-specific <em>static data</em> (retained across state activation and deactivation).</p>
+<p>A local variable such as <code>numTrainsPassed</code> is declared using <code>Csml.ContextVariable</code>, which
+specifies:</p>
+<ul>
+<li>
+<p><strong><code>name</code></strong> 
+  The identifier of the variable.</p>
+</li>
+<li>
+<p><strong><code>value</code></strong>
+  An expression that determines the variable's initial value.</p>
+</li>
+</ul>
+<hr />
+<h2 id="conclusion">Conclusion</h2>
+<p>In this tutorial, we built a railway crossing safety system using CSM and the Cirrina CSML implementation.
+Step by step, we modeled sensors, actuators, and a controller as state machines that together form a
+predictable, reactive, and distributed system.</p>
+<p>This example is not just theoretical, it is fully implemented as part of the Cirrina runtime system. You can
+explore the complete implementation, experiment with the code, and run it yourself in the <a href="">Examples</a>
+section.</p>
+<p>By studying and experimenting with this example, you will gain practical insight into:</p>
+<ul>
+<li>
+<p><strong>How to design state machines</strong> for sensors, actuators, and controllers.</p>
+</li>
+<li>
+<p><strong>How collaboration works in CSM</strong>, using events, guards, and context variables.</p>
+</li>
+<li>
+<p><strong>How Cirrina executes CSM applications</strong>, ensuring predictable and distributed behavior.</p>
+</li>
+</ul>
+<p>We encourage you to explore the example code, adapt it to your own scenarios, and use it as a starting point
+for experimenting with <strong>CSM in real-world applications</strong>.</p>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
             </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
         </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
     </div>
+  </div>
 </footer>
+      
     </div>
-
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
     
-
-    <script src="../../js/copy-button.js"></script>
-    <script>updatePygmentsStylesheet();</script>
-    
-    <script>fetchStargazers("https://github.com/CollaborativeStateMachines/Cirrina");</script>
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
     
     
     
-    <script type="speculationrules">
-{
-  "prerender": [
-    {
-      "where": {
-          "selector_matches": ["#next-button", "#previous-button"],
-      }
-    }
-  ]
-}
-</script>
-</body>
-
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.instant.prefetch", "navigation.instant.progress", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.expand", "navigation.path", "navigation.indexes", "navigation.top", "toc.follow", "search.suggest", "search.highlight", "social", "content.code.copy", "content.code.select", "content.code.annotate"], "search": "../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.92b07e13.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
 </html>

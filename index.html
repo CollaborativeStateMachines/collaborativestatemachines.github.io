@@ -1,773 +1,1454 @@
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
-    <script>
-        // for search plugin notably
-        const base_url = "https://collaborativestatemachines.github.io/";
-    </script>
-    <script>
-    const darkTheme = window.matchMedia("(prefers-color-scheme: dark)");
-    darkTheme.onchange = (e) => {
-        if (e.matches) {
-            document.documentElement.classList.add("dark")
-            localStorage.theme = 'dark';
-        } else {
-            document.documentElement.classList.remove("dark")
-            localStorage.removeItem("theme")
-        }
-    };
-
-    // On page load. Priotiry to lcaolStorage
-    if (localStorage.theme === "dark") {
-        document.documentElement.classList.add("dark")
-    } else if (localStorage.theme === "light") {
-        document.documentElement.classList.remove("dark")
-    } else if (darkTheme.matches) {
-        document.documentElement.classList.add("dark")
-    } else {
-        document.documentElement.classList.remove("dark")
-    }
-
-    // set the layout based on localStorage
-    document.documentElement.classList.add(localStorage.getItem("html-layout") || "layout-fixed");
-</script>
-
-
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Home - Collaborative State Machines (CSM)</title>
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
     
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://collaborativestatemachines.github.io/">
+      
+      
+      
+        <link rel="next" href="learn/getting-started/">
+      
+      
+      <link rel="icon" href="https://collaborativestatemachines.github.io/assets/cirrina/icon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.18">
+    
+    
+      
+        <title>Collaborative State Machines (CSM)</title>
+      
+    
+    
+      <link rel="stylesheet" href="assets/stylesheets/main.7e37652d.min.css">
+      
+        
+        <link rel="stylesheet" href="assets/stylesheets/palette.06af60db.min.css">
+      
+      
+  
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+  
+  <style>:root{--md-admonition-icon--success:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20448%20512%22%3E%3C%21--%21%20Font%20Awesome%20Free%207.0.0%20by%20%40fontawesome%20-%20https%3A//fontawesome.com%20License%20-%20https%3A//fontawesome.com/license/free%20%28Icons%3A%20CC%20BY%204.0%2C%20Fonts%3A%20SIL%20OFL%201.1%2C%20Code%3A%20MIT%20License%29%20Copyright%202025%20Fonticons%2C%20Inc.--%3E%3Cpath%20fill%3D%22currentColor%22%20d%3D%22M288%200H128c-17.7%200-32%2014.3-32%2032s14.3%2032%2032%2032v151.5L7.5%20426.3C2.6%20435%200%20444.7%200%20454.7%200%20486.4%2025.6%20512%2057.3%20512h333.4c31.6%200%2057.3-25.6%2057.3-57.3%200-10-2.6-19.8-7.5-28.4L320%20215.5V64c17.7%200%2032-14.3%2032-32S337.7%200%20320%200zm-96%20215.5V64h64v151.5c0%2011.1%202.9%2022.1%208.4%2031.8L306%20320H142l41.6-72.7c5.5-9.7%208.4-20.6%208.4-31.8%22/%3E%3C/svg%3E');--md-admonition-icon--question:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20576%20512%22%3E%3C%21--%21%20Font%20Awesome%20Free%207.0.0%20by%20%40fontawesome%20-%20https%3A//fontawesome.com%20License%20-%20https%3A//fontawesome.com/license/free%20%28Icons%3A%20CC%20BY%204.0%2C%20Fonts%3A%20SIL%20OFL%201.1%2C%20Code%3A%20MIT%20License%29%20Copyright%202025%20Fonticons%2C%20Inc.--%3E%3Cpath%20fill%3D%22currentColor%22%20d%3D%22m48%20195.8%20209.2%2086.1c9.8%204%2020.2%206.1%2030.8%206.1s21-2.1%2030.8-6.1l242.4-99.8c9-3.7%2014.8-12.4%2014.8-22.1s-5.8-18.4-14.8-22.1L318.8%2038.1c-9.8-4-20.2-6.1-30.8-6.1s-21%202.1-30.8%206.1L14.8%20137.9C5.8%20141.6%200%20150.3%200%20160v296c0%2013.3%2010.7%2024%2024%2024s24-10.7%2024-24zm48%2071.7V384c0%2053%2086%2096%20192%2096s192-43%20192-96V267.4l-142.9%2058.9c-15.6%206.4-32.2%209.7-49.1%209.7s-33.5-3.3-49.1-9.7L96%20267.4z%22/%3E%3C/svg%3E');}</style>
 
 
-<title>Home</title>
-
-
-
-
-
-
-
-
-
-<link rel="canonical" href="https://collaborativestatemachines.github.io/">
-
-
-<!-- Open Graph (Facebook, LinkedIn) -->
-
-<meta property="og:title" content="Home">
-
-
-
-
-
-<meta property="og:url" content="https://collaborativestatemachines.github.io/">
-
-
-
-
-
-
-<!-- Twitter Card -->
-
-<meta name="twitter:title" content="Home">
-
-
-
-
-
-
-<!-- JSON-LD Structured Data -->
-
-
-
-    <link rel="icon" href="https://collaborativestatemachines.github.io/assets/cirrina/icon.png">
-
-    <link href="css/base.css" rel="stylesheet">
-    <link href="css/geist.css" rel="stylesheet">
 
     
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,300i,400,400i,700,700i%7CGoogle+Sans+Code:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Lato";--md-code-font:"Google Sans Code"}</style>
+      
+    
+    
+    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
 
     
-
-    <script src="js/callbacks.js"></script>
-
     
-
     
-
+  </head>
+  
+  
     
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#collaborative-state-machines" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
 
-</head>
+  
 
-<body
-    class="text-foreground group/body overscroll-none font-sans antialiased [--footer-height:calc(var(--spacing)*14)] [--header-height:calc(var(--spacing)*14)] xl:[--footer-height:calc(var(--spacing)*24)] theme-default">
-    <div id="inner-body" class="bg-background relative z-10 flex min-h-svh flex-col">
-        <header class="bg-background sticky top-0 z-50 w-full" view-transition-name="header">
-    <div class="container-wrapper 3xl:fixed:px-0 px-6">
-        <div class="3xl:fixed:container flex h-(--header-height) items-center gap-2 **:data-[slot=separator]:!h-4">
-            <button id="menu-button" data-slot="popover-trigger" onclick="onMobileMenuButtonClick(event)"
-                class="group whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:text-accent-foreground px-4 py-2 has-[&gt;svg]:px-3 extend-touch-target h-8 touch-manipulation items-center justify-start gap-2.5 !p-0 hover:bg-transparent focus-visible:bg-transparent focus-visible:ring-0 active:bg-transparent dark:hover:bg-transparent flex lg:hidden"
-                type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="radix-«Rmplb»"
-                data-state="closed">
-                <div class="relative flex h-8 w-4 items-center justify-center">
-                    <div class="relative size-4">
-                        <!-- 16px x 16px -->
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none" stroke="currentColor"
-                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <line x1="0" x2="16" y1="5" y2="5"
-                                class="group-data-[state=open]:translate-y-[2.25px] group-data-[state=open]:-translate-x-[2.25px] group-data-[state=open]:rotate-45 transition-all duration-300 origin-center" />
-                            <line x1="0" x2="16" y1="11" y2="11"
-                                class="group-data-[state=open]:-translate-y-[2.25px] group-data-[state=open]:-translate-x-[2.25px] group-data-[state=open]:-rotate-45 transition-all duration-300 origin-center" />
-                        </svg>
-                    </div>
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="." title="Collaborative State Machines (CSM)" class="md-header__button md-logo" aria-label="Collaborative State Machines (CSM)" data-md-component="logo">
+      
+  <img src="https://collaborativestatemachines.github.io/assets/cirrina/icon.png" alt="logo">
 
-                    <span class="sr-only">Toggle Menu</span>
-                </div>
-                <span class="flex h-8 items-center text-lg leading-none font-medium">Menu</span>
-            </button>
-            <a data-slot="button"
-                class="items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-5 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 hidden h-8 lg:flex"
-                href="https://collaborativestatemachines.github.io/">
-                <span class="size-8 flex flex-row justify-center items-center">
-                    
-
-<img style="width: calc(var(--spacing) * 10);" src="https://collaborativestatemachines.github.io/assets/cirrina/icon.png">
-
-
-                </span>
-
-                
-                <h1 class="pr-2">Collaborative State Machines (CSM)</h1>
-                
-            </a>
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Collaborative State Machines (CSM)
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
             
-            <nav class="items-center gap-0.5 hidden lg:flex">
+              Collaborative State Machines
+            
+          </span>
+        </div>
+      </div>
+    </div>
     
-    
-    
-    <a class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 h-8 rounded-md gap-1.5 px-3 has-[&gt;svg]:px-2.5"
-        data-slot="button" href="learn/getting-started/">
-        Learn
-    </a>
-    
-    
-    
-    
-    <a class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 h-8 rounded-md gap-1.5 px-3 has-[&gt;svg]:px-2.5"
-        data-slot="button" href="develop/runtime-system/">
-        Develop
-    </a>
+      
     
     
     
     
-    <a class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 h-8 rounded-md gap-1.5 px-3 has-[&gt;svg]:px-2.5"
-        data-slot="button" href="csm-specifications/specifications/">
-        Specifications
-    </a>
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
     
     
+      <div class="md-header__source">
+        <a href="https://github.com/CollaborativeStateMachines/Cirrina" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    
+  
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Collaborative State Machines
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
     
     
-    <a class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 h-8 rounded-md gap-1.5 px-3 has-[&gt;svg]:px-2.5"
-        data-slot="button" href="research/publications/">
-        Research
-    </a>
+      <li class="md-tabs__item">
+        <a href="learn/getting-started/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Learn
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
     
     
+      <li class="md-tabs__item">
+        <a href="develop/runtime-system/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Develop
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="csm-specifications/version/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Specifications
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="research/publications/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Research
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
 </nav>
-            
-            <div class="ml-auto flex items-center gap-2 md:flex-1 md:justify-end">
-                <div class="hidden w-full flex-1 md:flex md:w-auto md:flex-none">
-                    <button data-slot="dialog-trigger" onclick="onSearchBarClick(event)"
-    class="inline-flex items-center gap-2 whitespace-nowrap rounded-md text-sm transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-secondary/80 px-4 py-2 has-[&gt;svg]:px-3 bg-surface text-surface-foreground/60 dark:bg-card relative h-8 w-full justify-start pl-2.5 font-normal shadow-none sm:pr-12 md:w-40 lg:w-56 xl:w-64"
-    type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="radix-«R66plb»" data-state="closed">
-    <span class="text-muted-foreground hidden lg:inline-flex">Search documentation...</span>
-    <span class="text-muted-foreground inline-flex lg:hidden">Search...</span>
-    <div class="absolute top-1.5 right-1.5 hidden gap-1 sm:flex">
-        <kbd
-            class="bg-background text-muted-foreground pointer-events-none flex h-5 items-center justify-center gap-1 rounded border px-1 font-sans text-[0.7rem] font-medium select-none [&amp;_svg:not([class*='size-'])]:size-3">Ctrl</kbd><kbd
-            class="bg-background text-muted-foreground pointer-events-none flex h-5 items-center justify-center gap-1 rounded border px-1 font-sans text-[0.7rem] font-medium select-none [&amp;_svg:not([class*='size-'])]:size-3 aspect-square">K</kbd>
-    </div>
-</button>
-<dialog id="search-dialog" onclick="onSearchDialogClick(event)"
-    class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-background rounded-lg shadow-lg border overflow-hidden p-0">
-    <div class="w-lg gap-4">
-        <div class="flex h-full w-full flex-col overflow-hidden rounded-md bg-popover text-popover-foreground">
-            <div data-slot="command-input-wrapper" class="flex h-9 items-center gap-2 border-b px-3"><svg
-                    xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                    class="lucide lucide-search size-4 shrink-0 opacity-50">
-                    <circle cx="11" cy="11" r="8"></circle>
-                    <path d="m21 21-4.3-4.3"></path>
-                </svg>
-                <input data-slot="command-input"
-                    class="placeholder:text-muted-foreground flex h-10 w-full rounded-md bg-transparent py-3 text-sm outline-hidden disabled:cursor-not-allowed disabled:opacity-50"
-                    placeholder="Search documentation..." cmdk-input="" autocomplete="off" autocorrect="off"
-                    spellcheck="false" aria-autocomplete="list" role="combobox" aria-expanded="true"
-                    aria-controls="radix-«r1t6»" aria-labelledby="radix-«r1t7»" id="radix-«r1t8»" type="text" value=""
-                    aria-activedescendant="radix-«r1th»" oninput="onInputHandler(event)">
-            </div>
-        </div>
-        <div id="mkdocs-search-results" class="max-h-[300px] overflow-y-auto overflow-x-hidden">
-            <!-- search results go there -->
-        </div>
-    </div>
-</dialog>
-<script>
-    document.removeEventListener("keydown", searchShortcutHandler);
-    document.addEventListener("keydown", searchShortcutHandler);
-</script>
-                </div>
-                <div data-orientation="vertical" role="none" data-slot="separator"
-                    class="bg-border shrink-0 data-[orientation=horizontal]:h-px data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=vertical]:w-px ml-2 hidden lg:block">
-                </div>
-                <a target="_blank" rel="noreferrer" data-slot="button"
-                    class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 rounded-md gap-1.5 px-3 has-[&gt;svg]:px-2.5 h-8 shadow-none"
-                    href="https://github.com/CollaborativeStateMachines/Cirrina">
-                    <svg viewBox="0 0 438.549 438.549">
-                        <path fill="currentColor"
-                            d="M409.132 114.573c-19.608-33.596-46.205-60.194-79.798-79.8-33.598-19.607-70.277-29.408-110.063-29.408-39.781 0-76.472 9.804-110.063 29.408-33.596 19.605-60.192 46.204-79.8 79.8C9.803 148.168 0 184.854 0 224.63c0 47.78 13.94 90.745 41.827 128.906 27.884 38.164 63.906 64.572 108.063 79.227 5.14.954 8.945.283 11.419-1.996 2.475-2.282 3.711-5.14 3.711-8.562 0-.571-.049-5.708-.144-15.417a2549.81 2549.81 0 01-.144-25.406l-6.567 1.136c-4.187.767-9.469 1.092-15.846 1-6.374-.089-12.991-.757-19.842-1.999-6.854-1.231-13.229-4.086-19.13-8.559-5.898-4.473-10.085-10.328-12.56-17.556l-2.855-6.57c-1.903-4.374-4.899-9.233-8.992-14.559-4.093-5.331-8.232-8.945-12.419-10.848l-1.999-1.431c-1.332-.951-2.568-2.098-3.711-3.429-1.142-1.331-1.997-2.663-2.568-3.997-.572-1.335-.098-2.43 1.427-3.289 1.525-.859 4.281-1.276 8.28-1.276l5.708.853c3.807.763 8.516 3.042 14.133 6.851 5.614 3.806 10.229 8.754 13.846 14.842 4.38 7.806 9.657 13.754 15.846 17.847 6.184 4.093 12.419 6.136 18.699 6.136 6.28 0 11.704-.476 16.274-1.423 4.565-.952 8.848-2.383 12.847-4.285 1.713-12.758 6.377-22.559 13.988-29.41-10.848-1.14-20.601-2.857-29.264-5.14-8.658-2.286-17.605-5.996-26.835-11.14-9.235-5.137-16.896-11.516-22.985-19.126-6.09-7.614-11.088-17.61-14.987-29.979-3.901-12.374-5.852-26.648-5.852-42.826 0-23.035 7.52-42.637 22.557-58.817-7.044-17.318-6.379-36.732 1.997-58.24 5.52-1.715 13.706-.428 24.554 3.853 10.85 4.283 18.794 7.952 23.84 10.994 5.046 3.041 9.089 5.618 12.135 7.708 17.705-4.947 35.976-7.421 54.818-7.421s37.117 2.474 54.823 7.421l10.849-6.849c7.419-4.57 16.18-8.758 26.262-12.565 10.088-3.805 17.802-4.853 23.134-3.138 8.562 21.509 9.325 40.922 2.279 58.24 15.036 16.18 22.559 35.787 22.559 58.817 0 16.178-1.958 30.497-5.853 42.966-3.9 12.471-8.941 22.457-15.125 29.979-6.191 7.521-13.901 13.85-23.131 18.986-9.232 5.14-18.182 8.85-26.84 11.136-8.662 2.286-18.415 4.004-29.263 5.146 9.894 8.562 14.842 22.077 14.842 40.539v60.237c0 3.422 1.19 6.279 3.572 8.562 2.379 2.279 6.136 2.95 11.276 1.995 44.163-14.653 80.185-41.062 108.068-79.226 27.88-38.161 41.825-81.126 41.825-128.906-.01-39.771-9.818-76.454-29.414-110.049z">
-                        </path>
-                    </svg>
-                    
-                    <span id="stargazers" class="text-muted-foreground w-8 text-xs tabular-nums" onload="test()">
-                    </span>
-                    
-                </a>
-                <div data-orientation="vertical" role="none" data-slot="separator"
-                    class="bg-border shrink-0 data-[orientation=horizontal]:h-px data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=vertical]:w-px 3xl:flex hidden">
-                </div>
-                <button data-slot="button"
-                    class="items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 size-8 3xl:flex hidden"
-                    title="Toggle layout" onclick="toggleLayout(event)">
-                    <span class="sr-only">Toggle layout</span>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                        class="lucide lucide-gallery-horizontal">
-                        <path d="M2 3v18"></path>
-                        <rect width="12" height="18" x="6" y="3" rx="2"></rect>
-                        <path d="M22 3v18"></path>
-                    </svg>
-                </button>
-                <div data-orientation="vertical" role="none" data-slot="separator"
-                    class="bg-border shrink-0 data-[orientation=horizontal]:h-px data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=vertical]:w-px">
-                </div>
-                <button data-slot="button"
-                    class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 group/toggle extend-touch-target size-8"
-                    title="Toggle theme" onclick="onThemeSwitch(event)">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                        class="size-4.5">
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                        <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"></path>
-                        <path d="M12 3l0 18"></path>
-                        <path d="M12 9l4.65 -4.65"></path>
-                        <path d="M12 14.3l7.37 -7.37"></path>
-                        <path d="M12 19.6l8.85 -8.85"></path>
-                    </svg>
-                    <span class="sr-only">Toggle theme</span>
-                </button>
-            </div>
-        </div>
-    </div>
+    
+  
 </header>
-        <main class="flex flex-1 flex-col">
-            <div class="container-wrapper flex flex-1 flex-col px-2">
-                <div data-slot="sidebar-wrapper" style="--sidebar-width: 16rem; --sidebar-width-icon: 3rem;"
-                    class="group/sidebar-wrapper has-data-[variant=inset]:bg-sidebar flex w-full 3xl:fixed:container 3xl:fixed:px-3 min-h-min flex-1 items-start px-0 [--sidebar-width:220px] [--top-spacing:0] lg:grid lg:grid-cols-[var(--sidebar-width)_minmax(0,1fr)] lg:[--sidebar-width:240px] lg:[--top-spacing:calc(var(--spacing)*4)]">
-                    <div data-slot="sidebar"
-                        class="text-sidebar-foreground w-(--sidebar-width) flex-col sticky top-[calc(var(--header-height)+1px)] z-30 hidden h-[calc(100svh-var(--header-height)-var(--footer-height))] bg-transparent lg:flex">
-                        <div data-slot="sidebar-content" data-sidebar="content"
-                            class="flex min-h-0 flex-1 flex-col gap-2 overflow-auto group-data-[collapsible=icon]:overflow-hidden no-scrollbar px-2 pb-12">
-                            <div class="h-(--top-spacing) shrink-0"></div>
-                            <div view-transition-name="sidebar" data-slot="sidebar-group" data-sidebar="group"
-    class="relative flex w-full min-w-0 flex-col p-2 no-scrollbar">
     
-
-    
-    
-    
-
-    
-    
-    
-    
-
-    
-    
-
-    
-    <div data-slot="sidebar-group" data-sidebar="group" class="relative flex w-full min-w-0 flex-col p-2">
-        <div data-slot="sidebar-group-content" data-sidebar="group-content" class="w-full text-sm">
-            <ul data-slot="sidebar-menu" data-sidebar="menu" class="flex w-full min-w-0 flex-col gap-0.5">
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
                 
-                
-                <li data-slot="sidebar-menu-item" data-sidebar="menu-item" class="group/menu-item relative">
-    <a data-slot="sidebar-menu-button" data-active="true" data-sidebar="menu-button"
-        data-size="default" href="/"
-        class="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground peer/menu-button flex items-center gap-2 rounded-md p-2 text-left outline-hidden ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 data-[active=true]:bg-accent data-[active=true]:border-accent 3xl:fixed:w-full 3xl:fixed:max-w-48 relative h-[30px] w-fit overflow-visible border border-transparent text-[0.8rem] font-medium after:absolute after:inset-x-0 after:-inset-y-1 after:z-0 after:rounded-md">
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" hidden>
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
 
-        
-        Home
-        
 
-        
+  
 
-        
 
-        
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="." title="Collaborative State Machines (CSM)" class="md-nav__button md-logo" aria-label="Collaborative State Machines (CSM)" data-md-component="logo">
+      
+  <img src="https://collaborativestatemachines.github.io/assets/cirrina/icon.png" alt="logo">
+
     </a>
-</li>
-                
-                
-                
-                <li data-slot="sidebar-menu-item" data-sidebar="menu-item" class="group/menu-item relative">
-    <a data-slot="sidebar-menu-button" data-active="false" data-sidebar="menu-button"
-        data-size="default" href="/research/team/"
-        class="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground peer/menu-button flex items-center gap-2 rounded-md p-2 text-left outline-hidden ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 data-[active=true]:bg-accent data-[active=true]:border-accent 3xl:fixed:w-full 3xl:fixed:max-w-48 relative h-[30px] w-fit overflow-visible border border-transparent text-[0.8rem] font-medium after:absolute after:inset-x-0 after:-inset-y-1 after:z-0 after:rounded-md">
-
-        
-        Team
-        
-
-        
-
-        
-
-        
-    </a>
-</li>
-                
-                
-            </ul>
-        </div>
+    Collaborative State Machines (CSM)
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/CollaborativeStateMachines/Cirrina" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
     </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
     
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Collaborative State Machines
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="." class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Collaborative State Machines
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#about-us" class="md-nav__link">
+    <span class="md-ellipsis">
+      About us
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#state-machines" class="md-nav__link">
+    <span class="md-ellipsis">
+      State machines
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#features" class="md-nav__link">
+    <span class="md-ellipsis">
+      Features
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#use-cases" class="md-nav__link">
+    <span class="md-ellipsis">
+      Use Cases
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
 
     
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Learn
+    
+  </span>
+  
 
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Learn
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="learn/getting-started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Getting Started
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="learn/tutorial/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Tutorial
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="learn/examples/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Examples
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
 
     
-</div>
-                        </div>
-                    </div>
-                    <div class="h-full w-full">
-                        <div data-slot="docs" class="flex items-stretch text-[1.05rem] sm:text-[15px] xl:w-full">
-                            <div class="flex min-w-0 flex-1 flex-col">
-                                <div class="h-(--top-spacing) shrink-0"></div>
-                                <article class=" w-full" view-transition-name="page">
-    <div class="flex flex-col gap-2">
-        <div class="flex flex-col gap-2">
-            <div id="page-header" class="flex items-start justify-between">
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Develop
+    
+  </span>
+  
 
-                <h1 class="scroll-m-20 text-4xl font-semibold tracking-tight sm:text-3xl xl:text-4xl">
-                    Home
-                </h1>
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Develop
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="develop/runtime-system/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Runtime System
+    
+  </span>
+  
 
-                <div class="flex items-center gap-2 pt-1.5">
-                    
-                    
-                    <a data-slot="button" id="next-button"
-                        class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-secondary text-secondary-foreground hover:bg-secondary/80 extend-touch-target size-8 shadow-none md:size-7"
-                        href="/research/team/">
-                        <span class="sr-only">Next</span>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                            class="tabler-icon tabler-icon-arrow-right ">
-                            <path d="M5 12l14 0"></path>
-                            <path d="M13 18l6 -6"></path>
-                            <path d="M13 6l6 6"></path>
-                        </svg>
-                    </a>
-                    
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="develop/contributing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Contributing
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Specifications
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Specifications
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="csm-specifications/version/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Version
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="csm-specifications/background/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Background
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="csm-specifications/data/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Data
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="csm-specifications/expression/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Expression
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="csm-specifications/guard/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Guard
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="csm-specifications/collaborative-state-machine/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Collaborative State Machine
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="csm-specifications/state-machine/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    State machine
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="csm-specifications/state/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    State
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="csm-specifications/event/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Event
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="csm-specifications/transition/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Transition
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="csm-specifications/action/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Action
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="csm-specifications/data-model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Data Model
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="csm-specifications/execution-model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Execution Model
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Research
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Research
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="research/publications/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Publications
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="research/team/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Team
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
                 </div>
-            </div>
-            
-        </div>
-        <div class="flex justify-end items-center">
+              </div>
             
             
-            <div class="grow text-muted-foreground pt-4 flex flex-row justify-end items-center">
-    <span id="updated_at" class="text-sm opacity-50 hover:opacity-100 transition-opacity duration-200"
-        title="last update (local time)"></span>
+              
+                
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#about-us" class="md-nav__link">
+    <span class="md-ellipsis">
+      About us
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#state-machines" class="md-nav__link">
+    <span class="md-ellipsis">
+      State machines
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#features" class="md-nav__link">
+    <span class="md-ellipsis">
+      Features
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#use-cases" class="md-nav__link">
+    <span class="md-ellipsis">
+      Use Cases
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+  
+
+
+
+  
+  
+
+
+<h1 id="collaborative-state-machines">Collaborative State Machines</h1>
+<p>Collaborative State Machines (CSM) is a programming model for building <strong>reactive, distributed applications</strong> 🌐
+that run seamlessly across the <strong>cloud, edge, and IoT</strong>.</p>
+<p>Modern applications are increasingly dynamic, stateful, and distributed across multiple environments, which
+traditional programming models often struggle to handle. CSM addresses this challenge by letting you design
+applications as <strong>collections of autonomous state machines that collaborate</strong> 🤝. Each machine can run in the
+cloud, at the edge, or directly on IoT devices, while the system continues to operate as a single cohesive
+application.</p>
+<hr />
+<h2 id="about-us">About us</h2>
+<p>CSM is a research project developed by the <a href="https://dps.uibk.ac.at/">Distributed and Parallel Systems Group</a> 🏛️
+at the University of Innsbruck.</p>
+<p>As a research initiative, CSM aims to create a <strong>disruptive, reactive programming model</strong> ⚡ for distributed
+applications that span the cloud, edge, and IoT. Our goal is to enable developers to build systems that are
+<strong>responsive, stateful, and scalable</strong>, while remaining simple to reason about and deploy in real-world
+environments.</p>
+<p>The project explores how collections of <strong>collaborating state machines</strong> can provide a cohesive, event-driven
+view of a distributed application, supporting automatic scheduling, deployment, and optimization across
+heterogeneous computing layers.</p>
+<p>By combining theory with practical experimentation, CSM seeks to bridge the gap between <strong>academic research</strong>
+📚 and <strong>real-world distributed systems</strong> ⚙️, providing a model that is both rigorous and applicable.</p>
+<div class="admonition success">
+<p class="admonition-title">Research</p>
+<p>Explore our <a href="research/publications/">Research</a> and meet the <a href="research/team/">Team</a> to learn more about
+the people behind CSM.</p>
 </div>
-
-<script>
-    const updatedAt = document.getElementById("updated_at");
-    if (updatedAt) {
-        const date = new Date('2025-09-04T11:13:27+02:00');
-        updatedAt.textContent = date.toLocaleDateString();
-    }
-</script>
-
-            
-        </div>
-
-    </div>
-    <div class="typography w-full flex-1 *:data-[slot=alert]:first:mt-0">
-        <p>Collaborative State Machines (CSM) is a programming model for building <strong>reactive, distributed applications</strong>
-that run across the <strong>cloud, edge, and IoT</strong>.  </p>
-<p>Traditional programming models often struggle with applications that are <strong>dynamic, stateful, and spread 
-across the cloud, edge, and IoT</strong>. CSM addresses this by letting you design applications as <strong>collections of
-state machines that collaborate with each other</strong>. Each state machine can run in the cloud, at the edge, or
-directly on IoT devices, yet all machines continue to operate together as one cohesive system.</p>
-<h2 id="about-us">About Us</h2>
-<p>CSM is developed by the <a href="https://dps.uibk.ac.at/">Distributed and Parallel Systems Group</a> at the University of
-Innsbruck.</p>
-<div class="admonition note">
-<p><svg class="iconify" xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 48 48"><path fill="#a86c4d" d="M24 6.32a10.88 10.88 0 0 1 10.88 10.87v14.19a1.24 1.24 0 0 1-.77 1.14a27.1 27.1 0 0 1-20.22 0a1.24 1.24 0 0 1-.77-1.14V17.19A10.88 10.88 0 0 1 24 6.32"/><path fill="#de926a" d="M24 6.32a10.88 10.88 0 0 0-10.88 10.87v3a10.88 10.88 0 0 1 21.76 0v-3A10.88 10.88 0 0 0 24 6.32"/><path fill="none" stroke="#45413c" stroke-linecap="round" stroke-linejoin="round" d="M24 6.32a10.88 10.88 0 0 1 10.88 10.87v14.19a1.24 1.24 0 0 1-.77 1.14h0a27.1 27.1 0 0 1-20.22 0h0a1.24 1.24 0 0 1-.77-1.14V17.19A10.88 10.88 0 0 1 24 6.32"/><path fill="#45413c" d="M9 45.5a15 1.5 0 1 0 30 0a15 1.5 0 1 0-30 0" opacity=".15"/><path fill="#fff" d="M24 31.22A11.88 11.88 0 0 1 35.88 43.1V45H12.12v-1.9A11.88 11.88 0 0 1 24 31.22"/><path fill="#e0e0e0" d="M24 31.22A11.88 11.88 0 0 0 12.12 43.1V45h.06a11.87 11.87 0 0 1 23.64 0h.06v-1.9A11.88 11.88 0 0 0 24 31.22"/><path fill="none" stroke="#45413c" stroke-linecap="round" stroke-linejoin="round" d="M24 31.22A11.88 11.88 0 0 1 35.88 43.1V45h0h-23.76h0v-1.9A11.88 11.88 0 0 1 24 31.22"/><path fill="#f0f0f0" stroke="#45413c" stroke-linecap="round" stroke-linejoin="round" d="M30.67 33.26s-1.91-2.85-6.67-2.85s-6.67 2.85-6.67 2.85l2 1.85l-.77 2.83L24 42.33l5.43-4.39l-.77-2.83Z"/><path fill="#00dba8" stroke="#45413c" stroke-linecap="round" stroke-linejoin="round" d="M26.54 32.57v1.82A5.49 5.49 0 0 1 24 39h0a5.49 5.49 0 0 1-2.54-4.65v-1.78Z"/><path fill="#ffcebf" d="M21.46 27.17h5.09v7.94h-5.09Z"/><path fill="#ffb59e" d="M24 27.17a2.54 2.54 0 0 0-2.54 2.54v.6a2.54 2.54 0 0 0 5.08 0v-.59A2.54 2.54 0 0 0 24 27.17"/><path fill="none" stroke="#45413c" stroke-linecap="round" stroke-linejoin="round" d="M21.46 27.17h5.09v7.94h-5.09ZM17.06 45v-2.41M30.94 45v-2.41M24 39.04V45"/><path fill="#80ddff" d="M34.87 29h4.73v15.68A2.36 2.36 0 0 1 37.24 47a2.36 2.36 0 0 1-2.36-2.36V29z"/><path fill="#b8ecff" d="m39.6 29.48l-4.73 6.78v8.42a2.37 2.37 0 0 0 4.73 0Z"/><path fill="none" stroke="#45413c" stroke-linecap="round" stroke-linejoin="round" d="M34.87 29h4.73v15.68A2.36 2.36 0 0 1 37.24 47h0a2.36 2.36 0 0 1-2.36-2.36V29z"/><path fill="#ff6196" d="M34.87 32.74h4.73v11.94A2.36 2.36 0 0 1 37.24 47a2.36 2.36 0 0 1-2.36-2.36v-11.9Z"/><path fill="#ff87af" d="M34.87 36.26v8.42a2.37 2.37 0 0 0 4.73 0V32.74h-2.27Z"/><path fill="none" stroke="#45413c" stroke-linecap="round" stroke-linejoin="round" d="M34.87 32.74h4.73v11.94A2.36 2.36 0 0 1 37.24 47h0a2.36 2.36 0 0 1-2.36-2.36v-11.9z"/><path fill="#80ddff" stroke="#45413c" stroke-linecap="round" stroke-linejoin="round" d="M34.1 27.07h6.27v1.92H34.1Z"/><path fill="#00dba8" d="M37.43 36.44h4.33v2.31h-4.33Z"/><path fill="#00f5bc" d="M38.59 37.59h2a1.16 1.16 0 0 1 1 .58a1.15 1.15 0 0 0 .16-.58a1.16 1.16 0 0 0-1.16-1.15h-2a1.16 1.16 0 0 0-1.16 1.15a1.15 1.15 0 0 0 .16.58a1.16 1.16 0 0 1 1-.58"/><path fill="none" stroke="#45413c" stroke-linecap="round" stroke-linejoin="round" d="M37.43 36.44h4.33v2.31h-4.33Z"/><path fill="#00dba8" stroke="#45413c" stroke-linecap="round" stroke-linejoin="round" d="M37.43 38.75h4.33v2.31h-4.33Z"/><path fill="#00dba8" stroke="#45413c" stroke-linecap="round" stroke-linejoin="round" d="M37.43 41.05h4.33v2.31h-4.33Z"/><path fill="#00dba8" d="M33.33 35a1.54 1.54 0 0 1 1.54 1.54v6.73a2.34 2.34 0 0 1-2.34-2.34V35.8a.79.79 0 0 1 .8-.8"/><path fill="#00f5bc" d="M33.33 35a.79.79 0 0 0-.79.8v1.91a.79.79 0 0 1 .79-.79a1.54 1.54 0 0 1 1.54 1.54v-1.91A1.54 1.54 0 0 0 33.33 35"/><path fill="none" stroke="#45413c" stroke-linecap="round" stroke-linejoin="round" d="M33.33 35a1.54 1.54 0 0 1 1.54 1.54v6.73h0a2.34 2.34 0 0 1-2.34-2.34V35.8a.79.79 0 0 1 .8-.8"/><path fill="#e5feff" stroke="#45413c" stroke-linecap="round" stroke-linejoin="round" d="M37.1 24.21a.94.94 0 1 0 1.88 0a.94.94 0 1 0-1.88 0m-.25-7.53a.94.94 0 1 0 1.88 0a.94.94 0 1 0-1.88 0m2.54 2.86a1.5 1.5 0 1 0 3 0a1.5 1.5 0 1 0-3 0"/><path fill="#ffcebf" stroke="#45413c" stroke-linecap="round" stroke-linejoin="round" d="M33.07 19.47a8.77 8.77 0 0 1-5.68-5L26.77 13a15.92 15.92 0 0 1-9.95 6.18l-1.88.34a1.81 1.81 0 1 0 0 3.62h.11a9 9 0 0 0 17.9 0h.12a1.81 1.81 0 1 0 0-3.62Z"/><path fill="#ff6242" d="M21.16 25.6a.44.44 0 0 0-.33.16a.42.42 0 0 0-.1.35a3.32 3.32 0 0 0 6.54 0a.42.42 0 0 0-.1-.35a.44.44 0 0 0-.33-.16Z"/><path fill="#ffa694" d="M24 27a4 4 0 0 0-2.52.77a3.36 3.36 0 0 0 5 0A4 4 0 0 0 24 27"/><path fill="none" stroke="#45413c" stroke-linecap="round" stroke-linejoin="round" d="M21.16 25.6a.44.44 0 0 0-.33.16a.42.42 0 0 0-.1.35a3.32 3.32 0 0 0 6.54 0a.42.42 0 0 0-.1-.35a.44.44 0 0 0-.33-.16Z"/><path fill="#ffb59e" d="M17.06 24.79a1 .6 0 1 0 2 0a1 .6 0 1 0-2 0m11.88 0a1 .6 0 1 0 2 0a1 .6 0 1 0-2 0"/><path fill="#00b8f0" d="M16 19v3.55a1 1 0 0 0 .88 1l4.07.51a2.07 2.07 0 0 0 1.53-.42l.88-.67a1.14 1.14 0 0 1 1.38 0l.88.67a2.07 2.07 0 0 0 1.53.42l4.07-.51a1 1 0 0 0 .88-1V19a1 1 0 0 0-1-1H17a1 1 0 0 0-1 1"/><path fill="#4acfff" d="M32.05 19a1 1 0 0 0-1-1h-6.59l-4.17 6l.61.08a2.07 2.07 0 0 0 1.53-.42l.88-.67a1.14 1.14 0 0 1 1.38 0l.88.67a2.07 2.07 0 0 0 1.53.42l4.07-.51a1 1 0 0 0 .88-1Z"/><path fill="none" stroke="#45413c" stroke-linecap="round" stroke-linejoin="round" d="M16 19v3.55a1 1 0 0 0 .88 1l4.07.51a2.07 2.07 0 0 0 1.53-.42l.88-.67a1.14 1.14 0 0 1 1.38 0l.88.67a2.07 2.07 0 0 0 1.53.42l4.07-.51a1 1 0 0 0 .88-1V19a1 1 0 0 0-1-1H17a1 1 0 0 0-1 1"/><path fill="#45413c" stroke="#45413c" stroke-linecap="round" stroke-linejoin="round" d="M18.82 20.91a.77.77 0 1 0 .77-.77a.76.76 0 0 0-.77.77m10.36 0a.77.77 0 1 1-.77-.77a.76.76 0 0 1 .77.77"/></svg> Learn more about our <a href="research/publications/">research</a>
-and meet the <a href="research/team/">team</a>.</p>
-</div>
-<h2 id="state-machines">State Machines</h2>
-<p>At the heart of CSM are <strong>state machines</strong>. Each one is small, autonomous, and easy to reason about. Together,
-they form powerful distributed applications. State machines can:</p>
+<hr />
+<h2 id="state-machines">State machines</h2>
+<p>At the heart of CSM are <strong>small, autonomous state machines</strong> 🔹 that form the building blocks of distributed
+applications. Each state machine maintains its own state, responds to events, and can trigger actions or
+external services. When combined, these machines create a <strong>cohesive, reactive system</strong> capable of operating
+across cloud, edge, and IoT environments without being tied to specific hardware or infrastructure.</p>
+<p>State machines in CSM are designed to:</p>
 <ul>
-<li><strong>React to events</strong> from their environment or from other machines.</li>
-<li><strong>Maintain their own state</strong>, while also working with persistent shared data.</li>
-<li><strong>Trigger actions or external services</strong> directly inside states and transitions.</li>
-<li><strong>Collaborate</strong> by exchanging events and data with other machines.</li>
+<li>
+<p><strong>React to events</strong> ⚡ from sensors, other machines, or the surrounding environment, enabling timely and
+  context-aware responses.</p>
+</li>
+<li>
+<p><strong>Maintain their own state</strong> 🗂️ while optionally interacting with persistent or shared data, providing
+  consistency and traceability.</p>
+</li>
+<li>
+<p><strong>Trigger actions or services</strong> 🛠️ directly within states and transitions, allowing state-driven execution
+  of business logic or external operations.</p>
+</li>
+<li>
+<p><strong>Collaborate seamlessly</strong> 🤝 by exchanging events and data with other machines, supporting coordinated
+  behavior across distributed components.</p>
+</li>
 </ul>
-<p>This approach makes complex logic easier to manage without tying your application to specific compute nodes,
-services, or execution environments.</p>
-<div class="admonition note">
-<p><svg class="iconify" xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 48 48"><path fill="#00f5bc" d="M38.15 40.91L15.78 34.2V1.92L38 8.58a2.4 2.4 0 0 1 1.7 2.29v28.9a1.19 1.19 0 0 1-1.55 1.14"/><path fill="none" stroke="#45413c" stroke-linecap="round" stroke-linejoin="round" d="M38.15 40.91L15.78 34.2V1.92L38 8.58a2.4 2.4 0 0 1 1.7 2.29v28.9a1.19 1.19 0 0 1-1.55 1.14"/><path fill="#656769" stroke="#45413c" stroke-linecap="round" stroke-linejoin="round" d="m20.66 3.39l-4.88-1.47V34.2l4.88 1.46zm-4.88-1.47L9.8 6.11v13l5.98-5.31z"/><path fill="#45413c" d="M10.25 45.21a13.75 1.79 0 1 0 27.5 0a13.75 1.79 0 1 0-27.5 0" opacity=".15"/><path fill="#fffce5" d="m32.16 43.94l4.54-3.46V11.19l-4.54 3.13z"/><path fill="#fffef2" d="M32.16 14.32v4.77l4.54-3.14v-4.76z"/><path fill="none" stroke="#45413c" stroke-linecap="round" stroke-linejoin="round" d="m32.16 43.94l4.54-3.46V11.19l-4.54 3.13z"/><path fill="#fffef2" stroke="#45413c" stroke-linecap="round" stroke-linejoin="round" d="M15.78 4.91L11.3 8.05l20.92 6.27l4.48-3.13z"/><path fill="#00f5bc" d="m32.17 45.09l-21.51-6.45a1.2 1.2 0 0 1-.86-1.15V6.11L32 12.77a2.38 2.38 0 0 1 1.7 2.29V44a1.19 1.19 0 0 1-1.53 1.09"/><path fill="#8cffe4" d="M32 12.77L9.8 6.11v3.51L32 16.28a2.38 2.38 0 0 1 1.7 2.29v-3.51a2.38 2.38 0 0 0-1.7-2.29"/><path fill="none" stroke="#45413c" stroke-linecap="round" stroke-linejoin="round" d="m32.17 45.09l-21.51-6.45a1.2 1.2 0 0 1-.86-1.15V6.11L32 12.77a2.38 2.38 0 0 1 1.7 2.29V44a1.19 1.19 0 0 1-1.53 1.09"/><path fill="#656769" d="M14.69 7.57L9.8 6.11v31.38a1.2 1.2 0 0 0 .86 1.15l4 1.21Z"/><path fill="#87898c" d="M9.8 6.11v3.51l4.89 1.46V7.57z"/><path fill="none" stroke="#45413c" stroke-linecap="round" stroke-linejoin="round" d="M14.69 7.57L9.8 6.11v31.38a1.2 1.2 0 0 0 .86 1.15l4 1.21Z"/><path fill="#fff" stroke="#45413c" stroke-linecap="round" stroke-linejoin="round" d="m27.81 22.98l-7.62-2.24v-4.79l7.62 2.25z"/></svg> Learn more about the fundamental programming model through the CSM
-<a href="csm-specifications/specifications/">specifications</a>.</p>
+<p>This approach makes it easier to reason about <strong>complex, distributed, event-driven logic</strong>, ensuring that
+applications remain predictable, maintainable, and scalable while leveraging the full power of reactive
+programming.</p>
+<div class="admonition question">
+<p class="admonition-title">Learn</p>
+<p>Learn more about the fundamental programming model in the CSM
+<a href="csm-specifications/specifications.md">Specifications</a>.</p>
 </div>
+<hr />
 <h2 id="features">Features</h2>
-<p>CSM helps developers tackle complexity with:</p>
+<p>CSM provides a set of core capabilities that make building distributed, event-driven applications more
+structured and manageable:</p>
 <ul>
-<li><strong>Resilience</strong> &mdash; applications adapt to changing environments and recover from failures.</li>
-<li><strong>Modularity</strong> &mdash; behavior is encapsulated, making systems easier to understand and extend.</li>
-<li><strong>True distribution</strong> &mdash; run across cloud, edge, and IoT without extra complexity.</li>
-<li><strong>Separation of concerns</strong> &mdash; cleanly express application logic, decoupled from infrastructure.</li>
-<li><strong>Structured data management</strong> &mdash; handle local, static, and persistent data with well-defined scope and
-  lifetime.</li>
+<li>
+<p><strong>Resilience</strong> 🌱 &mdash; applications adapt dynamically to changing conditions and can recover gracefully from
+  partial failures, ensuring robust operation across heterogeneous environments.</p>
+</li>
+<li>
+<p><strong>Modularity</strong> 🧩 &mdash; each state machine encapsulates a distinct piece of behavior, simplifying
+  understanding, maintenance, and extension of the overall system.</p>
+</li>
+<li>
+<p><strong>True distribution</strong> 🌍 &mdash; state machines can run seamlessly across cloud, edge, and IoT devices without
+  requiring manual handling of communication, coordination, or deployment details.</p>
+</li>
+<li>
+<p><strong>Separation of concerns</strong> ⚖️ &mdash; application logic is expressed independently of infrastructure, allowing
+  developers to focus on <em>what</em> the system should do rather than <em>how</em> it is deployed or executed.</p>
+</li>
+<li>
+<p><strong>Structured data management</strong> 📦 &mdash; local, transient, and persistent data are handled with well-defined
+  scopes and lifecycles, supporting consistency and observability throughout the application.</p>
+</li>
 </ul>
-<div class="admonition note">
-<p><svg class="iconify" xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 48 48"><path fill="#ff6242" d="m14.05 26.58l5.67-7a19.55 19.55 0 0 0-8.5-.24c-3.12.77-3.61 6.66-3.66 9.45a.87.87 0 0 0 1.31.77Z"/><path fill="#ff866e" d="M11.24 22a18.2 18.2 0 0 1 6.62-.13l1.86-2.28a19.55 19.55 0 0 0-8.5-.24c-3.12.76-3.61 6.65-3.66 9.44a.85.85 0 0 0 .14.48c.3-2.94 1.09-6.66 3.54-7.27"/><path fill="none" stroke="#45413c" stroke-linecap="round" stroke-linejoin="round" d="m14.05 26.58l5.67-7a19.55 19.55 0 0 0-8.5-.24c-3.12.77-3.61 6.66-3.66 9.45a.87.87 0 0 0 1.31.77Z"/><path fill="#ff6242" d="m20.86 33.4l7-5.67a19.5 19.5 0 0 1 .24 8.49c-.73 3.12-6.58 3.61-9.41 3.66a.87.87 0 0 1-.77-1.31Z"/><path fill="#ff866e" d="M25.41 36.21a18 18 0 0 0 .13-6.63l2.28-1.85a19.5 19.5 0 0 1 .24 8.49c-.73 3.12-6.58 3.61-9.41 3.66a.87.87 0 0 1-.48-.14c2.94-.26 6.66-1.09 7.24-3.53"/><path fill="none" stroke="#45413c" stroke-linecap="round" stroke-linejoin="round" d="m20.86 33.4l7-5.67a19.5 19.5 0 0 1 .24 8.49c-.73 3.12-6.58 3.61-9.41 3.66a.87.87 0 0 1-.77-1.31Z"/><path fill="#e8f4fa" d="M39.48 21.56c5.42-5.7 3.71-12.73 2.86-15.2a2 2 0 0 0-.48-.78a2.1 2.1 0 0 0-.77-.48c-2.47-.85-9.51-2.56-15.21 2.9C18.84 14.66 14 26.5 14 26.5l7 7s11.78-4.9 18.48-11.94"/><path fill="#fff" d="M28.05 11.87c5.53-5.27 12.31-3.8 15-2.94a17 17 0 0 0-.66-2.57a2 2 0 0 0-1.3-1.26c-2.47-.85-9.51-2.56-15.21 2.9C18.84 14.66 14 26.5 14 26.5l2.69 2.69c1.43-3.19 5.68-11.92 11.36-17.32"/><path fill="none" stroke="#45413c" stroke-linecap="round" stroke-linejoin="round" d="M39.48 21.56c5.42-5.7 3.71-12.73 2.86-15.2a2 2 0 0 0-.48-.78a2.1 2.1 0 0 0-.77-.48c-2.47-.85-9.51-2.56-15.21 2.9C18.84 14.66 14 26.5 14 26.5l7 7s11.78-4.9 18.48-11.94"/><path fill="#45413c" d="M18.22 44.21a10 1.5 0 1 0 20 0a10 1.5 0 1 0-20 0" opacity=".15"/><path fill="#ff6242" stroke="#45413c" stroke-linecap="round" stroke-linejoin="round" d="M22.7 25.65a.68.68 0 0 0-.92-.93a22.1 22.1 0 0 0-5.31 3.8a17.8 17.8 0 0 0-3.87 5.86a.34.34 0 0 0 .44.45A17.8 17.8 0 0 0 18.9 31a21.9 21.9 0 0 0 3.8-5.35"/><path fill="#c0dceb" stroke="#45413c" stroke-linecap="round" stroke-linejoin="round" d="M28.24 13.72a5.49 5.49 0 1 0 10.98 0a5.49 5.49 0 1 0-10.98 0"/><path fill="#00b8f0" d="M29.96 13.69a3.8 3.8 0 1 0 7.6 0a3.8 3.8 0 1 0-7.6 0"/><path fill="#4acfff" d="M31.07 11a3.8 3.8 0 0 0 0 5.38a4 4 0 0 0 .85.62l3.55-6.69a3.77 3.77 0 0 0-4.4.69"/><path fill="none" stroke="#45413c" stroke-linecap="round" stroke-linejoin="round" d="M29.96 13.69a3.8 3.8 0 1 0 7.6 0a3.8 3.8 0 1 0-7.6 0"/><path fill="#ff8a14" stroke="#45413c" stroke-linecap="round" stroke-linejoin="round" d="M11.34 41.47c-.7.7-5.16 2.21-7.42 2.94c-.42.14-1-.47-.89-.89c.73-2.25 2.24-6.71 3-7.42c.95-1 3.43-1 4.91.46s1.35 3.96.4 4.91"/><path fill="#ffe500" stroke="#45413c" stroke-linecap="round" stroke-linejoin="round" d="M10.13 39.79c-.5.49-2.57 1-3 .56s.07-2.54.57-3a1.57 1.57 0 0 1 2.13.34a1.56 1.56 0 0 1 .3 2.1"/><path fill="#ffe500" d="m43.32 23.69l.8 1.51a.42.42 0 0 0 .32.22l1.69.2a.42.42 0 0 1 .25.71l-1.19 1.22a.39.39 0 0 0-.11.37l.33 1.67a.42.42 0 0 1-.59.46l-1.53-.76a.44.44 0 0 0-.39 0l-1.49.84a.43.43 0 0 1-.62-.43L41 28a.41.41 0 0 0-.13-.36l-1.21-1.14a.42.42 0 0 1 .21-.72l1.68-.29a.41.41 0 0 0 .31-.23l.72-1.55a.41.41 0 0 1 .74-.02"/><path fill="#fff48c" d="m40.53 27.31l1.06-.19a.4.4 0 0 0 .31-.23l.72-1.55a.42.42 0 0 1 .75 0l.79 1.51a.42.42 0 0 0 .32.22l1.07.13l.83-.85a.42.42 0 0 0-.25-.71l-1.69-.2a.42.42 0 0 1-.32-.22l-.8-1.51a.41.41 0 0 0-.74 0l-.72 1.55a.41.41 0 0 1-.31.23l-1.68.29a.42.42 0 0 0-.21.72Z"/><path fill="none" stroke="#45413c" stroke-linecap="round" stroke-linejoin="round" d="m43.32 23.69l.8 1.51a.42.42 0 0 0 .32.22l1.69.2a.42.42 0 0 1 .25.71l-1.19 1.22a.39.39 0 0 0-.11.37l.33 1.67a.42.42 0 0 1-.59.46l-1.53-.76a.44.44 0 0 0-.39 0l-1.49.84a.43.43 0 0 1-.62-.43L41 28a.41.41 0 0 0-.13-.36l-1.21-1.14a.42.42 0 0 1 .21-.72l1.68-.29a.41.41 0 0 0 .31-.23l.72-1.55a.41.41 0 0 1 .74-.02"/><path fill="#ffe500" d="m31.74 40.59l.26 1.35a.35.35 0 0 0 .2.24l1.27.54a.34.34 0 0 1 0 .6l-1.2.68a.32.32 0 0 0-.17.26l-.1 1.37a.34.34 0 0 1-.57.22l-1-.93a.3.3 0 0 0-.3-.08l-1.34.3a.34.34 0 0 1-.38-.47l.59-1.25a.31.31 0 0 0 0-.31l-.7-1.18a.34.34 0 0 1 .33-.51l1.36.16a.38.38 0 0 0 .3-.11l.9-1a.34.34 0 0 1 .55.12"/><path fill="#fff48c" d="m28.76 42.75l.86.1a.35.35 0 0 0 .3-.11l.9-1a.34.34 0 0 1 .59.15l.27 1.35a.31.31 0 0 0 .19.24l.8.34l.84-.47a.34.34 0 0 0 0-.6l-1.27-.54a.35.35 0 0 1-.2-.24l-.27-1.35a.34.34 0 0 0-.58-.16l-.9 1a.38.38 0 0 1-.3.11l-1.36-.16a.34.34 0 0 0-.33.51Z"/><path fill="none" stroke="#45413c" stroke-linecap="round" stroke-linejoin="round" d="m31.74 40.59l.26 1.35a.35.35 0 0 0 .2.24l1.27.54a.34.34 0 0 1 0 .6l-1.2.68a.32.32 0 0 0-.17.26l-.1 1.37a.34.34 0 0 1-.57.22l-1-.93a.3.3 0 0 0-.3-.08l-1.34.3a.34.34 0 0 1-.38-.47l.59-1.25a.31.31 0 0 0 0-.31l-.7-1.18a.34.34 0 0 1 .33-.51l1.36.16a.38.38 0 0 0 .3-.11l.9-1a.34.34 0 0 1 .55.12"/><path fill="#9ceb60" d="M11.86 7a3.06 3.06 0 1 1-2.59-3.44A3.06 3.06 0 0 1 11.86 7"/><path fill="#c8ffa1" d="M9.27 5.74a3.06 3.06 0 0 1 2.41 2a3 3 0 0 0 .18-.74a3.06 3.06 0 0 0-6.06-.85A3.2 3.2 0 0 0 6 7.67a3.08 3.08 0 0 1 3.27-1.93"/><path fill="none" stroke="#45413c" stroke-linecap="round" stroke-linejoin="round" d="M11.86 7a3.06 3.06 0 1 1-2.59-3.44A3.06 3.06 0 0 1 11.86 7"/><path fill="none" stroke="#45413c" stroke-linecap="round" stroke-linejoin="round" d="M5.86 7.3C5.1 7.82 3.57 9 4 9.86s10.49-5.15 10.14-6s-2.5.12-3.26.48"/></svg> Learn more about <a href="learn/getting-started/">getting started</a>.</p>
+<p>This combination of features ensures that applications built with CSM are <strong>scalable, maintainable, and
+predictable</strong>, while taking full advantage of distributed execution environments.</p>
+<div class="admonition question">
+<p class="admonition-title">Learn</p>
+<p>Get started quickly by following our <a href="learn/getting-started/">getting started guide</a>.</p>
 </div>
+<hr />
 <h2 id="use-cases">Use Cases</h2>
-<p>CSM is ideal for any system that is <strong>distributed, event-driven, and stateful</strong>. Example use cases include:</p>
+<p>CSM is particularly well-suited for systems that are <strong>distributed, event-driven, and stateful</strong>. Its reactive
+and modular approach enables developers to design applications that respond efficiently to changes in their
+environment while maintaining consistent state across heterogeneous components. Common use cases include:</p>
 <ul>
-<li><strong>IoT &amp; Edge Solutions</strong> &mdash; devices reacting to local events while syncing with cloud services.</li>
-<li><strong>Surveillance &amp; Monitoring</strong> &mdash; distributed data streams processed in real time.</li>
-<li><strong>Smart Factories</strong> &mdash; workflows coordinating machines, sensors, and analytics.</li>
-<li><strong>Large-Scale Cloud Systems</strong> &mdash; scalable applications with clear separation of business logic and
-  infrastructure.</li>
+<li>
+<p><strong>IoT &amp; Edge Solutions</strong> 📡 &mdash; devices react to local events with minimal latency while coordinating and
+  syncing with cloud services for analytics, logging, or further processing.</p>
+</li>
+<li>
+<p><strong>Surveillance &amp; Monitoring</strong> 🎥 &mdash; distributed data streams are collected, processed, and acted upon in
+  real time, supporting automated alerts and operational insights.</p>
+</li>
+<li>
+<p><strong>Smart Factories</strong> 🏭 &mdash; workflows orchestrate machines, sensors, and analytics pipelines to optimize
+  production, reduce downtime, and maintain safety.</p>
+</li>
+<li>
+<p><strong>Large-Scale Cloud Systems</strong> ☁️ &mdash; scalable applications with a clear separation of business logic and
+  infrastructure, supporting multiple distributed components without sacrificing maintainability or 
+  observability.</p>
+</li>
 </ul>
-<div class="admonition note">
-<p><svg class="iconify" xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 48 48"><path fill="#45413c" d="M13 46.5a11 1.5 0 1 0 22 0a11 1.5 0 1 0-22 0" opacity=".15"/><path fill="#daedf7" d="M24 45.5A10.47 10.47 0 0 1 13.53 35V11A10.47 10.47 0 0 1 24 .5A10.47 10.47 0 0 1 34.47 11v24A10.47 10.47 0 0 1 24 45.5"/><path fill="#fff" d="M24 .5A10.47 10.47 0 0 0 13.53 11v2.61a10.47 10.47 0 0 1 20.94 0V11A10.47 10.47 0 0 0 24 .5"/><path fill="none" stroke="#45413c" stroke-linecap="round" stroke-linejoin="round" d="M24 45.5A10.47 10.47 0 0 1 13.53 35V11A10.47 10.47 0 0 1 24 .5h0A10.47 10.47 0 0 1 34.47 11v24A10.47 10.47 0 0 1 24 45.5"/><path fill="#87898c" d="M24 42.88A7.85 7.85 0 0 1 16.15 35V11A7.85 7.85 0 0 1 24 3.12A7.85 7.85 0 0 1 31.85 11v24A7.85 7.85 0 0 1 24 42.88"/><path fill="#656769" d="M24 3.12A7.85 7.85 0 0 0 16.15 11v2.75a7.85 7.85 0 0 1 15.7 0V11A7.85 7.85 0 0 0 24 3.12"/><path fill="none" stroke="#45413c" stroke-linecap="round" stroke-linejoin="round" d="M24 42.88A7.85 7.85 0 0 1 16.15 35V11A7.85 7.85 0 0 1 24 3.12h0A7.85 7.85 0 0 1 31.85 11v24A7.85 7.85 0 0 1 24 42.88"/><path fill="#ffe500" d="M19.5 23.5a4.5 4.5 0 1 0 9 0a4.5 4.5 0 1 0-9 0"/><path fill="#fff48c" d="M24 19a4.49 4.49 0 0 0-1.92 8.56l5-7.31A4.5 4.5 0 0 0 24 19"/><path fill="#6dd627" d="M19.5 12a4.5 4.5 0 1 0 9 0a4.5 4.5 0 1 0-9 0"/><path fill="#9ceb60" d="M24 7.5a4.49 4.49 0 0 0-1.92 8.56l5-7.31A4.5 4.5 0 0 0 24 7.5"/><path fill="#ff6242" d="M19.5 35a4.5 4.5 0 1 0 9 0a4.5 4.5 0 1 0-9 0"/><path fill="#ff866e" d="M24 30.5a4.49 4.49 0 0 0-1.92 8.56l5-7.31A4.5 4.5 0 0 0 24 30.5"/><path fill="none" stroke="#45413c" stroke-linecap="round" stroke-linejoin="round" d="M19.5 23.5a4.5 4.5 0 1 0 9 0a4.5 4.5 0 1 0-9 0m0-11.5a4.5 4.5 0 1 0 9 0a4.5 4.5 0 1 0-9 0m0 23a4.5 4.5 0 1 0 9 0a4.5 4.5 0 1 0-9 0"/><path fill="#bdbec0" stroke="#45413c" stroke-linecap="round" stroke-linejoin="round" d="M29 34.7c0 2.76-.81-2.5-5-2.5s-5 5.26-5 2.5a5 5 0 0 1 10 0m0-11.5c0 2.76-.81-2.5-5-2.5s-5 5.3-5 2.5a5 5 0 0 1 10 0m0-11.5c0 2.76-.81-2.5-5-2.5s-5 5.26-5 2.5a5 5 0 0 1 10 0"/></svg> For more, see our <a href="learn/examples/">examples</a>.</p>
+<p>This flexibility makes CSM a versatile programming model for <strong>any scenario requiring reliable, reactive, and
+coordinated distributed behavior</strong>.</p>
+<div class="admonition question">
+<p class="admonition-title">Learn</p>
+<p>Discover more in our <a href="learn/examples/">Examples</a> or follow the <a href="learn/tutorial/">Tutorial</a> to see CSM
+in action.</p>
 </div>
 
-    </div>
-</article>
-                                <div class="mx-auto flex flex-wrap h-16 w-full max-w-2xl items-center gap-2 px-4 md:px-0">
-    
-    
-    <a data-slot="button"
-        class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-secondary text-secondary-foreground hover:bg-secondary/80 h-8 rounded-md gap-1.5 px-3 has-[&gt;svg]:px-2.5 ml-auto shadow-none"
-        href="/research/team/">
-        Team
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-            class="tabler-icon tabler-icon-arrow-right ">
-            <path d="M5 12l14 0"></path>
-            <path d="M13 18l6 -6"></path>
-            <path d="M13 6l6 6"></path>
-        </svg>
+
+
+
+
+
+
+  
+  
+
+
+
+
+  
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
     </a>
-    
+  
 </div>
-                                <dialog id="bottom-sidebar" onclick="onBottomSidebarDialogClick(event)" class="bg-transparent"
-    style="position: fixed; left: 0px; top: 0px; transform: translate(0px, 58px); min-width: max-content; --radix-popper-transform-origin: 0% 0px; will-change: transform; z-index: 50; --radix-popper-available-width: 504px; --radix-popper-available-height: 857px; --radix-popper-anchor-width: 72.94999694824219px; --radix-popper-anchor-height: 32px;">
-    <div data-side="bottom" data-align="start" data-state="open" role="dialog" data-slot="popover-content"
-        class="text-popover-foreground data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-50 origin-(--radix-popover-content-transform-origin) border outline-hidden bg-background/90 no-scrollbar h-(--radix-popper-available-height) w-(--radix-popper-available-width) overflow-y-auto rounded-none border-none p-0 shadow-none backdrop-blur duration-100"
-        style="--radix-popover-content-transform-origin: var(--radix-popper-transform-origin); --radix-popover-content-available-width: var(--radix-popper-available-width); --radix-popover-content-available-height: var(--radix-popper-available-height); --radix-popover-trigger-width: var(--radix-popper-anchor-width); --radix-popover-trigger-height: var(--radix-popper-anchor-height);"
-        tabindex="-1">
-        <div class="flex flex-col gap-12 overflow-auto px-6 py-6">
-            
-            
-            
-
-            
-            <div class="flex flex-col gap-4">
-                <div class="text-muted-foreground text-sm font-medium">Menu</div>
-                <div class="flex flex-col gap-3">
-                    
-                    <a class="text-2xl font-medium" href=".">
-                        
-                        Home
-                        
-                    </a>
-                    
-                    <a class="text-2xl font-medium" href="research/team/">
-                        
-                        Team
-                        
-                    </a>
-                    
-                </div>
-            </div>
-            
-
-            
-            <div class="flex flex-col gap-8">
-                
-                <div class="flex flex-col gap-4">
-                    <div class="text-muted-foreground text-sm font-medium">Learn</div>
-                    
-                    <div class="flex flex-col gap-3">
-                        
-                        <a class="text-2xl font-medium" href="learn/getting-started/">
-                            
-                            Getting Started
-                            
-                        </a>
-                        
-                        <a class="text-2xl font-medium" href="learn/tutorial/">
-                            
-                            Tutorial
-                            
-                        </a>
-                        
-                        <a class="text-2xl font-medium" href="learn/examples/">
-                            
-                            Examples
-                            
-                        </a>
-                        
-                    </div>
-                    
-                </div>
-                
-                <div class="flex flex-col gap-4">
-                    <div class="text-muted-foreground text-sm font-medium">Develop</div>
-                    
-                    <div class="flex flex-col gap-3">
-                        
-                        <a class="text-2xl font-medium" href="develop/runtime-system/">
-                            
-                            Runtime System
-                            
-                        </a>
-                        
-                        <a class="text-2xl font-medium" href="develop/contributing/">
-                            
-                            Contributing
-                            
-                        </a>
-                        
-                    </div>
-                    
-                </div>
-                
-                <div class="flex flex-col gap-4">
-                    <div class="text-muted-foreground text-sm font-medium">Specifications</div>
-                    
-                    <div class="flex flex-col gap-3">
-                        
-                        <a class="text-2xl font-medium" href="csm-specifications/specifications/">
-                            
-                            Specifications
-                            
-                        </a>
-                        
-                        <a class="text-2xl font-medium" href="csm-specifications/background/">
-                            
-                            Background
-                            
-                        </a>
-                        
-                        <a class="text-2xl font-medium" href="csm-specifications/data/">
-                            
-                            Data
-                            
-                        </a>
-                        
-                        <a class="text-2xl font-medium" href="csm-specifications/expression/">
-                            
-                            Expression
-                            
-                        </a>
-                        
-                        <a class="text-2xl font-medium" href="csm-specifications/guard/">
-                            
-                            Guard
-                            
-                        </a>
-                        
-                        <a class="text-2xl font-medium" href="csm-specifications/collaborative-state-machine/">
-                            
-                            Collaborative State Machine
-                            
-                        </a>
-                        
-                        <a class="text-2xl font-medium" href="csm-specifications/state-machine/">
-                            
-                            State machine
-                            
-                        </a>
-                        
-                        <a class="text-2xl font-medium" href="csm-specifications/state/">
-                            
-                            State
-                            
-                        </a>
-                        
-                        <a class="text-2xl font-medium" href="csm-specifications/event/">
-                            
-                            Event
-                            
-                        </a>
-                        
-                        <a class="text-2xl font-medium" href="csm-specifications/transition/">
-                            
-                            Transition
-                            
-                        </a>
-                        
-                        <a class="text-2xl font-medium" href="csm-specifications/action/">
-                            
-                            Action
-                            
-                        </a>
-                        
-                        <a class="text-2xl font-medium" href="csm-specifications/data-model/">
-                            
-                            Data Model
-                            
-                        </a>
-                        
-                        <a class="text-2xl font-medium" href="csm-specifications/execution-model/">
-                            
-                            Execution Model
-                            
-                        </a>
-                        
-                    </div>
-                    
-                </div>
-                
-                <div class="flex flex-col gap-4">
-                    <div class="text-muted-foreground text-sm font-medium">Research</div>
-                    
-                    <div class="flex flex-col gap-3">
-                        
-                        <a class="text-2xl font-medium" href="research/publications/">
-                            
-                            Publications
-                            
-                        </a>
-                        
-                        <a class="text-2xl font-medium" href="research/team/">
-                            
-                            Team
-                            
-                        </a>
-                        
-                    </div>
-                    
-                </div>
-                
-            </div>
-            
-            
-
-        </div>
+      
     </div>
-</dialog>
-                            </div>
-                            <div
-                                class="sticky top-[calc(var(--header-height)+1px)] z-30 ml-auto hidden h-[calc(100svh-var(--header-height)-var(--footer-height))] w-72 flex-col gap-4 overflow-hidden overscroll-none pb-8 xl:flex">
-                                <div class="h-(--top-spacing) shrink-0"></div>
-                                <div view-transition-name="toc" class="no-scrollbar overflow-y-auto px-8">
-    <div class="flex flex-col gap-2 p-4 pt-0 text-sm">
-        <p class="text-muted-foreground bg-background sticky top-0 h-6 text-xs">On This Page</p>
-        
-        
-        
-        
-        <a href="#about-us"
-            class="text-muted-foreground hover:text-foreground data-[active=true]:text-foreground text-[0.8rem] no-underline transition-colors data-[depth=3]:pl-4 data-[depth=4]:pl-6"
-            data-active="false" data-depth="2">
-            About Us
-        </a>
-        
-
-        
-        <a href="#state-machines"
-            class="text-muted-foreground hover:text-foreground data-[active=true]:text-foreground text-[0.8rem] no-underline transition-colors data-[depth=3]:pl-4 data-[depth=4]:pl-6"
-            data-active="false" data-depth="2">
-            State Machines
-        </a>
-        
-
-        
-        <a href="#features"
-            class="text-muted-foreground hover:text-foreground data-[active=true]:text-foreground text-[0.8rem] no-underline transition-colors data-[depth=3]:pl-4 data-[depth=4]:pl-6"
-            data-active="false" data-depth="2">
-            Features
-        </a>
-        
-
-        
-        <a href="#use-cases"
-            class="text-muted-foreground hover:text-foreground data-[active=true]:text-foreground text-[0.8rem] no-underline transition-colors data-[depth=3]:pl-4 data-[depth=4]:pl-6"
-            data-active="false" data-depth="2">
-            Use Cases
-        </a>
-        
-
-        
-        
-        
-        
-
-    </div>
-    <div class="h-12"></div>
-</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </main>
-        <footer view-transition-name="footer"
-    class="group-has-[.section-soft]/body:bg-surface/40 3xl:fixed:bg-transparent dark:bg-transparent">
-    <div class="container-wrapper px-4 xl:px-6">
-        <div class="flex h-(--footer-height) items-center justify-between">
-            <div class="text-muted-foreground w-full text-center text-xs leading-loose sm:text-sm">
-                
-                <a href="https://github.com/asiffer/mkdocs-shadcn">shadcn theme</a> provided by
-                <a href="https://github.com/asiffer">@asiffer</a>
-            </div>
-        </div>
-    </div>
+  </div>
 </footer>
+      
     </div>
-
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
     
-
-    <script src="js/copy-button.js"></script>
-    <script>updatePygmentsStylesheet();</script>
-    
-    <script>fetchStargazers("https://github.com/CollaborativeStateMachines/Cirrina");</script>
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
     
     
     
-    <script type="speculationrules">
-{
-  "prerender": [
-    {
-      "where": {
-          "selector_matches": ["#next-button", "#previous-button"],
-      }
-    }
-  ]
-}
-</script>
-</body>
-
+      
+      <script id="__config" type="application/json">{"base": ".", "features": ["navigation.instant", "navigation.instant.prefetch", "navigation.instant.progress", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.expand", "navigation.path", "navigation.indexes", "navigation.top", "toc.follow", "search.suggest", "search.highlight", "social", "content.code.copy", "content.code.select", "content.code.annotate"], "search": "assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="assets/javascripts/bundle.92b07e13.min.js"></script>
+      
+        <script src="javascripts/mathjax.js"></script>
+      
+        <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
 </html>
