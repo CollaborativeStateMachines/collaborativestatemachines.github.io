@@ -13,6 +13,7 @@ mkdocs-print-site-plugin = "^2.8"
 mkdocs-autorefs = "^1.4.3"
 mkdocs-material = "^9.6.18"
 mkdocs-awesome-nav = "^3.1.2"
+mkdocs-git-authors-plugin = "^0.10.0"
 
 [tool.poetry.dev-dependencies]
 

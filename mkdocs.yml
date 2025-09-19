@@ -41,6 +41,7 @@ plugins:
   - bibtex:
       bib_file: "refs.bib"
   - search
+  - git-authors
 markdown_extensions:
   - admonition
   - pymdownx.details
