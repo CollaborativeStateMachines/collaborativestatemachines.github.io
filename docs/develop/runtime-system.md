@@ -1,11 +1,11 @@
 ---
-title: Runtime System
+title: Runtime system
 summary: The Cirrina runtime system
 new: false
 description: The Cirrina runtime system
 keywords: collaborative,state,machines,runtime,system,cirrina
 author: metheredge
-sidebar_title: Runtime System
+sidebar_title: Runtime system
 show_datetime: true
 order: 0
 ---
@@ -24,7 +24,7 @@ The runtime system is implemented in **Java** ☕ and **Kotlin** 💜 and is ava
 
 ---
 
-### Key Features
+### Key features
 
 - **High-performance reference implementation** ⚡ of a CSM runtime system.  
 - Designed for **heterogeneous environments** 🌍 &mdash; cloud, edge, and IoT devices.  
@@ -34,7 +34,7 @@ The runtime system is implemented in **Java** ☕ and **Kotlin** 💜 and is ava
 
 ---
 
-### Get Involved
+### Get involved
 
 We welcome contributions from **researchers, practitioners, and developers** 🤝  
 interested in distributed systems, programming models, and runtime technologies.  

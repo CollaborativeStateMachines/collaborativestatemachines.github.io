@@ -36,7 +36,7 @@ The following keywords can/must be provided:
 
 | **Keyword** | **Description**                         | **Type**                      | **Optional** |
 | ----------- | --------------------------------------- | ----------------------------- | ------------ |
-| variables   | Collection of variables declaring data. | list of [Variable](#variable) | No           |
+| variables   | Collection of variables declaring data. | list of [Variable](#contextvariable) | No           |
 
 ### variables
 

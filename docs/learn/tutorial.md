@@ -16,7 +16,8 @@ This tutorial introduces CSM through a complete yet compact example: a railway c
 collaborating state machines. The goal is to provide a gentle but concrete introduction to the CSM programming
 model.
 
-For the full technical details, see the [Specifications](), which formally define every aspect of CSM.
+For the full technical details, see the [Specifications](../csm-specifications/version.md), which formally
+define every aspect of CSM.
 
 Traditional service-based approaches emphasize wiring individual services together. CSM takes a different 
 path. It provides a cohesive way to describe an entire distributed system that can span cloud, edge, and IoT, 
@@ -34,10 +35,12 @@ captures their collaboration, distribution, and semantics. This gives you both t
 modeling and the practicality of building real-world distributed applications.
 
 !!! info
-    This tutorial uses Cirrina's CSML implementation, which is built on top of [Apple's Pkl language]().
+    This tutorial uses Cirrina's CSML implementation, which is built on top of
+    [Apple's Pkl language](https://pkl-lang.org/).
     For details specific to Pkl itself, please refer to the official Pkl documentation.<br><br>
-    The complete source code for this tutorial can be found in the [Examples]().<br><br>
-    If you're new to the Cirrina runtime, check out [Getting Started]() before diving into this tutorial.
+    The complete source code for this tutorial can be found in the [Examples](../learn/examples.md).<br><br>
+    If you're new to the Cirrina runtime, check out [Getting Started](../learn/getting-started.md) before 
+    diving into this tutorial.
 
 ---
 
@@ -875,8 +878,8 @@ Step by step, we modeled sensors, actuators, and a controller as state machines 
 predictable, reactive, and distributed system.
 
 This example is not just theoretical, it is fully implemented as part of the Cirrina runtime system. You can
-explore the complete implementation, experiment with the code, and run it yourself in the [Examples]()
-section.
+explore the complete implementation, experiment with the code, and run it yourself in the
+[Examples](../learn/examples.md) section.
 
 By studying and experimenting with this example, you will gain practical insight into:
 

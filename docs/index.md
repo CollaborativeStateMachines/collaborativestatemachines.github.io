@@ -5,8 +5,8 @@ hide:
 
 # Collaborative State Machines
 
-Collaborative State Machines (CSM) is a programming model for building **reactive, distributed applications** 🌐
-that run seamlessly across the **cloud, edge, and IoT**.
+Collaborative State Machines (CSM) is a programming model for building **reactive, distributed applications**
+🌐 that run seamlessly across the **cloud, edge, and IoT**.
 
 Modern applications are increasingly dynamic, stateful, and distributed across multiple environments, which
 traditional programming models often struggle to handle. CSM addresses this challenge by letting you design
@@ -18,8 +18,8 @@ application.
 
 ## About us
 
-CSM is a research project developed by the [Distributed and Parallel Systems Group](https://dps.uibk.ac.at/) 🏛️
-at the University of Innsbruck.
+CSM is a research project developed by the [Distributed and Parallel Systems Group](https://dps.uibk.ac.at/)
+🏛️ at the University of Innsbruck.
 
 As a research initiative, CSM aims to create a **disruptive, reactive programming model** ⚡ for distributed
 applications that span the cloud, edge, and IoT. Our goal is to enable developers to build systems that are
@@ -66,7 +66,7 @@ programming.
 
 !!! question "Learn"
     Learn more about the fundamental programming model in the CSM
-    [Specifications](csm-specifications/specifications.md).
+    [Specifications](csm-specifications/version.md).
 
 ---
 
@@ -98,7 +98,7 @@ predictable**, while taking full advantage of distributed execution environments
 
 ---
 
-## Use Cases
+## Use cases
 
 CSM is particularly well-suited for systems that are **distributed, event-driven, and stateful**. Its reactive
 and modular approach enables developers to design applications that respond efficiently to changes in their

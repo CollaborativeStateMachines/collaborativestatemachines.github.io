@@ -5,7 +5,7 @@ new: false
 description: Specifications of the Collaborative State Machines model
 keywords: collaborative,state,machines,specifications
 author: metheredge
-sidebar_title: Specifications
+sidebar_title: Version
 show_datetime: true
 order: -1
 ---
