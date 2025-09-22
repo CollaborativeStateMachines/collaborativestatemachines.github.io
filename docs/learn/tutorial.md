@@ -170,7 +170,7 @@ state machines or by the environment (e.g., sensors detecting the train).
 The diagram below illustrates the collaborative system with the **Controller** and the **Bell**, **Light**,
 and **Gate** machines:
 
-![](../assets/learn/diagram.png)
+![](../assets/learn/diagram.svg)
 
 The **Bell**, **Light**, and **Gate** state machines represent the basic actuators of the railway crossing,
 implementing simple on/off or up/down functionality. Each state corresponds to invoking a service that
