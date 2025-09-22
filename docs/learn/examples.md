@@ -10,4 +10,12 @@ show_datetime: true
 order: 2
 ---
 
-Coming soon.
+The CSM project provides several example use cases of the Cirrina runtime system, implemented in the
+Pkl CSML language. For a detailed introduction to programming CSM-based applications, see our 
+[Tutorial](tutorial.md).
+
+## Example Use Cases
+
+- [Railway Safety System](https://github.com/CollaborativeStateMachines/Cirrina-Examples/tree/develop/railway-crossing):  
+  A railway crossing controlled by four collaborating state machines that coordinate gates, signals, 
+  and train detection to ensure safety.
