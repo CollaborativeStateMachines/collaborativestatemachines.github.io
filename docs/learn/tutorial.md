@@ -363,8 +363,8 @@ The **Bell** state machine is declared as follows:
           entry { onAction }
           on {
             new {
-              event   = events.bellOn
-              actions { onAction }
+              event  = events.bellOff
+              target = "off"
             }
           }
         }
@@ -396,8 +396,8 @@ The **Bell** state machine is declared as follows:
           entry { lightOnAction }
           on {
             new {
-              event   = events.lightOn
-              actions { lightOnAction }
+              event  = events.lightOff
+              target = "off"
             }
           }
         }
@@ -458,8 +458,8 @@ Looking at a single state more closely:
       entry { lightOffAction }
       on {
         new {
-            event  = events.lightOn
-            target = "on"
+          event  = events.lightOn
+          target = "on"
         }
       }
     }
@@ -810,7 +810,9 @@ class ControllerStateMachine extends Csml.StateMachine {
     }
     new {
       name = "close"
-      entry { raiseGateDownAction }
+      entry {
+        raiseGateDownAction
+      }
       on {
         new {
           event  = events.sensor
@@ -832,7 +834,9 @@ class ControllerStateMachine extends Csml.StateMachine {
     }
     new {
       name = "leaving"
-      entry { raiseGateUpAction }
+      entry {
+        raiseGateUpAction
+      }
       on {
         new {
           event  = events.sensor
@@ -843,7 +847,9 @@ class ControllerStateMachine extends Csml.StateMachine {
     }
     new {
       name = "left"
-      entry { raiseLightOffAction }
+      entry {
+        raiseLightOffAction
+      }
       on {
         new {
           event  = events.sensor
