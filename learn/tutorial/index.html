@@ -1594,10 +1594,11 @@ this means:</p>
 <p>Performance optimization becomes an inherent property of the model, rather than an afterthought.</p>
 </li>
 </ul>
-<p>At its core, CSM is about describing highly reactive, state machine-driven applications. Services remain
-vital, they perform computation and connect to external systems, but they are framed within a model that
-captures their collaboration, distribution, and semantics. This gives you both the precision of formal
-modeling and the practicality of building real-world distributed applications.</p>
+<p>At its core, CSM is about describing highly reactive, event-driven, and stateful applications for the compute
+continuum (IoT-Edge-Cloud). Services remain vital, they perform computation and connect to external systems,
+but they are framed within a model that captures their collaboration, distribution, and semantics. This gives
+you both the precision of formal modeling and the practicality of building real-world distributed
+applications.</p>
 <div class="admonition info">
 <p class="admonition-title">Info</p>
 <p>This tutorial uses Cirrina's CSML implementation, which is built on top of
@@ -1610,8 +1611,8 @@ diving into this tutorial.</p>
 <hr />
 <h2 id="system-overview">System overview</h2>
 <p>In this tutorial, we model a railway crossing as a distributed safety system composed of a collaborating state
-machine. This example illustrates how CSM can capture reactive, distributed behavior in a way that is both
-precise and intuitive.</p>
+machine. This example illustrates how CSM can capture reactive, event-driven, stateful and distributed
+behavior in a way that is both precise and intuitive.</p>
 <p>A single crossing consists of four main components, each with a clear role in ensuring safety:</p>
 <table>
 <thead>
@@ -1732,9 +1733,10 @@ guides the <strong>Controller</strong> in activating the warning systems.</p>
 ensures that bells, lights, and gates activate and deactivate at the correct moments.</p>
 <hr />
 <h2 id="why-this-model-works">Why this model works</h2>
-<p>CSM allows us to focus on <strong>how components collaborate</strong> rather than on low-level wiring or implementation
-details. Each component is represented as a state machine with clearly defined behavior, and the system's
-overall safety emerges from their interactions.</p>
+<p>CSM allows us to focus on how components collaborate rather than on low-level wiring, manual message-passing,
+supervision trees, orchestration layers, or lifecycle management that frameworks like Akka and similar
+approaches require. Each component is represented as a state machine with clearly defined behavior, and the
+system's overall safety emerges from their interactions.</p>
 <p>This design is inspired by the classic work of:<br />
 N.G. Leveson and J.L. Stolzy. Safety Analysis Using Petri Nets. <em>IEEE Transactions on Software Engineering</em>, SE-13(3):386–397, March 1987. <a href="https://doi.org/10.1109/TSE.1987.233170">doi:10.1109/TSE.1987.233170</a>.</p>
 <div class="admonition tip">
@@ -1759,6 +1761,7 @@ analytics, or compute-intensive tasks that permit non-real-time responses.</p>
   components; the model explicitly captures collaboration.</li>
 <li><strong>Understandability:</strong> The runtime clearly knows the system's state and how components interact. This makes
   it easier to optimize behavior, monitor the system, debug issues, and even perform formal verification.</li>
+<li><strong>Productivity</strong>: Shielding low-level implementation and configuration details from the programmer.</li>
 </ul>
 <p>Because a collaborative state machine provides a cohesive description of the entire system, a runtime like
 Cirrina can leverage this information to automatically optimize scheduling, invocation, and placement.</p>
