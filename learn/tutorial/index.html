@@ -2023,8 +2023,8 @@ version for constrained devices, or a cost-effective alternative depending on th
 </span><span id="__span-3-19"><a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a>      entry { onAction }
 </span><span id="__span-3-20"><a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a>      on {
 </span><span id="__span-3-21"><a id="__codelineno-3-21" name="__codelineno-3-21" href="#__codelineno-3-21"></a>        new {
-</span><span id="__span-3-22"><a id="__codelineno-3-22" name="__codelineno-3-22" href="#__codelineno-3-22"></a>          event   = events.bellOn
-</span><span id="__span-3-23"><a id="__codelineno-3-23" name="__codelineno-3-23" href="#__codelineno-3-23"></a>          actions { onAction }
+</span><span id="__span-3-22"><a id="__codelineno-3-22" name="__codelineno-3-22" href="#__codelineno-3-22"></a>          event  = events.bellOff
+</span><span id="__span-3-23"><a id="__codelineno-3-23" name="__codelineno-3-23" href="#__codelineno-3-23"></a>          target = &quot;off&quot;
 </span><span id="__span-3-24"><a id="__codelineno-3-24" name="__codelineno-3-24" href="#__codelineno-3-24"></a>        }
 </span><span id="__span-3-25"><a id="__codelineno-3-25" name="__codelineno-3-25" href="#__codelineno-3-25"></a>      }
 </span><span id="__span-3-26"><a id="__codelineno-3-26" name="__codelineno-3-26" href="#__codelineno-3-26"></a>    }
@@ -2054,8 +2054,8 @@ version for constrained devices, or a cost-effective alternative depending on th
 </span><span id="__span-4-19"><a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a>      entry { lightOnAction }
 </span><span id="__span-4-20"><a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a>      on {
 </span><span id="__span-4-21"><a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a>        new {
-</span><span id="__span-4-22"><a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a>          event   = events.lightOn
-</span><span id="__span-4-23"><a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a>          actions { lightOnAction }
+</span><span id="__span-4-22"><a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a>          event  = events.lightOff
+</span><span id="__span-4-23"><a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a>          target = &quot;off&quot;
 </span><span id="__span-4-24"><a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a>        }
 </span><span id="__span-4-25"><a id="__codelineno-4-25" name="__codelineno-4-25" href="#__codelineno-4-25"></a>      }
 </span><span id="__span-4-26"><a id="__codelineno-4-26" name="__codelineno-4-26" href="#__codelineno-4-26"></a>    }
@@ -2118,8 +2118,8 @@ event-driven behavior.</p>
 </span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>  entry { lightOffAction }
 </span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>  on {
 </span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>    new {
-</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>        event  = events.lightOn
-</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>        target = &quot;on&quot;
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>      event  = events.lightOn
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>      target = &quot;on&quot;
 </span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>    }
 </span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>  }
 </span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a>}
@@ -2427,50 +2427,56 @@ collaborative state machines as follows:</p>
 </span><span id="__span-14-45"><a id="__codelineno-14-45" name="__codelineno-14-45" href="#__codelineno-14-45"></a>    }
 </span><span id="__span-14-46"><a id="__codelineno-14-46" name="__codelineno-14-46" href="#__codelineno-14-46"></a>    new {
 </span><span id="__span-14-47"><a id="__codelineno-14-47" name="__codelineno-14-47" href="#__codelineno-14-47"></a>      name = &quot;close&quot;
-</span><span id="__span-14-48"><a id="__codelineno-14-48" name="__codelineno-14-48" href="#__codelineno-14-48"></a>      entry { raiseGateDownAction }
-</span><span id="__span-14-49"><a id="__codelineno-14-49" name="__codelineno-14-49" href="#__codelineno-14-49"></a>      on {
-</span><span id="__span-14-50"><a id="__codelineno-14-50" name="__codelineno-14-50" href="#__codelineno-14-50"></a>        new {
-</span><span id="__span-14-51"><a id="__codelineno-14-51" name="__codelineno-14-51" href="#__codelineno-14-51"></a>          event  = events.sensor
-</span><span id="__span-14-52"><a id="__codelineno-14-52" name="__codelineno-14-52" href="#__codelineno-14-52"></a>          target = &quot;present&quot;
-</span><span id="__span-14-53"><a id="__codelineno-14-53" name="__codelineno-14-53" href="#__codelineno-14-53"></a>          guards { isEventDataTrueGuard }
-</span><span id="__span-14-54"><a id="__codelineno-14-54" name="__codelineno-14-54" href="#__codelineno-14-54"></a>        }
-</span><span id="__span-14-55"><a id="__codelineno-14-55" name="__codelineno-14-55" href="#__codelineno-14-55"></a>      }
-</span><span id="__span-14-56"><a id="__codelineno-14-56" name="__codelineno-14-56" href="#__codelineno-14-56"></a>    }
-</span><span id="__span-14-57"><a id="__codelineno-14-57" name="__codelineno-14-57" href="#__codelineno-14-57"></a>    new {
-</span><span id="__span-14-58"><a id="__codelineno-14-58" name="__codelineno-14-58" href="#__codelineno-14-58"></a>      name = &quot;present&quot;
-</span><span id="__span-14-59"><a id="__codelineno-14-59" name="__codelineno-14-59" href="#__codelineno-14-59"></a>      entry { incrementNumTrainsPassed }
-</span><span id="__span-14-60"><a id="__codelineno-14-60" name="__codelineno-14-60" href="#__codelineno-14-60"></a>      on {
-</span><span id="__span-14-61"><a id="__codelineno-14-61" name="__codelineno-14-61" href="#__codelineno-14-61"></a>        new {
-</span><span id="__span-14-62"><a id="__codelineno-14-62" name="__codelineno-14-62" href="#__codelineno-14-62"></a>          event  = events.sensor
-</span><span id="__span-14-63"><a id="__codelineno-14-63" name="__codelineno-14-63" href="#__codelineno-14-63"></a>          target = &quot;leaving&quot;
-</span><span id="__span-14-64"><a id="__codelineno-14-64" name="__codelineno-14-64" href="#__codelineno-14-64"></a>          guards { isEventDataFalseGuard }
-</span><span id="__span-14-65"><a id="__codelineno-14-65" name="__codelineno-14-65" href="#__codelineno-14-65"></a>        }
-</span><span id="__span-14-66"><a id="__codelineno-14-66" name="__codelineno-14-66" href="#__codelineno-14-66"></a>      }
-</span><span id="__span-14-67"><a id="__codelineno-14-67" name="__codelineno-14-67" href="#__codelineno-14-67"></a>    }
-</span><span id="__span-14-68"><a id="__codelineno-14-68" name="__codelineno-14-68" href="#__codelineno-14-68"></a>    new {
-</span><span id="__span-14-69"><a id="__codelineno-14-69" name="__codelineno-14-69" href="#__codelineno-14-69"></a>      name = &quot;leaving&quot;
-</span><span id="__span-14-70"><a id="__codelineno-14-70" name="__codelineno-14-70" href="#__codelineno-14-70"></a>      entry { raiseGateUpAction }
-</span><span id="__span-14-71"><a id="__codelineno-14-71" name="__codelineno-14-71" href="#__codelineno-14-71"></a>      on {
-</span><span id="__span-14-72"><a id="__codelineno-14-72" name="__codelineno-14-72" href="#__codelineno-14-72"></a>        new {
-</span><span id="__span-14-73"><a id="__codelineno-14-73" name="__codelineno-14-73" href="#__codelineno-14-73"></a>          event  = events.sensor
-</span><span id="__span-14-74"><a id="__codelineno-14-74" name="__codelineno-14-74" href="#__codelineno-14-74"></a>          target = &quot;left&quot;
-</span><span id="__span-14-75"><a id="__codelineno-14-75" name="__codelineno-14-75" href="#__codelineno-14-75"></a>          guards { isEventDataTrueGuard }
-</span><span id="__span-14-76"><a id="__codelineno-14-76" name="__codelineno-14-76" href="#__codelineno-14-76"></a>        }
-</span><span id="__span-14-77"><a id="__codelineno-14-77" name="__codelineno-14-77" href="#__codelineno-14-77"></a>      }
-</span><span id="__span-14-78"><a id="__codelineno-14-78" name="__codelineno-14-78" href="#__codelineno-14-78"></a>    }
-</span><span id="__span-14-79"><a id="__codelineno-14-79" name="__codelineno-14-79" href="#__codelineno-14-79"></a>    new {
-</span><span id="__span-14-80"><a id="__codelineno-14-80" name="__codelineno-14-80" href="#__codelineno-14-80"></a>      name = &quot;left&quot;
-</span><span id="__span-14-81"><a id="__codelineno-14-81" name="__codelineno-14-81" href="#__codelineno-14-81"></a>      entry { raiseLightOffAction }
-</span><span id="__span-14-82"><a id="__codelineno-14-82" name="__codelineno-14-82" href="#__codelineno-14-82"></a>      on {
-</span><span id="__span-14-83"><a id="__codelineno-14-83" name="__codelineno-14-83" href="#__codelineno-14-83"></a>        new {
-</span><span id="__span-14-84"><a id="__codelineno-14-84" name="__codelineno-14-84" href="#__codelineno-14-84"></a>          event  = events.sensor
-</span><span id="__span-14-85"><a id="__codelineno-14-85" name="__codelineno-14-85" href="#__codelineno-14-85"></a>          target = &quot;away&quot;
-</span><span id="__span-14-86"><a id="__codelineno-14-86" name="__codelineno-14-86" href="#__codelineno-14-86"></a>          guards { isEventDataFalseGuard }
-</span><span id="__span-14-87"><a id="__codelineno-14-87" name="__codelineno-14-87" href="#__codelineno-14-87"></a>        }
-</span><span id="__span-14-88"><a id="__codelineno-14-88" name="__codelineno-14-88" href="#__codelineno-14-88"></a>      }
-</span><span id="__span-14-89"><a id="__codelineno-14-89" name="__codelineno-14-89" href="#__codelineno-14-89"></a>    }
-</span><span id="__span-14-90"><a id="__codelineno-14-90" name="__codelineno-14-90" href="#__codelineno-14-90"></a>  }
-</span><span id="__span-14-91"><a id="__codelineno-14-91" name="__codelineno-14-91" href="#__codelineno-14-91"></a>}
+</span><span id="__span-14-48"><a id="__codelineno-14-48" name="__codelineno-14-48" href="#__codelineno-14-48"></a>      entry {
+</span><span id="__span-14-49"><a id="__codelineno-14-49" name="__codelineno-14-49" href="#__codelineno-14-49"></a>        raiseGateDownAction
+</span><span id="__span-14-50"><a id="__codelineno-14-50" name="__codelineno-14-50" href="#__codelineno-14-50"></a>      }
+</span><span id="__span-14-51"><a id="__codelineno-14-51" name="__codelineno-14-51" href="#__codelineno-14-51"></a>      on {
+</span><span id="__span-14-52"><a id="__codelineno-14-52" name="__codelineno-14-52" href="#__codelineno-14-52"></a>        new {
+</span><span id="__span-14-53"><a id="__codelineno-14-53" name="__codelineno-14-53" href="#__codelineno-14-53"></a>          event  = events.sensor
+</span><span id="__span-14-54"><a id="__codelineno-14-54" name="__codelineno-14-54" href="#__codelineno-14-54"></a>          target = &quot;present&quot;
+</span><span id="__span-14-55"><a id="__codelineno-14-55" name="__codelineno-14-55" href="#__codelineno-14-55"></a>          guards { isEventDataTrueGuard }
+</span><span id="__span-14-56"><a id="__codelineno-14-56" name="__codelineno-14-56" href="#__codelineno-14-56"></a>        }
+</span><span id="__span-14-57"><a id="__codelineno-14-57" name="__codelineno-14-57" href="#__codelineno-14-57"></a>      }
+</span><span id="__span-14-58"><a id="__codelineno-14-58" name="__codelineno-14-58" href="#__codelineno-14-58"></a>    }
+</span><span id="__span-14-59"><a id="__codelineno-14-59" name="__codelineno-14-59" href="#__codelineno-14-59"></a>    new {
+</span><span id="__span-14-60"><a id="__codelineno-14-60" name="__codelineno-14-60" href="#__codelineno-14-60"></a>      name = &quot;present&quot;
+</span><span id="__span-14-61"><a id="__codelineno-14-61" name="__codelineno-14-61" href="#__codelineno-14-61"></a>      entry { incrementNumTrainsPassed }
+</span><span id="__span-14-62"><a id="__codelineno-14-62" name="__codelineno-14-62" href="#__codelineno-14-62"></a>      on {
+</span><span id="__span-14-63"><a id="__codelineno-14-63" name="__codelineno-14-63" href="#__codelineno-14-63"></a>        new {
+</span><span id="__span-14-64"><a id="__codelineno-14-64" name="__codelineno-14-64" href="#__codelineno-14-64"></a>          event  = events.sensor
+</span><span id="__span-14-65"><a id="__codelineno-14-65" name="__codelineno-14-65" href="#__codelineno-14-65"></a>          target = &quot;leaving&quot;
+</span><span id="__span-14-66"><a id="__codelineno-14-66" name="__codelineno-14-66" href="#__codelineno-14-66"></a>          guards { isEventDataFalseGuard }
+</span><span id="__span-14-67"><a id="__codelineno-14-67" name="__codelineno-14-67" href="#__codelineno-14-67"></a>        }
+</span><span id="__span-14-68"><a id="__codelineno-14-68" name="__codelineno-14-68" href="#__codelineno-14-68"></a>      }
+</span><span id="__span-14-69"><a id="__codelineno-14-69" name="__codelineno-14-69" href="#__codelineno-14-69"></a>    }
+</span><span id="__span-14-70"><a id="__codelineno-14-70" name="__codelineno-14-70" href="#__codelineno-14-70"></a>    new {
+</span><span id="__span-14-71"><a id="__codelineno-14-71" name="__codelineno-14-71" href="#__codelineno-14-71"></a>      name = &quot;leaving&quot;
+</span><span id="__span-14-72"><a id="__codelineno-14-72" name="__codelineno-14-72" href="#__codelineno-14-72"></a>      entry {
+</span><span id="__span-14-73"><a id="__codelineno-14-73" name="__codelineno-14-73" href="#__codelineno-14-73"></a>        raiseGateUpAction
+</span><span id="__span-14-74"><a id="__codelineno-14-74" name="__codelineno-14-74" href="#__codelineno-14-74"></a>      }
+</span><span id="__span-14-75"><a id="__codelineno-14-75" name="__codelineno-14-75" href="#__codelineno-14-75"></a>      on {
+</span><span id="__span-14-76"><a id="__codelineno-14-76" name="__codelineno-14-76" href="#__codelineno-14-76"></a>        new {
+</span><span id="__span-14-77"><a id="__codelineno-14-77" name="__codelineno-14-77" href="#__codelineno-14-77"></a>          event  = events.sensor
+</span><span id="__span-14-78"><a id="__codelineno-14-78" name="__codelineno-14-78" href="#__codelineno-14-78"></a>          target = &quot;left&quot;
+</span><span id="__span-14-79"><a id="__codelineno-14-79" name="__codelineno-14-79" href="#__codelineno-14-79"></a>          guards { isEventDataTrueGuard }
+</span><span id="__span-14-80"><a id="__codelineno-14-80" name="__codelineno-14-80" href="#__codelineno-14-80"></a>        }
+</span><span id="__span-14-81"><a id="__codelineno-14-81" name="__codelineno-14-81" href="#__codelineno-14-81"></a>      }
+</span><span id="__span-14-82"><a id="__codelineno-14-82" name="__codelineno-14-82" href="#__codelineno-14-82"></a>    }
+</span><span id="__span-14-83"><a id="__codelineno-14-83" name="__codelineno-14-83" href="#__codelineno-14-83"></a>    new {
+</span><span id="__span-14-84"><a id="__codelineno-14-84" name="__codelineno-14-84" href="#__codelineno-14-84"></a>      name = &quot;left&quot;
+</span><span id="__span-14-85"><a id="__codelineno-14-85" name="__codelineno-14-85" href="#__codelineno-14-85"></a>      entry {
+</span><span id="__span-14-86"><a id="__codelineno-14-86" name="__codelineno-14-86" href="#__codelineno-14-86"></a>        raiseLightOffAction
+</span><span id="__span-14-87"><a id="__codelineno-14-87" name="__codelineno-14-87" href="#__codelineno-14-87"></a>      }
+</span><span id="__span-14-88"><a id="__codelineno-14-88" name="__codelineno-14-88" href="#__codelineno-14-88"></a>      on {
+</span><span id="__span-14-89"><a id="__codelineno-14-89" name="__codelineno-14-89" href="#__codelineno-14-89"></a>        new {
+</span><span id="__span-14-90"><a id="__codelineno-14-90" name="__codelineno-14-90" href="#__codelineno-14-90"></a>          event  = events.sensor
+</span><span id="__span-14-91"><a id="__codelineno-14-91" name="__codelineno-14-91" href="#__codelineno-14-91"></a>          target = &quot;away&quot;
+</span><span id="__span-14-92"><a id="__codelineno-14-92" name="__codelineno-14-92" href="#__codelineno-14-92"></a>          guards { isEventDataFalseGuard }
+</span><span id="__span-14-93"><a id="__codelineno-14-93" name="__codelineno-14-93" href="#__codelineno-14-93"></a>        }
+</span><span id="__span-14-94"><a id="__codelineno-14-94" name="__codelineno-14-94" href="#__codelineno-14-94"></a>      }
+</span><span id="__span-14-95"><a id="__codelineno-14-95" name="__codelineno-14-95" href="#__codelineno-14-95"></a>    }
+</span><span id="__span-14-96"><a id="__codelineno-14-96" name="__codelineno-14-96" href="#__codelineno-14-96"></a>  }
+</span><span id="__span-14-97"><a id="__codelineno-14-97" name="__codelineno-14-97" href="#__codelineno-14-97"></a>}
 </span></code></pre></div>
 <p>The <code>localContext</code> keyword defines the <em>local data</em> of a state machine, accessible only within that machine.
 Besides local data, CSM also supports <em>persistent data</em> (globally accessible across machines) and
