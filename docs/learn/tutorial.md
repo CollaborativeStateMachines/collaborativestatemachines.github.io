@@ -180,8 +180,8 @@ implementing simple on/off or up/down functionality. Each state corresponds to i
 performs the actual operation; turning on or off the lights, activating or silencing the bell, and raising or
 lowering the gate.
 
-The **Gate** state machine controls the **Bell**; when the gate is completely up the bell must be activated,
-and when the gate is completely down the bell must be deactivated.
+The **Gate** state machine controls the **Bell**; when the gate is completely up the bell is deactivated, and
+before the gate is going down the bell is activated.
 
 By modeling these components as independent state machines, CSM makes their behavior explicit and separates
 **control logic** from **implementation details**, allowing the runtime to manage coordination, event
