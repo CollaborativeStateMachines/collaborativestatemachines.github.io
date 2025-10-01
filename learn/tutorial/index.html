@@ -1825,8 +1825,8 @@ and <strong>Gate</strong> machines:</p>
 implementing simple on/off or up/down functionality. Each state corresponds to invoking a service that
 performs the actual operation; turning on or off the lights, activating or silencing the bell, and raising or
 lowering the gate.</p>
-<p>The <strong>Gate</strong> state machine controls the <strong>Bell</strong>; when the gate is completely up the bell must be activated,
-and when the gate is completely down the bell must be deactivated.</p>
+<p>The <strong>Gate</strong> state machine controls the <strong>Bell</strong>; when the gate is completely up the bell is deactivated, and
+before the gate is going down the bell is activated.</p>
 <p>By modeling these components as independent state machines, CSM makes their behavior explicit and separates
 <strong>control logic</strong> from <strong>implementation details</strong>, allowing the runtime to manage coordination, event
 delivery, and deployment automatically.</p>
