@@ -3,9 +3,9 @@ hide:
   - navigation
 ---
 
-!!! info This website is pending an update.
-
 # Collaborative State Machines
+
+!!! info This website is pending an update.
 
 Collaborative State Machines (CSM) is a programming model for building **reactive, distributed applications**
 🌐 that run seamlessly across the **cloud, edge, and IoT**.
