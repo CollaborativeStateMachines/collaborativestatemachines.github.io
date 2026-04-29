@@ -1,42 +1,41 @@
 ---
-title: Runtime system
-summary: The Cirrina runtime system
+title: Runtime System
+summary: Technical overview of the Cirrina runtime.
 new: false
-description: The Cirrina runtime system
-keywords: collaborative,state,machines,runtime,system,cirrina
+description: Technical overview of the Cirrina runtime for Collaborative State Machines.
+keywords: collaborative, state machines, runtime, system, cirrina, distributed systems
 author: metheredge
-sidebar_title: Runtime system
-show_datetime: true
+sidebar_title: Runtime System
+show_datetime: false
 order: 0
 ---
 
-<center>
-    <img src="../../assets/cirrina/logo.svg" width="60%" />
-</center>
+<p align="center">
+  <img src="../../assets/cirrina/logo.svg" width="50%" />
+</p>
 
-**Cirrina** is the official **runtime system** of the CSM project.
+# Cirrina Runtime System
 
-Together with the CSM programming model, it is developed by the 
-[Distributed and Parallel Systems Group](https://dps.uibk.ac.at/) at the University of Innsbruck.
+**Cirrina** is the open-source reference runtime for the Collaborative State Machines (CSM) project. Developed
+by the **Distributed and Parallel Systems Group** at the University of Innsbruck, it provides a high
+performance execution environment engineered to bridge the gap between cloud-scale infrastructure and
+resource-constrained edge devices.
 
-The runtime system is implemented in **Java** ☕ and **Kotlin** 💜 and is available as an 
-**open-source project** on [GitHub](https://github.com/CollaborativeStateMachines/Cirrina).  
+### Architectural Performance
 
----
+Cirrina is designed to handle the complexities of the cloud, edge, and IoT. It manages the full lifecycle of
+state machine instances, ensuring deterministic execution and efficient resource utilization regardless of the
+deployment target. By implementing the CSM execution model, the runtime provides a stable environment for
+reactive, event-driven applications that require high availability and low-latency coordination.
 
-### Key features
+### Research and Extensibility
 
-- **High-performance reference implementation** ⚡ of a CSM runtime system.  
-- Designed for **heterogeneous environments** 🌍 &mdash; cloud, edge, and IoT devices.  
-- Supports a **wide range of distributed computing scenarios** 🔀.  
-- Serves as a foundation for research on the **CSM method** 📚.  
-- Provides a platform that can be **extended, adapted, and evaluated** 🛠️ by the wider community.  
+As the primary implementation of the CSM methodology, Cirrina serves as a modular platform for research into
+distributed systems and reactive programming. The project is open-source and hosted on
+[GitHub](https://github.com/CollaborativeStateMachines/Cirrina), where we encourage contributions aimed at
+optimizing runtime performance, extending hardware support, and refining distributed state management.
 
----
+### Technical Participation
 
-### Get involved
-
-We welcome contributions from **researchers, practitioners, and developers** 🤝  
-interested in distributed systems, programming models, and runtime technologies.  
-
-For details on how to participate, see [Contributing](contributing.md) ✅.
+We welcome collaboration from the broader research and development community. For details on how to contribute
+to the engine's core or its supporting tools, please refer to our [Contributing Guidelines](contributing.md).

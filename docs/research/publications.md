@@ -17,11 +17,7 @@ support** that form its broader ecosystem.
 
 The following is a list of publications related to the CSM project.
 
-!!! info
-    **The primary publication to cite for CSM is:**  
-    @etheredgeCollaborativeStateMachines2025
-
 Additional research on CSM can be found in:
 
-- **2025** – @etheredgeCollaborativeStateMachines2025
+- **2026** - @etheredgePulseMultiobjective2026
 - **2025** – @povedaNyxFaultTolerantFully2025

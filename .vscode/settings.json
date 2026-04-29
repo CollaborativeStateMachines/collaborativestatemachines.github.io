@@ -1,5 +1,10 @@
 {
-"editor.wordWrap": "wordWrapColumn",
-"editor.wordWrapColumn": 110,
-"editor.rulers": [110]
+  "editor.wordWrap": "wordWrapColumn",
+  "editor.wordWrapColumn": 110,
+  "editor.rulers": [110],
+  "[markdown]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true,
+    "prettier.printWidth": 110
+  }
 }

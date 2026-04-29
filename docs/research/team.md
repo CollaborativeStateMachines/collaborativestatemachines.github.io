@@ -37,13 +37,3 @@ The following list presents the current team members actively working on CSM.
   Alexander Zangerle
 
 [^1]: For all correspondence concerning CSM.
-
-## Alumni
-
-The following list shows anonymized alumni and their research topics.
-
-- BSc, 2024 &mdash; Thesis on distributed event queues.
-- BSc, 2024 &mdash; Thesis on resource management.
-- BSc, 2024 &mdash; Thesis on visual modeling for Cloud-Edge-IoT.
-- MSc, 2024 &mdash; Thesis on innovative extensions of the CSM model and formalization.
-- BSc, 2023 &mdash; Thesis on a CSM implementation.

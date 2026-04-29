@@ -10,4 +10,6 @@ show_datetime: true
 order: 0
 ---
 
-Coming soon.
+<!-- prettier-ignore -->
+!!! info
+    We are in the process of updating the getting started guide to match the latest version.
