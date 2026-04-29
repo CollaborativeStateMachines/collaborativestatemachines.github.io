@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="The Cirrina runtime system">
+        <meta name="description" content="Technical overview of the Cirrina runtime for Collaborative State Machines.">
       
       
         <meta name="author" content="metheredge">
@@ -26,7 +26,7 @@
     
     
       
-        <title>Runtime system - Collaborative State Machines (CSM)</title>
+        <title>Runtime System - Collaborative State Machines (CSM)</title>
       
     
     
@@ -91,7 +91,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#key-features" class="md-skip">
+        <a href="#cirrina-runtime-system" class="md-skip">
           Skip to content
         </a>
       
@@ -126,7 +126,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Runtime system
+              Runtime System
             
           </span>
         </div>
@@ -213,7 +213,7 @@
   
     
   
-  Collaborative State Machines
+  Collaborative State Machines (CSM)
 
       </a>
     </li>
@@ -372,7 +372,7 @@
   
   
   <span class="md-ellipsis">
-    Collaborative State Machines
+    Collaborative State Machines (CSM)
     
   </span>
   
@@ -578,13 +578,15 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
+        
+      
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
           
   
   
   <span class="md-ellipsis">
-    Runtime system
+    Runtime System
     
   </span>
   
@@ -597,7 +599,7 @@
   
   
   <span class="md-ellipsis">
-    Runtime system
+    Runtime System
     
   </span>
   
@@ -610,6 +612,8 @@
   
   
   
+    
+  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -618,18 +622,27 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#key-features" class="md-nav__link">
+  <a href="#architectural-performance" class="md-nav__link">
     <span class="md-ellipsis">
-      Key features
+      Architectural Performance
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#get-involved" class="md-nav__link">
+  <a href="#research-and-extensibility" class="md-nav__link">
     <span class="md-ellipsis">
-      Get involved
+      Research and Extensibility
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#technical-participation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Technical Participation
     </span>
   </a>
   
@@ -685,30 +698,6 @@
       
         
       
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
     
     
     
@@ -760,282 +749,6 @@
   
   <span class="md-ellipsis">
     Version
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../csm-specifications/background/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Background
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../csm-specifications/data/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Data
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../csm-specifications/expression/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Expression
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../csm-specifications/guard/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Guard
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../csm-specifications/collaborative-state-machine/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Collaborative state machine
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../csm-specifications/state-machine/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    State machine
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../csm-specifications/state/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    State
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../csm-specifications/event/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Event
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../csm-specifications/transition/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Transition
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../csm-specifications/action/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Action
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../csm-specifications/data-model/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Data model
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../csm-specifications/execution-model/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Execution model
     
   </span>
   
@@ -1174,6 +887,8 @@
   
   
   
+    
+  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -1182,18 +897,27 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#key-features" class="md-nav__link">
+  <a href="#architectural-performance" class="md-nav__link">
     <span class="md-ellipsis">
-      Key features
+      Architectural Performance
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#get-involved" class="md-nav__link">
+  <a href="#research-and-extensibility" class="md-nav__link">
     <span class="md-ellipsis">
-      Get involved
+      Research and Extensibility
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#technical-participation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Technical Participation
     </span>
   </a>
   
@@ -1218,31 +942,28 @@
   
 
 
-  <h1>Runtime system</h1>
+<p align="center">
+  <img src="../../assets/cirrina/logo.svg" width="50%" />
+</p>
 
-<center>
-    <img src="../../assets/cirrina/logo.svg" width="60%" />
-</center>
-
-<p><strong>Cirrina</strong> is the official <strong>runtime system</strong> of the CSM project.</p>
-<p>Together with the CSM programming model, it is developed by the 
-<a href="https://dps.uibk.ac.at/">Distributed and Parallel Systems Group</a> at the University of Innsbruck.</p>
-<p>The runtime system is implemented in <strong>Java</strong> ☕ and <strong>Kotlin</strong> 💜 and is available as an 
-<strong>open-source project</strong> on <a href="https://github.com/CollaborativeStateMachines/Cirrina">GitHub</a>.  </p>
-<hr />
-<h3 id="key-features">Key features</h3>
-<ul>
-<li><strong>High-performance reference implementation</strong> ⚡ of a CSM runtime system.  </li>
-<li>Designed for <strong>heterogeneous environments</strong> 🌍 &mdash; cloud, edge, and IoT devices.  </li>
-<li>Supports a <strong>wide range of distributed computing scenarios</strong> 🔀.  </li>
-<li>Serves as a foundation for research on the <strong>CSM method</strong> 📚.  </li>
-<li>Provides a platform that can be <strong>extended, adapted, and evaluated</strong> 🛠️ by the wider community.  </li>
-</ul>
-<hr />
-<h3 id="get-involved">Get involved</h3>
-<p>We welcome contributions from <strong>researchers, practitioners, and developers</strong> 🤝<br />
-interested in distributed systems, programming models, and runtime technologies.  </p>
-<p>For details on how to participate, see <a href="../contributing/">Contributing</a> ✅.</p>
+<h1 id="cirrina-runtime-system">Cirrina Runtime System</h1>
+<p><strong>Cirrina</strong> is the open-source reference runtime for the Collaborative State Machines (CSM) project. Developed
+by the <strong>Distributed and Parallel Systems Group</strong> at the University of Innsbruck, it provides a high
+performance execution environment engineered to bridge the gap between cloud-scale infrastructure and
+resource-constrained edge devices.</p>
+<h3 id="architectural-performance">Architectural Performance</h3>
+<p>Cirrina is designed to handle the complexities of the cloud, edge, and IoT. It manages the full lifecycle of
+state machine instances, ensuring deterministic execution and efficient resource utilization regardless of the
+deployment target. By implementing the CSM execution model, the runtime provides a stable environment for
+reactive, event-driven applications that require high availability and low-latency coordination.</p>
+<h3 id="research-and-extensibility">Research and Extensibility</h3>
+<p>As the primary implementation of the CSM methodology, Cirrina serves as a modular platform for research into
+distributed systems and reactive programming. The project is open-source and hosted on
+<a href="https://github.com/CollaborativeStateMachines/Cirrina">GitHub</a>, where we encourage contributions aimed at
+optimizing runtime performance, extending hardware support, and refining distributed state management.</p>
+<h3 id="technical-participation">Technical Participation</h3>
+<p>We welcome collaboration from the broader research and development community. For details on how to contribute
+to the engine's core or its supporting tools, please refer to our <a href="../contributing/">Contributing Guidelines</a>.</p>
 
 
 

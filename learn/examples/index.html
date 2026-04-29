@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Collaborative State Machines examples">
+        <meta name="description" content="Technical examples of CSM implementations ranging from concurrency benchmarks to distributed logic.">
       
       
         <meta name="author" content="metheredge">
@@ -91,7 +91,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#example-use-cases" class="md-skip">
+        <a href="#implementation-examples" class="md-skip">
           Skip to content
         </a>
       
@@ -213,7 +213,7 @@
   
     
   
-  Collaborative State Machines
+  Collaborative State Machines (CSM)
 
       </a>
     </li>
@@ -372,7 +372,7 @@
   
   
   <span class="md-ellipsis">
-    Collaborative State Machines
+    Collaborative State Machines (CSM)
     
   </span>
   
@@ -497,6 +497,8 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
+        
+      
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
           
@@ -529,6 +531,8 @@
   
   
   
+    
+  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -537,9 +541,18 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#example-use-cases" class="md-nav__link">
+  <a href="#examples" class="md-nav__link">
     <span class="md-ellipsis">
-      Example Use Cases
+      Examples
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#source-access" class="md-nav__link">
+    <span class="md-ellipsis">
+      Source Access
     </span>
   </a>
   
@@ -624,7 +637,7 @@
   
   
   <span class="md-ellipsis">
-    Runtime system
+    Runtime System
     
   </span>
   
@@ -673,30 +686,6 @@
   
     
     
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
       
         
       
@@ -751,282 +740,6 @@
   
   <span class="md-ellipsis">
     Version
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../csm-specifications/background/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Background
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../csm-specifications/data/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Data
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../csm-specifications/expression/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Expression
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../csm-specifications/guard/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Guard
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../csm-specifications/collaborative-state-machine/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Collaborative state machine
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../csm-specifications/state-machine/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    State machine
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../csm-specifications/state/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    State
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../csm-specifications/event/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Event
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../csm-specifications/transition/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Transition
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../csm-specifications/action/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Action
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../csm-specifications/data-model/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Data model
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../csm-specifications/execution-model/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Execution model
     
   </span>
   
@@ -1165,6 +878,8 @@
   
   
   
+    
+  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -1173,9 +888,18 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#example-use-cases" class="md-nav__link">
+  <a href="#examples" class="md-nav__link">
     <span class="md-ellipsis">
-      Example Use Cases
+      Examples
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#source-access" class="md-nav__link">
+    <span class="md-ellipsis">
+      Source Access
     </span>
   </a>
   
@@ -1200,17 +924,69 @@
   
 
 
-  <h1>Examples</h1>
-
-<p>The CSM project provides several example use cases of the Cirrina runtime system, implemented in the
-Pkl CSML language. For a detailed introduction to programming CSM-based applications, see our 
-<a href="../tutorial/">Tutorial</a>.</p>
-<h2 id="example-use-cases">Example Use Cases</h2>
-<ul>
-<li><a href="https://github.com/CollaborativeStateMachines/Cirrina-Examples/tree/develop/railway-crossing">Railway Safety System</a>:<br />
-  A railway crossing controlled by four collaborating state machines that coordinate gates, signals, 
-  and train detection to ensure safety.</li>
-</ul>
+<h1 id="implementation-examples">Implementation Examples</h1>
+<p>The CSM project includes a suite of reference implementations designed to demonstrate the modeling of
+coordination logic using the <strong>Cirrina</strong> runtime and <strong>CSML</strong>. These examples illustrate how the framework
+decouples high-level application logic from underlying infrastructure, applicable to both high-throughput
+routing and safety-critical controllers.</p>
+<p>For a detailed technical guide on building these applications, refer to the <a href="../tutorial/">Tutorial</a>.</p>
+<h3 id="examples">Examples</h3>
+<p>The following implementations are provided to evaluate various aspects of distributed coordination and
+performance.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Example</th>
+<th style="text-align: left;">Focus Area</th>
+<th style="text-align: left;">Technical Objective</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Big</strong></td>
+<td style="text-align: left;">Routing</td>
+<td style="text-align: left;">Evaluates many-to-many message routing and ingress congestion under high pressure.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Chameneos</strong></td>
+<td style="text-align: left;">Communication</td>
+<td style="text-align: left;">Analyzes symmetrical communication and mediator bottlenecks during stateful pairings.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Cigarette Smokers</strong></td>
+<td style="text-align: left;">Coordination</td>
+<td style="text-align: left;">Models multi-resource management with interdependent requirements via a central arbitrator.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Dining Philosophers</strong></td>
+<td style="text-align: left;">Resource Allocation</td>
+<td style="text-align: left;">Demonstrates deadlock avoidance and neighbor-dependency management in a distributed context.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Dynamic Philosophers</strong></td>
+<td style="text-align: left;">Runtime Scaling</td>
+<td style="text-align: left;">A decentralized Chandy-Misra variant testing system growth through the addition of participants at runtime.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Sleeping Barber</strong></td>
+<td style="text-align: left;">Contention</td>
+<td style="text-align: left;">Examines state-based synchronization and stability within bounded waiting environments.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Ping Pong</strong></td>
+<td style="text-align: left;">Latency</td>
+<td style="text-align: left;">Establishes a baseline for sequential message-passing and round-trip overhead.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Count</strong></td>
+<td style="text-align: left;">Performance</td>
+<td style="text-align: left;">A fundamental benchmark used to measure core message-processing throughput.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="source-access">Source Access</h3>
+<p>All source code, configuration instructions, and deployment artifacts are maintained in the:
+<strong><a href="https://github.com/CollaborativeStateMachines/Cirrina-Examples">Examples Repository</a></strong></p>
 
 
 
