@@ -90,6 +90,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#collaborative-state-machine" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -470,6 +475,19 @@
       
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Tutorial
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -481,6 +499,59 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#collaborative-state-machine" class="md-nav__link">
+    <span class="md-ellipsis">
+      Collaborative state machine
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#state-machine" class="md-nav__link">
+    <span class="md-ellipsis">
+      State machine
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#instantiation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Instantiation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#more-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      More examples
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -822,6 +893,50 @@
   
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#collaborative-state-machine" class="md-nav__link">
+    <span class="md-ellipsis">
+      Collaborative state machine
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#state-machine" class="md-nav__link">
+    <span class="md-ellipsis">
+      State machine
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#instantiation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Instantiation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#more-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      More examples
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -841,11 +956,83 @@
 
   <h1>Tutorial</h1>
 
-<!-- prettier-ignore -->
-<div class="admonition info">
-<p class="admonition-title">Info</p>
-<p>We are in the process of updating the tutorial to match the latest version.</p>
-</div>
+<p>The Collaborative State Machines model is created around the concept of a <em>collaborative state machine</em>, the
+root of a hierarchical structure consisting of state machines, their nested state machines, and states. At
+each level of this hierarchy, data can be declared that is accessible locally as transient data, as well as
+data declared at the root which acts as persistent data. This architecture represents a hierarchy designed
+specifically to describe distributed systems that span many distributed resources, allowing a developer to
+focus on the entire system instead of fragmented components. Each state machine is an autonomous, reactive
+entity that interacts with external services and other machines through events defined in a high-level
+declarative language called CSML using <a href="https://pkl-lang.org/">Pkl</a> syntax.</p>
+<h2 id="collaborative-state-machine">Collaborative state machine</h2>
+<p>To begin implementing an application, you first declare the <code>collaborativeStateMachine</code> root. This block
+serves as the container for the entire system logic. In this specific implementation, we define a global
+<code>message</code> variable within the <code>persistent</code> block. This variable acts as a shared memory space that different
+state machine instances will populate during their execution lifecycle.</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>collaborativeStateMachine {
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>  persistent { [&quot;message&quot;] = &quot;&#39;&#39;&quot; }
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>  stateMachines {
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    // State machine definitions will follow here
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>  }
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>}
+</span></code></pre></div>
+<h2 id="state-machine">State machine</h2>
+<p>The next step involves defining the individual state machine logic within the root. The first machine, named
+<code>one</code>, is designed to initiate the workflow. Upon entry into its initial state <code>a</code>, it appends a string to the
+global <code>message</code> variable and emits an event with the topic <code>advance</code> specifically targeting the second state
+machine. It then waits for a returning <code>advance</code> event to transition to state <code>b</code>, where it logs the final
+accumulated message and terminates.</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>    [&quot;one&quot;] {
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>      states {
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>        [&quot;a&quot;] = new Initial {
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>          entry {
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>            new Eval { expression=&quot;message += &#39;Hello, &#39;&quot; }
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>            new Emit { event { topic=&quot;advance&quot; }; target=&quot;&#39;two&#39;&quot; }
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>          }
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>          on {
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>            [&quot;advance&quot;] { to = &quot;b&quot; }
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>          }
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>        }
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>        [&quot;b&quot;] = new Terminal {
+</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>          entry {
+</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>            new Log { message=&quot;message&quot; }
+</span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>          }
+</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>        }
+</span><span id="__span-1-17"><a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>      }
+</span><span id="__span-1-18"><a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a>    }
+</span></code></pre></div>
+<p>Following the first machine, you define the reactive behavior of any subsequent machines. Machine <code>two</code>
+remains in its initial state <code>a</code> until it receives the <code>advance</code> event from the first machine. Once triggered,
+it moves to state <code>b</code>, appends its own contribution to the global <code>message</code>, and emits an event back to
+machine <code>one</code> to signal that its phase of the collaborative process is complete.</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>    [&quot;two&quot;] {
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>      states {
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>        [&quot;a&quot;] = new Initial {
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>          on {
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>            [&quot;advance&quot;] { to = &quot;b&quot; }
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>          }
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>        }
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>        [&quot;b&quot;] = new Terminal {
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>          entry {
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>            new Eval { expression=&quot;message += &#39;World!&#39;&quot; }
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>            new Emit { event { topic=&quot;advance&quot; }; target=&quot;&#39;one&#39;&quot; }
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>          }
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>        }
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>      }
+</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>    }
+</span></code></pre></div>
+<h2 id="instantiation">Instantiation</h2>
+<p>The final step in the implementation is the instantiation of the defined state machine classes. By adding an
+<code>instances</code> block, you tell the CSM runtime to create active instances of the logic blocks defined previously.
+This bridges the gap between the declarative class definition and the actual execution of the distributed
+system.</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>instances {
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>  [&quot;one&quot;] { stateMachineName = &quot;one&quot; }
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>  [&quot;two&quot;] { stateMachineName = &quot;two&quot; }
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>}
+</span></code></pre></div>
+<h2 id="more-examples">More examples</h2>
+<p>Discover more in the <a href="../examples">Examples</a> gallery.</p>
 
 
 
