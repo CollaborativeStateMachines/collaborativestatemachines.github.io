@@ -35,7 +35,4 @@ performance.
 | **Ping Pong**            | Latency             | Establishes a baseline for sequential message-passing and round-trip overhead.                              |
 | **Count**                | Performance         | A fundamental benchmark used to measure core message-processing throughput.                                 |
 
-### Source Access
-
-All source code, configuration instructions, and deployment artifacts are maintained in the:
-**[Examples Repository](https://github.com/CollaborativeStateMachines/Cirrina-Examples)**
+All examples are found **[here](https://github.com/CollaborativeStateMachines/Cirrina/tree/main/examples)**.
