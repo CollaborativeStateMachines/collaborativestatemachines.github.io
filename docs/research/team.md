@@ -35,5 +35,15 @@ The following list presents the current team members actively working on CSM.
   +material-symbols:circle+
   [+octicon:mark-github-24+](https://github.com/AlexZangerle)
   Alexander Zangerle
+- +material-symbols:mail-off-rounded+
+  +entypo-social:linkedin-with-circle+
+  +material-symbols:circle+
+  +octicon:mark-github-24+
+  Aryan Pathare, MSc
+- +material-symbols:mail-off-rounded+
+  +entypo-social:linkedin-with-circle+
+  +material-symbols:circle+
+  +octicon:mark-github-24+
+  Yiren Zhang, MSc
 
 [^1]: For all correspondence concerning CSM.
