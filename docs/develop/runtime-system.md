@@ -16,7 +16,7 @@ order: 0
 
 # Cirrina Runtime System
 
-**Cirrina** is the open-source reference runtime for the Collaborative State Machines (CSM) project. Developed
+**Cirrina** is the open-source reference runtime for the Collaborative State Machines project. Developed
 by the **Distributed and Parallel Systems Group** at the University of Innsbruck, it provides a high
 performance execution environment engineered to bridge the gap between cloud-scale infrastructure and
 resource-constrained edge devices.
